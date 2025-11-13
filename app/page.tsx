@@ -1,320 +1,720 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Button from '@/components/Button';
-import Card from '@/components/Card';
-import Section from '@/components/Section';
-import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import PortfolioGrid from '@/components/PortfolioGrid';
+import BeforeAfterSlider from '@/components/BeforeAfterSlider';
 
 export default function Home() {
-  const services = [
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  return (
+    <>
+      {/* CINEMATIC HERO - With video background */}
+      <section className="relative h-screen w-full overflow-hidden">
+        {/* Background Video */}
+        <div className="absolute inset-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover scale-110"
+            poster="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=90"
+          >
+            {/* Add your video source here - for now using a placeholder */}
+            <source src="/videos/hero-background.mp4" type="video/mp4" />
+            <source src="/videos/hero-background.webm" type="video/webm" />
+            {/* Fallback image if video doesn't load */}
+          </video>
+
+          {/* Fallback image for when video is loading or not supported */}
+          <Image
+            src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=90"
+            alt="Luxury Kitchen Design"
+            fill
+            className="object-cover scale-110 -z-10"
+            priority
+            quality={90}
+          />
+        </div>
+
+        {/* Multi-layer Gradient Overlay - darker to ensure text readability over video */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-brand-charcoal-900/60 to-black/80" />
+
+        {/* Floating decorative element */}
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-brand-bronze-500/5 rounded-full blur-3xl float-slow" />
+
+        {/* Content */}
+        <motion.div
+          className="relative h-full flex items-center container-luxury"
+          style={{ opacity: heroOpacity }}
+        >
+          <div>
+            {/* Animated line above subtitle */}
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 80 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="h-px bg-gradient-to-r from-brand-bronze-400 to-transparent mb-8"
+            />
+
+            {/* Subtitle with reveal */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-subtitle text-brand-bronze-400 mb-8 reveal-line"
+            >
+              Toronto's Premier Custom Cabinetry
+            </motion.p>
+
+            {/* Main Headline - Letter by letter reveal */}
+            <div className="mb-8 overflow-hidden">
+              <motion.h1
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.6 }}
+                className="text-display text-5xl md:text-6xl lg:text-7xl text-white max-w-4xl"
+              >
+                Complete Luxurious
+                <br />
+                <span className="text-brand-bronze-400 inline-block">
+                  Customisation
+                </span>
+                <br />
+                Solutions
+              </motion.h1>
+            </div>
+
+              {/* Description with stagger */}
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1 }}
+                className="text-xl md:text-2xl text-brand-cream-200 font-light mb-12 max-w-3xl leading-relaxed"
+              >
+                Specializing in bespoke custom kitchens, sophisticated millwork, and elegant aluminum doors & windows
+              </motion.p>
+
+              {/* CTA with magnetic effect */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.3 }}
+                className="flex flex-col sm:flex-row gap-6"
+              >
+                <Link
+                  href="/portfolio"
+                  className="btn-luxury btn-magnetic shine-effect group px-10 py-5 bg-brand-bronze-500 text-white text-lg font-medium rounded-sm hover:bg-brand-bronze-600 transition-all duration-500 relative overflow-hidden"
+                >
+                  <span className="relative z-10">Explore Our Work</span>
+                </Link>
+                <Link
+                  href="/contact"
+                  className="btn-luxury border-draw group px-10 py-5 backdrop-blur-md bg-white/10 text-white text-lg font-medium rounded-sm border border-white/30 hover:bg-white/20 hover:border-white/50 transition-all duration-500"
+                >
+                  <span className="relative z-10">Schedule Consultation</span>
+                </Link>
+              </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Animated scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.8, repeat: Infinity, repeatType: "reverse", repeatDelay: 1 }}
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+        >
+          <div className="flex flex-col items-center">
+            <span className="text-white/50 text-xs uppercase tracking-widest mb-4">Scroll</span>
+            <div className="w-px h-16 bg-gradient-to-b from-white/50 to-transparent" />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* SERVICES - Asymmetric with reveal animations */}
+      <ServiceSection />
+
+      {/* PHILOSOPHY - Full Width with parallax */}
+      <PhilosophySection />
+
+      {/* PROCESS - Trust through transparency */}
+      <ProcessSection />
+
+      {/* TRANSFORMATION SHOWCASE - Before/After */}
+      <TransformationSection />
+
+      {/* FEATURED PORTFOLIO */}
+      <FeaturedPortfolioSection />
+
+      {/* SHOWROOM CTA */}
+      <ShowroomSection />
+
+      {/* FINAL CTA */}
+      <FinalCTA />
+    </>
+  );
+}
+
+// Service Section with scroll-triggered animations
+function ServiceSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section ref={ref} className="section-luxury bg-white relative overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-brand-cream-300/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+
+      <div className="container-luxury relative z-10">
+        {/* Section Header with reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mb-24"
+        >
+          <p className="text-subtitle mb-6">Our Expertise</p>
+          <h2 className="text-5xl md:text-6xl font-serif font-light text-brand-charcoal-700 tracking-tight leading-tight">
+            Transforming spaces through
+            <br />
+            <span className="text-brand-bronze-600 relative inline-block">
+              exceptional craftsmanship
+              <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-brand-bronze-400 via-brand-bronze-500 to-transparent" />
+            </span>
+          </h2>
+        </motion.div>
+
+        {/* Asymmetric Grid with staggered reveals */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+          {/* Card 1 - Large */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="md:col-span-7"
+          >
+            <Link href="/services/custom-kitchens" className="card-glow group block overflow-hidden rounded-2xl">
+              <div className="relative h-[600px] overflow-hidden">
+                <div className="absolute inset-0 image-reveal">
+                  <Image
+                    src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1200&q=80"
+                    alt="Custom Kitchens"
+                    fill
+                    className="object-cover hover-scale-luxury"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-12">
+                  <motion.p
+                    className="text-subtitle text-white/70 mb-4"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    01
+                  </motion.p>
+                  <h3 className="text-4xl md:text-5xl font-serif font-light text-white mb-4 tracking-tight">
+                    Custom Kitchens
+                  </h3>
+                  <p className="text-white/80 text-lg font-light mb-6 leading-relaxed">
+                    Bespoke cabinetry and design that transforms your kitchen into a masterpiece
+                  </p>
+                  <span className="inline-flex items-center text-brand-bronze-400 font-medium">
+                    Explore Kitchens
+                    <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-2 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Card 2 - Small */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="md:col-span-5"
+          >
+            <Link href="/services/custom-cabinetry" className="card-glow group block overflow-hidden rounded-2xl">
+              <div className="relative h-[600px] overflow-hidden">
+                <div className="absolute inset-0">
+                  <Image
+                    src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&q=80"
+                    alt="Custom Cabinetry"
+                    fill
+                    className="object-cover hover-scale-luxury"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-10">
+                  <p className="text-subtitle text-white/70 mb-3">02</p>
+                  <h3 className="text-3xl md:text-4xl font-serif font-light text-white mb-3 tracking-tight">
+                    Custom Cabinetry
+                  </h3>
+                  <p className="text-white/80 text-base font-light mb-4 leading-relaxed">
+                    Elegant wardrobes, vanities, and built-in solutions
+                  </p>
+                  <span className="inline-flex items-center text-brand-bronze-400 font-medium text-sm">
+                    View Details
+                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Card 3 */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="md:col-span-5"
+          >
+            <Link href="/services/custom-millwork" className="card-glow group block overflow-hidden rounded-2xl">
+              <div className="relative h-[500px] overflow-hidden">
+                <div className="absolute inset-0">
+                  <Image
+                    src="https://images.unsplash.com/photo-1600210492486-724d48b2b9f8?w=800&q=80"
+                    alt="Custom Millwork"
+                    fill
+                    className="object-cover hover-scale-luxury"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-10">
+                  <p className="text-subtitle text-white/70 mb-3">03</p>
+                  <h3 className="text-3xl md:text-4xl font-serif font-light text-white mb-3 tracking-tight">
+                    Custom Millwork
+                  </h3>
+                  <p className="text-white/80 text-base font-light mb-4 leading-relaxed">
+                    Architectural details that elevate interiors
+                  </p>
+                  <span className="inline-flex items-center text-brand-bronze-400 font-medium text-sm">
+                    Discover More
+                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Card 4 - Large */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="md:col-span-7"
+          >
+            <Link href="/services/aluminum-doors-windows" className="card-glow group block overflow-hidden rounded-2xl">
+              <div className="relative h-[500px] overflow-hidden">
+                <div className="absolute inset-0">
+                  <Image
+                    src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=1200&q=80"
+                    alt="Aluminum Doors & Windows"
+                    fill
+                    className="object-cover hover-scale-luxury"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-12">
+                  <p className="text-subtitle text-white/70 mb-4">04</p>
+                  <h3 className="text-4xl md:text-5xl font-serif font-light text-white mb-4 tracking-tight">
+                    Aluminum Doors & Windows
+                  </h3>
+                  <p className="text-white/80 text-lg font-light mb-6 leading-relaxed">
+                    Sleek systems combining modern aesthetics with superior performance
+                  </p>
+                  <span className="inline-flex items-center text-brand-bronze-400 font-medium">
+                    Learn More
+                    <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-2 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Philosophy Section with parallax
+function PhilosophySection() {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 2000], [0, -100]);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  return (
+    <section ref={ref} className="relative h-screen overflow-hidden">
+      <motion.div className="absolute inset-0" style={{ y }}>
+        <Image
+          src="https://images.unsplash.com/photo-1600210492486-724d48b2b9f8?w=1920&q=85"
+          alt="Craftsmanship"
+          fill
+          className="object-cover scale-110"
+          quality={85}
+        />
+      </motion.div>
+      <div className="absolute inset-0 bg-brand-charcoal-900/60 backdrop-blur-sm" />
+
+      <div className="relative h-full flex items-center">
+        <div className="container-luxury">
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1 }}
+            className="max-w-4xl"
+          >
+            <p className="text-subtitle text-brand-cream-300 mb-8">Our Philosophy</p>
+            <h2 className="text-5xl md:text-7xl font-serif font-light text-white mb-12 leading-tight tracking-tight">
+              Excellence through
+              <br />
+              <span className="text-brand-bronze-400">unwavering dedication</span>
+            </h2>
+            <p className="text-xl md:text-2xl text-brand-cream-200 font-light leading-relaxed max-w-2xl">
+              Every project reflects our commitment to exceptional craftsmanship, attention to detail, and the pursuit of timeless luxury.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Process Section - New addition for sophistication
+function ProcessSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  const steps = [
     {
-      title: 'Custom Kitchens',
-      description: 'Transform your kitchen into a luxury masterpiece with our bespoke cabinetry, premium materials, and expert craftsmanship.',
-      image: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?w=800&q=80',
-      href: '/services/custom-kitchens',
-      icon: (
-        <svg className="w-8 h-8 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-        </svg>
-      ),
+      number: "01",
+      title: "Discovery",
+      description: "Understanding your vision, space, and requirements through detailed consultation"
     },
     {
-      title: 'Custom Cabinetry',
-      description: 'Elegant wardrobes, vanities, and built-in solutions designed to maximize space and reflect your personal style.',
-      image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&q=80',
-      href: '/services/custom-cabinetry',
-      icon: (
-        <svg className="w-8 h-8 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
-        </svg>
-      ),
+      number: "02",
+      title: "Design",
+      description: "Creating bespoke designs with 3D renderings and material selections"
     },
     {
-      title: 'Custom Millwork',
-      description: 'Sophisticated millwork details including crown molding, wainscoting, and custom paneling to elevate your interiors.',
-      image: 'https://images.unsplash.com/photo-1600210492486-724d48b2b9f8?w=800&q=80',
-      href: '/services/custom-millwork',
-      icon: (
-        <svg className="w-8 h-8 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-        </svg>
-      ),
+      number: "03",
+      title: "Craftsmanship",
+      description: "Precision manufacturing with premium materials and expert techniques"
     },
     {
-      title: 'Aluminum Doors & Windows',
-      description: 'Sleek aluminum systems offering slim sightlines, energy efficiency, and modern aesthetics for contemporary living.',
-      image: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=800&q=80',
-      href: '/services/aluminum-doors-windows',
-      icon: (
-        <svg className="w-8 h-8 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
-        </svg>
-      ),
-    },
+      number: "04",
+      title: "Installation",
+      description: "Meticulous installation ensuring perfection in every detail"
+    }
   ];
 
-  const features = [
-    {
-      title: 'Complete Solutions',
-      description: 'From concept to completion, we handle every aspect of your luxury customization project.',
-      icon: (
-        <svg className="w-12 h-12 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-      ),
-    },
-    {
-      title: 'Premium Quality',
-      description: 'We use only the finest materials and work with skilled craftsmen to ensure exceptional results.',
-      icon: (
-        <svg className="w-12 h-12 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-        </svg>
-      ),
-    },
-    {
-      title: 'Expert Design',
-      description: 'Our experienced design team brings your vision to life with attention to every detail.',
-      icon: (
-        <svg className="w-12 h-12 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-        </svg>
-      ),
-    },
-    {
-      title: 'Toronto Showroom',
-      description: 'Visit our showroom to experience our craftsmanship firsthand and explore design possibilities.',
-      icon: (
-        <svg className="w-12 h-12 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-        </svg>
-      ),
-    },
-  ];
+  return (
+    <section ref={ref} className="section-luxury bg-brand-cream-50 relative overflow-hidden">
+      <div className="absolute top-1/2 right-0 w-96 h-96 bg-brand-bronze-400/10 rounded-full blur-3xl translate-x-1/2" />
 
-  const testimonials = [
+      <div className="container-luxury relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-3xl mx-auto mb-20"
+        >
+          <p className="text-subtitle mb-6">Our Process</p>
+          <h2 className="text-4xl md:text-6xl font-serif font-light text-brand-charcoal-700 mb-6 leading-tight">
+            From vision to reality
+          </h2>
+          <p className="text-xl text-brand-charcoal-500 font-light">
+            A transparent, collaborative journey ensuring exceptional results
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, index) => (
+            <motion.div
+              key={step.number}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="relative group"
+            >
+              <div className="card-luxury p-8 h-full">
+                <div className="text-6xl font-light text-brand-bronze-400/20 mb-6 font-serif">
+                  {step.number}
+                </div>
+                <h3 className="text-2xl font-serif font-light text-brand-charcoal-700 mb-4">
+                  {step.title}
+                </h3>
+                <p className="text-brand-charcoal-500 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+
+              {/* Connecting line (except last) */}
+              {index < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-px bg-gradient-to-r from-brand-bronze-400/50 to-transparent" />
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Transformation Showcase Section - Before/After slider
+function TransformationSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  return (
+    <section ref={ref} className="section-luxury bg-white">
+      <div className="container-luxury">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-3xl mx-auto mb-20"
+        >
+          <p className="text-subtitle mb-6">Transformation Stories</p>
+          <h2 className="text-4xl md:text-6xl font-serif font-light text-brand-charcoal-700 mb-6 leading-tight">
+            Witness the transformation
+          </h2>
+          <p className="text-xl text-brand-charcoal-500 font-light leading-relaxed">
+            See how our craftsmanship elevates spaces from ordinary to extraordinary
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="max-w-6xl mx-auto"
+        >
+          <BeforeAfterSlider
+            beforeImage="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&q=85"
+            afterImage="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1920&q=85"
+            beforeLabel="Before"
+            afterLabel="After"
+          />
+        </motion.div>
+
+        {/* Stats below slider */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-24 max-w-5xl mx-auto"
+        >
+          {[
+            { number: '15+', label: 'Years of Excellence' },
+            { number: '500+', label: 'Projects Completed' },
+            { number: '100%', label: 'Client Satisfaction' },
+          ].map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className="text-5xl md:text-6xl font-light text-brand-bronze-500 mb-4 font-serif">
+                {stat.number}
+              </div>
+              <p className="text-brand-charcoal-500 text-lg font-light tracking-wide">
+                {stat.label}
+              </p>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// Featured Portfolio Section
+function FeaturedPortfolioSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  const portfolioItems = [
     {
-      name: 'Sarah Johnson',
-      location: 'Toronto, ON',
-      text: 'Think LUXE transformed our kitchen into a stunning masterpiece. The quality and attention to detail exceeded our expectations.',
-      rating: 5,
+      id: '1',
+      title: 'Modern Minimalist Kitchen',
+      category: 'Custom Kitchens',
+      image: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1920&q=85',
+      href: '/portfolio/modern-minimalist-kitchen',
+      span: 'large' as const,
     },
     {
-      name: 'Michael Chen',
-      location: 'Mississauga, ON',
-      text: 'Outstanding craftsmanship and professional service. Our custom wardrobes are both beautiful and functional.',
-      rating: 5,
+      id: '2',
+      title: 'Walk-In Wardrobe',
+      category: 'Custom Cabinetry',
+      image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=1200&q=85',
+      href: '/portfolio/walk-in-wardrobe',
+      span: 'medium' as const,
     },
     {
-      name: 'Jennifer Williams',
-      location: 'Oakville, ON',
-      text: 'From design to installation, the entire process was seamless. We absolutely love our new custom millwork!',
-      rating: 5,
+      id: '3',
+      title: 'Contemporary Millwork',
+      category: 'Custom Millwork',
+      image: 'https://images.unsplash.com/photo-1600210492486-724d48b2b9f8?w=1200&q=85',
+      href: '/portfolio/contemporary-millwork',
+      span: 'small' as const,
+    },
+    {
+      id: '4',
+      title: 'Luxury Bathroom Vanity',
+      category: 'Custom Cabinetry',
+      image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1200&q=85',
+      href: '/portfolio/luxury-bathroom',
+      span: 'small' as const,
+    },
+    {
+      id: '5',
+      title: 'Floor-to-Ceiling Windows',
+      category: 'Aluminum Doors & Windows',
+      image: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=1920&q=85',
+      href: '/portfolio/floor-to-ceiling-windows',
+      span: 'large' as const,
+    },
+    {
+      id: '6',
+      title: 'Custom Home Office',
+      category: 'Custom Millwork',
+      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=85',
+      href: '/portfolio/home-office',
+      span: 'medium' as const,
     },
   ];
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=80"
-            alt="Luxury Kitchen"
-            fill
-            className="object-cover brightness-50"
-            priority
-          />
-        </div>
-        <div className="relative z-10 text-center text-white px-6 max-w-5xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl font-serif font-bold mb-6"
+    <section ref={ref} className="section-luxury bg-brand-cream-50">
+      <div className="container-luxury">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-3xl mx-auto mb-20"
+        >
+          <p className="text-subtitle mb-6">Recent Work</p>
+          <h2 className="text-4xl md:text-6xl font-serif font-light text-brand-charcoal-700 mb-6 leading-tight">
+            Featured projects
+          </h2>
+          <p className="text-xl text-brand-charcoal-500 font-light leading-relaxed">
+            A showcase of our finest work across custom kitchens, cabinetry, millwork, and aluminum installations
+          </p>
+        </motion.div>
+
+        <PortfolioGrid items={portfolioItems} showCategories={true} />
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-center mt-16"
+        >
+          <Link
+            href="/portfolio"
+            className="btn-magnetic shine-effect inline-flex items-center gap-3 px-10 py-5 bg-brand-charcoal-700 text-white text-lg font-medium rounded-sm hover:bg-brand-charcoal-800 transition-all duration-500"
           >
-            Complete Luxurious <span className="text-luxury-gold-500">Customisation Solutions</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-8 text-gray-200"
-          >
-            Premier luxury custom cabinetry specializing in high-end kitchens, sophisticated millwork, and elegant aluminum doors & windows
-          </motion.p>
+            <span>View All Projects</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// Showroom Section
+function ShowroomSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  return (
+    <section ref={ref} className="section-luxury bg-white">
+      <div className="container-luxury">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, x: -60 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
           >
-            <Button href="/services" variant="primary">
-              Explore Our Services
-            </Button>
-            <Button href="/contact" variant="outline">
-              Book Consultation
-            </Button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Services Overview */}
-      <Section background="white">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-luxury-charcoal-900 mb-4">
-            Our Services
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Transforming spaces through premium custom solutions tailored to your unique vision
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card {...service} />
-            </motion.div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Why Think LUXE */}
-      <Section background="gray">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-luxury-charcoal-900 mb-4">
-            Why Choose Think LUXE
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Unwavering commitment to excellence in every detail
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <div className="flex justify-center mb-4">{feature.icon}</div>
-              <h3 className="text-2xl font-semibold text-luxury-charcoal-900 mb-3">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Showroom Highlight */}
-      <Section background="gradient">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
+            <p className="text-subtitle mb-6">Experience in Person</p>
+            <h2 className="text-4xl md:text-5xl font-serif font-light text-brand-charcoal-700 mb-8 leading-tight tracking-tight">
               Visit Our Toronto Showroom
             </h2>
-            <p className="text-xl text-gray-200 mb-6">
-              Experience our craftsmanship firsthand and explore the possibilities for your luxury customization project. Our expert team is ready to help bring your vision to life.
+            <p className="text-xl text-brand-charcoal-500 font-light mb-12 leading-relaxed">
+              Explore our premium material selections, completed installations, and consult with our design experts to bring your vision to life.
             </p>
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-center text-lg">
-                <svg className="w-6 h-6 mr-3 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                View our premium material selections
-              </li>
-              <li className="flex items-center text-lg">
-                <svg className="w-6 h-6 mr-3 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                See completed installations
-              </li>
-              <li className="flex items-center text-lg">
-                <svg className="w-6 h-6 mr-3 text-luxury-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                Consult with our design experts
-              </li>
-            </ul>
-            <Button href="/contact" variant="primary">
+            <Link
+              href="/contact"
+              className="btn-magnetic shine-effect inline-block px-10 py-5 bg-brand-charcoal-700 text-white text-lg font-medium rounded-sm hover:bg-brand-charcoal-800 transition-all duration-500"
+            >
               Schedule a Visit
-            </Button>
-          </div>
-          <div className="relative h-96 lg:h-full min-h-[400px] rounded-lg overflow-hidden shadow-2xl">
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="relative h-[600px] rounded-2xl overflow-hidden card-glow"
+          >
             <Image
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000&q=85"
               alt="Think LUXE Showroom"
               fill
-              className="object-cover"
+              className="object-cover hover-scale-luxury"
             />
-          </div>
+          </motion.div>
         </div>
-      </Section>
+      </div>
+    </section>
+  );
+}
 
-      {/* Testimonials */}
-      <Section background="white">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-luxury-charcoal-900 mb-4">
-            Client Experiences
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Hear what our clients say about their luxury transformations
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <div className="flex mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-luxury-gold-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-6 italic">&ldquo;{testimonial.text}&rdquo;</p>
-              <div>
-                <p className="font-semibold text-luxury-charcoal-900">{testimonial.name}</p>
-                <p className="text-gray-500 text-sm">{testimonial.location}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
+// Final CTA
+function FinalCTA() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
 
-      {/* Final CTA */}
-      <Section background="gradient">
-        <div className="text-center max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
-            Ready to Transform Your Space?
+  return (
+    <section ref={ref} className="section-luxury bg-brand-cream-50">
+      <div className="container-luxury text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto"
+        >
+          <h2 className="text-4xl md:text-6xl font-serif font-light text-brand-charcoal-700 mb-12 leading-tight tracking-tight">
+            Ready to transform your space?
           </h2>
-          <p className="text-xl text-gray-200 mb-8">
-            Schedule a consultation with our expert team and discover how we can bring your luxury vision to life.
+          <p className="text-xl text-brand-charcoal-500 font-light mb-12 leading-relaxed">
+            Let's discuss how we can bring your luxury vision to life.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/contact" variant="primary">
-              Schedule Consultation
-            </Button>
-            <Button href="/portfolio" variant="outline">
-              View Our Portfolio
-            </Button>
-          </div>
-        </div>
-      </Section>
-    </>
+          <Link
+            href="/contact"
+            className="btn-magnetic shine-effect inline-block px-12 py-6 bg-brand-bronze-500 text-white text-lg font-medium rounded-sm hover:bg-brand-bronze-600 transition-all duration-500"
+          >
+            Start a Conversation
+          </Link>
+        </motion.div>
+      </div>
+    </section>
   );
 }

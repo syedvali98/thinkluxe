@@ -33,16 +33,18 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-lg py-4' : 'bg-white/95 py-6'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-lg py-4'
+          : 'bg-transparent py-6'
       }`}
     >
-      <div className="container-custom px-6 md:px-12">
+      <div className="container-luxury">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-2xl md:text-3xl font-serif font-bold">
-            <span className="text-luxury-charcoal-900">Think</span>
-            <span className="text-luxury-gold-500"> LUXE</span>
+          <Link href="/" className="text-2xl md:text-3xl font-serif font-light">
+            <span className={`transition-colors duration-500 ${isScrolled ? 'text-brand-charcoal-700' : 'text-white'}`}>Think</span>
+            <span className="text-brand-bronze-500"> LUXE</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -51,8 +53,12 @@ const Navbar = () => {
               <div key={link.name} className="relative group">
                 <Link
                   href={link.href}
-                  className={`text-luxury-charcoal-700 hover:text-luxury-gold-500 transition-colors font-medium ${
-                    pathname === link.href ? 'text-luxury-gold-500' : ''
+                  className={`transition-colors duration-500 font-light ${
+                    pathname === link.href
+                      ? 'text-brand-bronze-500'
+                      : isScrolled
+                        ? 'text-brand-charcoal-600 hover:text-brand-bronze-500'
+                        : 'text-white/90 hover:text-brand-bronze-400'
                   }`}
                 >
                   {link.name}
@@ -78,15 +84,17 @@ const Navbar = () => {
             ))}
             <Link
               href="/contact"
-              className="bg-luxury-gold-500 hover:bg-luxury-gold-600 text-white px-6 py-2 rounded-md transition-colors"
+              className="btn-luxury btn-magnetic shine-effect group px-6 py-2.5 bg-brand-bronze-500 text-white text-sm font-medium rounded-sm hover:bg-brand-bronze-600 transition-all duration-500 relative overflow-hidden"
             >
-              Book Consultation
+              <span className="relative z-10">Book Consultation</span>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden text-luxury-charcoal-700 focus:outline-none"
+            className={`lg:hidden focus:outline-none transition-colors duration-500 ${
+              isScrolled ? 'text-brand-charcoal-700' : 'text-white'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <svg
@@ -109,13 +117,15 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4">
+          <div className="lg:hidden mt-4 pb-4 bg-white/95 backdrop-blur-md rounded-lg p-4">
             {navLinks.map((link) => (
               <div key={link.name} className="py-2">
                 <Link
                   href={link.href}
-                  className={`block text-luxury-charcoal-700 hover:text-luxury-gold-500 transition-colors font-medium ${
-                    pathname === link.href ? 'text-luxury-gold-500' : ''
+                  className={`block transition-colors font-light ${
+                    pathname === link.href
+                      ? 'text-brand-bronze-500'
+                      : 'text-brand-charcoal-600 hover:text-brand-bronze-500'
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -127,7 +137,7 @@ const Navbar = () => {
                       <Link
                         key={sublink.name}
                         href={sublink.href}
-                        className="block text-sm text-luxury-charcoal-600 hover:text-luxury-gold-500 transition-colors"
+                        className="block text-sm text-brand-charcoal-500 hover:text-brand-bronze-500 transition-colors font-light"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {sublink.name}
@@ -139,7 +149,7 @@ const Navbar = () => {
             ))}
             <Link
               href="/contact"
-              className="block mt-4 bg-luxury-gold-500 hover:bg-luxury-gold-600 text-white px-6 py-2 rounded-md transition-colors text-center"
+              className="block mt-4 bg-brand-bronze-500 hover:bg-brand-bronze-600 text-white px-6 py-3 rounded-sm transition-colors text-center font-light"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Book Consultation

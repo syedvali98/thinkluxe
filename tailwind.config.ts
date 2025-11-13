@@ -9,55 +9,90 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        luxury: {
-          charcoal: {
-            50: '#f5f5f5',
-            100: '#e9e9e9',
-            200: '#d4d4d4',
-            300: '#afafaf',
-            400: '#8a8a8a',
-            500: '#6b6b6b',
-            600: '#505050',
-            700: '#404040',
-            800: '#2a2a2a',
-            900: '#1a1a1a',
+        // Luxury Warm Neutral Palette (inspired by Bosco & Swede)
+        brand: {
+          // Cream & Taupe backgrounds
+          cream: {
+            50: '#fafaf9',
+            100: '#faf9f6',   // Swede background
+            200: '#f0f9f6',
+            300: '#e3e1da',   // Bosco light gray
+            400: '#dad2bf',   // Bosco warm beige
+            500: '#c7bfb0',
           },
-          gold: {
-            50: '#fdfbf7',
-            100: '#faf6ed',
-            200: '#f3e9d3',
-            300: '#ead7ab',
-            400: '#dfc177',
-            500: '#d4a750',
+          // Soft Bronze/Gold accents (not bright)
+          bronze: {
+            400: '#f0d88b',   // Swede champagne
+            500: '#d4a750',   // Muted gold
             600: '#c08c3a',
             700: '#a07030',
             800: '#82592e',
-            900: '#6b4928',
+            900: '#60533c',   // Bosco deep bronze
           },
-          wood: {
-            50: '#f9f6f1',
-            100: '#f1ebe0',
-            200: '#e2d5be',
-            300: '#d1ba96',
-            400: '#c19f6f',
-            500: '#b5885a',
-            600: '#a8774f',
-            700: '#8c6042',
-            800: '#705039',
-            900: '#5c4230',
-          }
+          // Warm Charcoal (not pure black)
+          charcoal: {
+            50: '#fafaf9',
+            100: '#e3e1da',
+            200: '#a8a8a6',
+            300: '#6b6b69',
+            400: '#4a4a48',
+            500: '#2a2a29',
+            600: '#222221',   // Swede primary text
+            700: '#1a1a19',
+            800: '#121211',
+            900: '#0a0a09',
+          },
         },
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-poppins)', 'system-ui', '-apple-system', 'sans-serif'],
         serif: ['var(--font-playfair)', 'Georgia', 'serif'],
+        display: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        // Dramatic scale for luxury
+        '8xl': ['6rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
+        '9xl': ['8rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
+      },
+      letterSpacing: {
+        tighter: '-0.05em',
+        tight: '-0.02em',
+        normal: '0',
+        wide: '0.02em',
+        wider: '0.05em',
+        widest: '0.1em',
+        luxury: '-0.01em',      // Subtle refinement
+        display: '-0.1em',      // Bosco headers
+        subtitle: '0.06em',     // Swede subtitles
+      },
+      spacing: {
+        // Generous luxury spacing
+        '18': '4.5rem',   // 72px
+        '22': '5.5rem',   // 88px
+        '26': '6.5rem',   // 104px
+        '30': '7.5rem',   // 120px
+        '34': '8.5rem',   // 136px
+        '38': '9.5rem',   // 152px
+        '42': '10.5rem',  // 168px
+        '46': '11.5rem',  // 184px
+        '50': '12.5rem',  // 200px
+      },
+      maxWidth: {
+        '8xl': '88rem',   // 1408px
+        '9xl': '96rem',   // 1536px
+        'screen-2xl': '1536px',
+      },
+      backdropBlur: {
+        xs: '2px',
       },
       animation: {
-        'fade-in': 'fadeIn 0.6s ease-in-out',
-        'slide-up': 'slideUp 0.6s ease-out',
-        'slide-down': 'slideDown 0.6s ease-out',
+        'fade-in': 'fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+        'slide-up': 'slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+        'slide-down': 'slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+        'scale-in': 'scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+        'border-draw': 'borderDraw 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
       },
       keyframes: {
         fadeIn: {
@@ -65,13 +100,34 @@ const config: Config = {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '0%': { transform: 'translateY(40px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         slideDown: {
-          '0%': { transform: 'translateY(-20px)', opacity: '0' },
+          '0%': { transform: 'translateY(-40px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
+        scaleIn: {
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        borderDraw: {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
+      },
+      transitionDuration: {
+        '400': '400ms',
+        '600': '600ms',
+        '800': '800ms',
+        '900': '900ms',
+      },
+      transitionDelay: {
+        '100': '100ms',
+        '200': '200ms',
+        '300': '300ms',
+        '400': '400ms',
+        '500': '500ms',
       },
     },
   },

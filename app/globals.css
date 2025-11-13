@@ -3,23 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #1a1a1a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1a1a1a;
-    --foreground: #ffffff;
-  }
+  --background: #faf9f6;
+  --foreground: #222221;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
 }
 
 @layer utilities {
@@ -33,45 +27,242 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Luxury scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #faf9f6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4a750;
-  border-radius: 5px;
+  background: #c7bfb0;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #c08c3a;
+  background: #dad2bf;
 }
 
-/* Section padding */
-.section-padding {
-  @apply py-20 px-6 md:px-12 lg:px-24;
+/* Luxury section padding - GENEROUS */
+.section-luxury {
+  @apply py-32 px-6 md:py-40 md:px-12 lg:py-50 lg:px-20;
 }
 
-/* Container */
-.container-custom {
-  @apply max-w-7xl mx-auto;
+/* Container with breathing room */
+.container-luxury {
+  @apply max-w-8xl mx-auto px-6 md:px-12 lg:px-16;
 }
 
-/* Luxury gradient */
-.luxury-gradient {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+/* Multi-layer gradient overlays */
+.gradient-overlay-dark {
+  background: linear-gradient(to bottom right,
+    rgba(34, 34, 33, 0.8) 0%,
+    rgba(42, 42, 41, 0.6) 50%,
+    rgba(10, 10, 9, 0.85) 100%);
 }
 
-/* Gold accent */
-.gold-accent {
-  @apply text-luxury-gold-500;
+.gradient-overlay-soft {
+  background: linear-gradient(to bottom,
+    rgba(250, 249, 246, 0) 0%,
+    rgba(250, 249, 246, 0.3) 50%,
+    rgba(250, 249, 246, 0.95) 100%);
 }
 
-/* Hover lift effect */
-.hover-lift {
-  @apply transition-transform duration-300 ease-out hover:-translate-y-2;
+/* Cinematic hero aspect ratio */
+.hero-cinematic {
+  @apply relative w-full;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+/* Hover scale - subtle luxury */
+.hover-scale-luxury {
+  @apply transition-transform duration-700 ease-out hover:scale-105;
+}
+
+/* Button with border draw animation */
+.btn-luxury {
+  @apply relative overflow-hidden;
+}
+
+.btn-luxury::before {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-brand-bronze-500 transition-all duration-800;
+}
+
+.btn-luxury:hover::before {
+  @apply w-full;
+}
+
+/* Backdrop blur luxury cards */
+.card-luxury {
+  @apply backdrop-blur-sm bg-white/80 rounded-2xl shadow-lg transition-all duration-500;
+}
+
+.card-luxury:hover {
+  @apply shadow-2xl bg-white/90 -translate-y-2;
+}
+
+/* Staggered animations */
+.stagger-1 { animation-delay: 100ms; }
+.stagger-2 { animation-delay: 200ms; }
+.stagger-3 { animation-delay: 300ms; }
+.stagger-4 { animation-delay: 400ms; }
+.stagger-5 { animation-delay: 500ms; }
+
+/* Typography luxury */
+.text-display {
+  @apply font-display font-light tracking-display leading-none;
+}
+
+.text-subtitle {
+  @apply text-sm uppercase tracking-subtitle font-medium;
+}
+
+/* Sophisticated hover effects with glow */
+.card-glow {
+  position: relative;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 1rem;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(212, 167, 80, 0.3), rgba(240, 216, 139, 0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-glow:hover::before {
+  opacity: 1;
+}
+
+/* Reveal line animation */
+.reveal-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.reveal-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4a750, transparent);
+  animation: line-expand 2s ease-out forwards;
+}
+
+@keyframes line-expand {
+  to { width: 100%; }
+}
+
+/* Floating animation for subtle movement */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Parallax container */
+.parallax-slow {
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Image reveal on scroll */
+.image-reveal {
+  clip-path: inset(0 100% 0 0);
+  animation: reveal-image 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes reveal-image {
+  to { clip-path: inset(0 0 0 0); }
+}
+
+/* Text reveal split */
+.text-reveal {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: reveal-text 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes reveal-text {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shine effect on hover */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shine-effect:hover::after {
+  left: 200%;
+}
+
+/* Sophisticated border draw */
+.border-draw {
+  position: relative;
+}
+
+.border-draw::before,
+.border-draw::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4a750, transparent);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-draw::before {
+  top: 0;
+  left: 0;
+}
+
+.border-draw::after {
+  bottom: 0;
+  right: 0;
+}
+
+.border-draw:hover::before,
+.border-draw:hover::after {
+  width: 100%;
+}
+
+/* Magnetic button effect */
+.btn-magnetic {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-magnetic:hover {
+  transform: scale(1.05);
 }

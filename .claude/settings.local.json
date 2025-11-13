@@ -8,7 +8,13 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(npm run build)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "WebFetch(domain:www.boscocabinets.ca)",
+      "WebFetch(domain:boscocabinetry.ca)",
+      "WebFetch(domain:myswedehome.com)",
+      "WebFetch(domain:kylamarie.ca)",
+      "Bash(npm run dev:*)",
+      "Bash(npx next dev)"
     ],
     "deny": [],
     "ask": []
