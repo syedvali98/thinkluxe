@@ -85,7 +85,7 @@ const PortfolioGrid: React.FC<PortfolioGridProps> = ({ items, showCategories = t
                     className="mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     initial={{ y: 20 }}
                   >
-                    <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-xs uppercase tracking-subtitle text-white/90 font-medium">
+                    <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-brand-bronze-400/50 rounded-full text-xs uppercase tracking-subtitle text-white/90 font-medium">
                       {item.category}
                     </span>
                   </motion.div>

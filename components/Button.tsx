@@ -18,12 +18,12 @@ const Button: React.FC<ButtonProps> = ({
   className = '',
   type = 'button',
 }) => {
-  const baseClasses = 'px-8 py-3 rounded-md font-medium transition-all duration-300 inline-block text-center';
+  const baseClasses = 'btn-magnetic shine-effect relative overflow-hidden px-10 py-5 rounded-sm font-medium transition-all duration-500 inline-block text-center';
 
   const variantClasses = {
-    primary: 'bg-luxury-gold-500 hover:bg-luxury-gold-600 text-white shadow-lg hover:shadow-xl',
-    secondary: 'bg-luxury-charcoal-800 hover:bg-luxury-charcoal-700 text-white shadow-lg hover:shadow-xl',
-    outline: 'border-2 border-luxury-gold-500 text-luxury-gold-500 hover:bg-luxury-gold-500 hover:text-white',
+    primary: 'btn-luxury bg-brand-bronze-500 hover:bg-brand-bronze-600 text-white border-2 border-brand-bronze-400 hover:border-brand-bronze-500',
+    secondary: 'bg-brand-charcoal-800 hover:bg-brand-charcoal-700 text-white shadow-lg hover:shadow-xl',
+    outline: 'border-2 border-brand-bronze-500 text-brand-bronze-500 hover:bg-brand-bronze-500 hover:text-white',
   };
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;

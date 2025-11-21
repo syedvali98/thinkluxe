@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Button from '@/components/Button';
 import Section from '@/components/Section';
+import GoldenSeparator from '@/components/GoldenSeparator';
 import { motion } from 'framer-motion';
 
 export default function CustomCabinetry() {
@@ -32,7 +33,7 @@ export default function CustomCabinetry() {
 
   return (
     <>
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden mt-20">
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=1920&q=80"
@@ -47,15 +48,15 @@ export default function CustomCabinetry() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-serif font-bold mb-6"
+            className="text-5xl md:text-6xl font-serif font-light mb-6"
           >
-            Custom <span className="text-luxury-gold-500">Cabinetry Solutions</span>
+            Custom <span className="text-brand-bronze-500">Cabinetry Solutions</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-200"
+            className="text-xl md:text-2xl text-brand-cream-200 font-light"
           >
             Elegant storage solutions tailored to every room in your home
           </motion.p>
@@ -64,10 +65,10 @@ export default function CustomCabinetry() {
 
       <Section background="white">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-luxury-charcoal-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-serif font-light text-brand-charcoal-900 mb-4">
             Our Cabinetry Services
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-brand-charcoal-500 font-light max-w-3xl mx-auto">
             From wardrobes to vanities, we create custom cabinetry that maximizes space and reflects your personal style
           </p>
         </div>
@@ -90,20 +91,26 @@ export default function CustomCabinetry() {
                 />
               </div>
               <div className="p-6 bg-white">
-                <h3 className="text-2xl font-serif font-bold text-luxury-charcoal-900 mb-3">{service.title}</h3>
-                <p className="text-gray-600">{service.description}</p>
+                <h3 className="text-2xl font-serif font-light text-brand-charcoal-900 mb-3">{service.title}</h3>
+                <p className="text-brand-charcoal-500 font-light">{service.description}</p>
               </div>
             </motion.div>
           ))}
         </div>
       </Section>
 
+      <div className="py-16 bg-white">
+        <div className="container-luxury">
+          <GoldenSeparator variant="glow" />
+        </div>
+      </div>
+
       <Section background="gradient">
         <div className="text-center max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-serif font-light mb-6">
             Design Your Dream Storage
           </h2>
-          <p className="text-xl text-gray-200 mb-8">
+          <p className="text-xl text-brand-cream-200 font-light mb-8">
             Let us create custom cabinetry solutions that perfectly fit your space and lifestyle.
           </p>
           <Button href="/contact" variant="primary">

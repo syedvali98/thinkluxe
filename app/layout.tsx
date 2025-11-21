@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
+import PageWrapper from "@/components/PageWrapper";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -20,6 +22,9 @@ export const metadata: Metadata = {
   title: "Think LUXE - Complete Luxurious Customisation Solutions",
   description: "Premier luxury custom cabinetry company specializing in high-end custom kitchens, sophisticated millwork, and elegant aluminum doors and windows in Toronto.",
   keywords: ["custom kitchens Toronto", "luxury cabinetry", "custom millwork", "aluminum doors windows", "custom wardrobes Toronto"],
+  icons: {
+    icon: '/favicon.webp',
+  },
   openGraph: {
     title: "Think LUXE - Complete Luxurious Customisation Solutions",
     description: "Premier luxury custom cabinetry company specializing in high-end custom kitchens, sophisticated millwork, and elegant aluminum doors and windows.",
@@ -35,9 +40,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${playfair.variable}`}>
       <body className="antialiased bg-brand-cream-100 text-brand-charcoal-600">
-        <Navbar />
-        <main>{children}</main>
+        <NavbarWrapper />
+        <PageWrapper>
+          <main>{children}</main>
+        </PageWrapper>
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );

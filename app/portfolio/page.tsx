@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Section from '@/components/Section';
+import Button from '@/components/Button';
+import GoldenSeparator from '@/components/GoldenSeparator';
 import { motion } from 'framer-motion';
 
 export default function Portfolio() {
@@ -81,21 +83,21 @@ export default function Portfolio() {
 
   return (
     <>
-      <section className="relative h-[40vh] flex items-center justify-center overflow-hidden mt-20 bg-luxury-charcoal-900">
+      <section className="relative h-[40vh] flex items-center justify-center overflow-hidden bg-brand-charcoal-900">
         <div className="relative z-10 text-center text-white px-6 max-w-5xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-serif font-bold mb-6"
+            className="text-5xl md:text-6xl font-serif font-light mb-6"
           >
-            Our <span className="text-luxury-gold-500">Portfolio</span>
+            Our <span className="text-brand-bronze-500">Portfolio</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-200"
+            className="text-xl md:text-2xl text-brand-cream-200 font-light"
           >
             Luxury in every detail - explore our completed projects
           </motion.p>
@@ -117,8 +119,8 @@ export default function Portfolio() {
               onClick={() => setFilter(btn.value)}
               className={`px-6 py-2 rounded-md font-medium transition-all duration-300 ${
                 filter === btn.value
-                  ? 'bg-luxury-gold-500 text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-brand-bronze-500 text-white shadow-lg'
+                  : 'bg-brand-cream-50 text-brand-charcoal-600 font-light hover:bg-brand-cream-100'
               }`}
             >
               {btn.label}
@@ -145,8 +147,8 @@ export default function Portfolio() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="text-2xl font-serif font-bold mb-2">{project.title}</h3>
-                    <p className="text-gray-200 text-sm">{project.description}</p>
+                    <h3 className="text-2xl font-serif font-light mb-2">{project.title}</h3>
+                    <p className="text-brand-cream-200 font-light text-sm">{project.description}</p>
                   </div>
                 </div>
               </div>
@@ -156,25 +158,31 @@ export default function Portfolio() {
 
         {filteredProjects.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-xl text-gray-600">No projects found in this category.</p>
+            <p className="text-xl text-brand-charcoal-500 font-light">No projects found in this category.</p>
           </div>
         )}
       </Section>
 
+      <div className="py-16 bg-white">
+        <div className="container-luxury">
+          <GoldenSeparator variant="glow" />
+        </div>
+      </div>
+
       <Section background="gradient">
         <div className="text-center max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-serif font-light mb-6">
             See Your Space Transformed
           </h2>
-          <p className="text-xl text-gray-200 mb-8">
+          <p className="text-xl text-brand-cream-200 font-light mb-8">
             Ready to create your own luxury transformation? Let's discuss your project.
           </p>
-          <button
-            onClick={() => window.location.href = '/contact'}
-            className="bg-luxury-gold-500 hover:bg-luxury-gold-600 text-white px-8 py-3 rounded-md font-medium transition-all duration-300 shadow-lg hover:shadow-xl"
+          <Button
+            href="/contact"
+            variant="primary"
           >
             Start Your Project
-          </button>
+          </Button>
         </div>
       </Section>
     </>

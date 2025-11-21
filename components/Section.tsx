@@ -11,13 +11,13 @@ const Section: React.FC<SectionProps> = ({ children, className = '', id, backgro
   const backgroundClasses = {
     white: 'bg-white',
     gray: 'bg-gray-50',
-    dark: 'bg-luxury-charcoal-900 text-white',
-    gradient: 'luxury-gradient text-white',
+    dark: 'bg-brand-charcoal-900 text-white',
+    gradient: 'bg-gradient-to-br from-brand-charcoal-900 to-brand-charcoal-800 text-white',
   };
 
   return (
-    <section id={id} className={`section-padding ${backgroundClasses[background]} ${className}`}>
-      <div className="container-custom">
+    <section id={id} className={`section-luxury ${backgroundClasses[background]} ${className}`}>
+      <div className="container-luxury">
         {children}
       </div>
     </section>

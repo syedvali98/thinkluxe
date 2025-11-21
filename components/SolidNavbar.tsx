@@ -1,27 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
-const Navbar = () => {
+const SolidNavbar = () => {
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
-  const [isScrolled, setIsScrolled] = useState(!isHomePage);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    // Only set up scroll listener if on homepage
-    if (isHomePage) {
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }
-  }, [isHomePage]);
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -35,13 +21,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg py-4'
-          : 'bg-transparent py-6'
-      }`}
-    >
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-lg py-4">
       <div className="container-luxury">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -51,9 +31,7 @@ const Navbar = () => {
                 src="/images/logo/logo-white.png"
                 alt="Think LUXE"
                 fill
-                className={`object-contain transition-all duration-500 ${
-                  isScrolled || !isHomePage ? 'logo-scrolled' : ''
-                }`}
+                className="object-contain logo-scrolled"
                 priority
               />
             </div>
@@ -65,12 +43,10 @@ const Navbar = () => {
               <div key={link.name} className="relative group">
                 <Link
                   href={link.href}
-                  className={`transition-colors duration-500 font-light relative ${
+                  className={`transition-colors font-light relative ${
                     pathname === link.href
                       ? 'text-brand-bronze-500'
-                      : isScrolled || !isHomePage
-                        ? 'text-brand-charcoal-600 hover:text-brand-bronze-500'
-                        : 'text-white/90 hover:text-brand-bronze-400'
+                      : 'text-brand-charcoal-600 hover:text-brand-bronze-500'
                   }`}
                 >
                   {link.name}
@@ -107,9 +83,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className={`lg:hidden focus:outline-none transition-colors duration-500 ${
-              isScrolled || !isHomePage ? 'text-brand-charcoal-700' : 'text-white'
-            }`}
+            className="lg:hidden focus:outline-none text-brand-charcoal-700"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <svg
@@ -132,9 +106,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className={`lg:hidden mt-4 pb-4 rounded-lg p-2 ${
-            isHomePage ? 'bg-white/95 backdrop-blur-md' : 'bg-white'
-          }`}>
+          <div className="lg:hidden mt-4 pb-4 bg-white rounded-lg p-2">
             {navLinks.map((link) => (
               <div key={link.name} className="py-2">
                 <Link
@@ -178,4 +150,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default SolidNavbar;

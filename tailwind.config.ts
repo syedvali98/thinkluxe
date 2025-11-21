@@ -20,14 +20,14 @@ const config: Config = {
             400: '#dad2bf',   // Bosco warm beige
             500: '#c7bfb0',
           },
-          // Soft Bronze/Gold accents (not bright)
+          // Rich Gold accents (from Think LUXE logo)
           bronze: {
-            400: '#f0d88b',   // Swede champagne
-            500: '#d4a750',   // Muted gold
-            600: '#c08c3a',
-            700: '#a07030',
-            800: '#82592e',
-            900: '#60533c',   // Bosco deep bronze
+            400: '#E5C76B',   // Light gold
+            500: '#C9A858',   // Primary logo gold
+            600: '#B8964A',   // Rich gold
+            700: '#A67D3B',
+            800: '#8D6730',
+            900: '#6B4E25',   // Deep gold
           },
           // Warm Charcoal (not pure black)
           charcoal: {

@@ -88,7 +88,8 @@ html {
 
 .btn-luxury::before {
   content: '';
-  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-brand-bronze-500 transition-all duration-800;
+  @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-800;
+  background-color: #C9A858;
 }
 
 .btn-luxury:hover::before {
@@ -132,7 +133,7 @@ html {
   inset: -2px;
   border-radius: 1rem;
   padding: 2px;
-  background: linear-gradient(135deg, rgba(212, 167, 80, 0.3), rgba(240, 216, 139, 0.3));
+  background: linear-gradient(135deg, rgba(201, 168, 88, 0.3), rgba(229, 199, 107, 0.3));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -157,7 +158,7 @@ html {
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #d4a750, transparent);
+  background: linear-gradient(90deg, transparent, #C9A858, transparent);
   animation: line-expand 2s ease-out forwards;
 }
 
@@ -239,7 +240,7 @@ html {
   position: absolute;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #d4a750, transparent);
+  background: linear-gradient(90deg, transparent, #C9A858, transparent);
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -265,4 +266,26 @@ html {
 
 .btn-magnetic:hover {
   transform: scale(1.05);
+}
+
+/* Gold accent utility classes */
+.accent-gold {
+  @apply text-brand-bronze-500;
+}
+
+.bg-accent-gold {
+  @apply bg-brand-bronze-500;
+}
+
+.border-accent-gold {
+  @apply border-brand-bronze-500;
+}
+
+.hover-accent-gold {
+  @apply hover:text-brand-bronze-500;
+}
+
+/* Logo color preservation - darken whites while keeping gold */
+.logo-scrolled {
+  filter: brightness(0.3) sepia(1) saturate(3) hue-rotate(5deg);
 }
