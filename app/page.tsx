@@ -23,28 +23,15 @@ export default function Home() {
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover scale-110"
+            className="absolute inset-0 w-full h-full object-cover"
             poster="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=90"
           >
-            {/* Add your video source here - for now using a placeholder */}
             <source src="/videos/hero-background.mp4" type="video/mp4" />
-            <source src="/videos/hero-background.webm" type="video/webm" />
-            {/* Fallback image if video doesn't load */}
           </video>
-
-          {/* Fallback image for when video is loading or not supported */}
-          <Image
-            src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=90"
-            alt="Luxury Kitchen Design"
-            fill
-            className="object-cover scale-110 -z-10"
-            priority
-            quality={90}
-          />
         </div>
 
         {/* Multi-layer Gradient Overlay - darker to ensure text readability over video */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-brand-charcoal-900/60 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-brand-charcoal-900/50 to-black/70" />
 
         {/* Floating decorative element */}
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-brand-bronze-500/5 rounded-full blur-3xl float-slow" />
