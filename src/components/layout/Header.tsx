@@ -10,9 +10,9 @@ import { useMenu } from "@/context/MenuContext";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
-  { name: "Services", href: "/services" },
+  { name: "Kitchen", href: "/kitchen" },
+  { name: "Aluminum Doors & Windows", href: "/aluminum-doors-windows" },
   { name: "Gallery", href: "/gallery" },
-  { name: "Contact", href: "/contact" },
 ];
 
 export default function Header() {
@@ -20,24 +20,34 @@ export default function Header() {
   const isLandingPage = pathname === "/";
   const { isMenuOpen: mobileMenuOpen, setIsMenuOpen: setMobileMenuOpen } = useMenu();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { scrollY } = useScroll();
 
-  // Track scroll for glass effect
+  // Track scroll for glass effect and hide/show on scroll direction
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (latest) => {
       setIsScrolled(latest > 50);
+
+      // Hide on scroll down, show on scroll up
+      if (latest > lastScrollY && latest > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(latest);
     });
 
     return () => unsubscribe();
-  }, [scrollY]);
+  }, [scrollY, lastScrollY]);
 
   return (
     <>
       <motion.header
         className="fixed inset-x-0 top-0 z-40"
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        animate={{ y: isVisible || mobileMenuOpen ? 0 : -100 }}
+        transition={{ duration: 0.3 }}
       >
         {/* Background with glass effect - transparent initially, glass on scroll */}
         <motion.div
@@ -64,22 +74,9 @@ export default function Header() {
             </motion.div>
           </div>
 
-          {/* Center - Logo */}
+          {/* Center - Logo placeholder (actual logo floats above) */}
           <div className="flex justify-center">
-            {isLandingPage ? (
-              // Empty slot on landing page - AnimatedLogo floats above
-              <div className="w-14 h-14" />
-            ) : (
-              // Regular logo on other pages
-              <Link href="/" className="relative w-12 h-12">
-                <Image
-                  src="/images/logo.png"
-                  alt="ThinkLuxe"
-                  fill
-                  className="object-contain"
-                />
-              </Link>
-            )}
+            <div className="w-14 h-14" />
           </div>
 
           {/* Right - Hamburger menu button */}
@@ -87,7 +84,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 text-white hover:text-[#C9A962] transition-colors relative z-50"
+              className="inline-flex items-center justify-center p-2 text-white hover:text-[#C9A962] transition-colors relative z-50 cursor-pointer"
               aria-label="Toggle menu"
             >
               <div className="flex flex-col gap-1.5 w-7">
@@ -112,6 +109,29 @@ export default function Header() {
         </nav>
       </motion.header>
 
+      {/* Floating logo for non-landing pages (hidden when menu open) */}
+      {!isLandingPage && !mobileMenuOpen && (
+        <motion.div
+          initial={{ y: 0 }}
+          animate={{ y: isVisible ? 0 : -200 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Link
+            href="/"
+            className="fixed z-50 top-[44px] left-1/2 -translate-x-1/2 -translate-y-1/2"
+          >
+            <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden">
+              <Image
+                src="/images/logo.png"
+                alt="ThinkLuxe"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </Link>
+        </motion.div>
+      )}
+
       {/* Full-screen mobile menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -120,14 +140,22 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[35] bg-black"
+            className="fixed inset-0 z-[35]"
           >
-            {/* Background pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#C9A962_1px,transparent_1px)] bg-[length:40px_40px]" />
+            {/* Full-screen logo background */}
+            <div className="absolute inset-0 bg-black">
+              <Image
+                src="/images/logo.png"
+                alt=""
+                fill
+                className="object-contain"
+              />
             </div>
 
-            <div className="flex flex-col items-center justify-center min-h-screen relative">
+            {/* Glass effect overlay */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
+
+            <div className="flex flex-col items-center justify-center min-h-screen relative z-10">
               <nav className="flex flex-col items-center gap-8">
                 {navigation.map((item, index) => (
                   <motion.div

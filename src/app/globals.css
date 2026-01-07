@@ -17,8 +17,8 @@
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
   --color-gold-dark: var(--gold-dark);
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-gilroy);
+  --font-serif: var(--font-cormorant);
 }
 
 body {
@@ -28,7 +28,7 @@ body {
 
 /* Serif headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair), Georgia, serif;
+  font-family: var(--font-cormorant), Georgia, serif;
 }
 
 /* Custom scrollbar for dark theme */

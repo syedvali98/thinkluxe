@@ -8,10 +8,9 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 
 const showroomImages = [
   "/images/showroom-1.jpg",
-  "/images/showroom-2.jpg",
-  "/images/showroom-3.jpg",
-  "/images/showroom-4.jpg",
-  "/images/showroom-5.jpg",
+  "/images/showroom-2.jpeg",
+  "/images/showroom-3.jpeg",
+  "/images/showroom-4.jpeg",
 ];
 
 export default function ShowroomSection() {
@@ -116,19 +115,12 @@ export default function ShowroomSection() {
                   transition={{ duration: 0.5 }}
                   className="absolute inset-0"
                 >
-                  {/* Placeholder gradient - replace with actual images */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#2a2a2a] via-[#252525] to-[#1f1f1f]" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-gray-600 text-sm">Showroom Image {currentSlide + 1}</span>
-                  </div>
-
-                  {/* Uncomment when images are ready */}
-                  {/* <Image
+                  <Image
                     src={showroomImages[currentSlide]}
                     alt={`Showroom image ${currentSlide + 1}`}
                     fill
                     className="object-cover"
-                  /> */}
+                  />
                 </motion.div>
               </AnimatePresence>
 

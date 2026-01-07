@@ -1,17 +1,27 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Header, Footer } from "@/components/layout";
 import Providers from "@/components/Providers";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const gilroy = localFont({
+  src: [
+    { path: "../../public/fonts/gilroy/Gilroy-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../../public/fonts/gilroy/Gilroy-RegularItalic.ttf", weight: "400", style: "italic" },
+    { path: "../../public/fonts/gilroy/Gilroy-Medium.ttf", weight: "500", style: "normal" },
+    { path: "../../public/fonts/gilroy/Gilroy-MediumItalic.ttf", weight: "500", style: "italic" },
+    { path: "../../public/fonts/gilroy/Gilroy-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "../../public/fonts/gilroy/Gilroy-SemiBoldItalic.ttf", weight: "600", style: "italic" },
+    { path: "../../public/fonts/gilroy/Gilroy-Bold.ttf", weight: "700", style: "normal" },
+    { path: "../../public/fonts/gilroy/Gilroy-BoldItalic.ttf", weight: "700", style: "italic" },
+  ],
+  variable: "--font-gilroy",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
+const cormorant = localFont({
+  src: "../../public/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf",
+  variable: "--font-cormorant",
+  weight: "300 700",
 });
 
 export const metadata: Metadata = {
@@ -21,6 +31,11 @@ export const metadata: Metadata = {
   },
   description: "Luxury aluminum doors, windows, custom kitchens and millwork. Tailored to the elite, now within reach.",
   keywords: ["aluminum doors", "aluminum windows", "custom kitchen", "millwork", "luxury", "Brampton"],
+  icons: {
+    icon: "/favicon.webp",
+    shortcut: "/favicon.webp",
+    apple: "/favicon.webp",
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-black`}>
+      <body className={`${gilroy.variable} ${cormorant.variable} font-sans antialiased bg-black`}>
         <Providers>
           <Header />
           {children}
