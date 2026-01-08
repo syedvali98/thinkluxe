@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navigation = {
@@ -65,7 +66,7 @@ export default function Footer() {
   const pathname = usePathname();
 
   return (
-    <footer className="bg-black relative overflow-hidden">
+    <footer className="bg-[#121211B2] relative overflow-hidden">
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 relative z-10">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
@@ -159,26 +160,16 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Large Watermark Text - LUXE is half hidden */}
-      <div className="relative w-full">
-        <div className="text-center select-none pointer-events-none">
-          <div
-            className="font-serif text-[9vw] md:text-[7vw] lg:text-[5vw] leading-none tracking-[0.3em] text-[#111111]"
-            style={{ fontWeight: 400 }}
-          >
-            THINK
-          </div>
-          {/* Container that clips LUXE at exactly half height */}
-          <div
-            className="overflow-hidden -mt-4 md:-mt-8 h-[14vw] md:h-[11.2vw] lg:h-[9.8vw]"
-          >
-            <div
-              className="font-serif text-[20vw] md:text-[16vw] lg:text-[14vw] leading-none tracking-[0.3em] text-[#111111]"
-              style={{ fontWeight: 400 }}
-            >
-              LUXE
-            </div>
-          </div>
+      {/* Footer Logo */}
+      <div className="relative w-full flex justify-center">
+        <div className="w-[70vw]">
+          <Image
+            src="/images/footer-logo.png"
+            alt="ThinkLuxe"
+            width={1200}
+            height={400}
+            className="w-full h-auto object-contain opacity-80"
+          />
         </div>
       </div>
     </footer>

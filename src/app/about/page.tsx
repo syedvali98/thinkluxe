@@ -315,7 +315,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="font-serif text-3xl md:text-5xl lg:text-5xl text-white leading-tight">
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-5xl text-[#C9A962] leading-tight">
               We create bespoke spaces with refined materials, master
               craftsmanship, and elevated design.
             </h1>

@@ -7,6 +7,8 @@ import { useMenu } from "@/context/MenuContext";
 
 export default function AnimatedLogo() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { scrollY } = useScroll();
   const { isMenuOpen } = useMenu();
 
@@ -20,6 +22,26 @@ export default function AnimatedLogo() {
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
+
+  // Hide/show with header once logo is in navbar position (after scroll 400)
+  useEffect(() => {
+    const unsubscribe = scrollY.on("change", (latest) => {
+      if (latest > 400) {
+        // Logo is in navbar - follow header hide/show behavior
+        if (latest > lastScrollY && latest > 100) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+      } else {
+        // Logo still animating to navbar - always visible
+        setIsVisible(true);
+      }
+      setLastScrollY(latest);
+    });
+
+    return () => unsubscribe();
+  }, [scrollY, lastScrollY]);
 
   // Calculate center position
   const centerX = windowSize.width / 2;
@@ -60,6 +82,8 @@ export default function AnimatedLogo() {
         scale,
         translateX: "-50%",
         translateY: "-50%",
+        opacity: isVisible ? 1 : 0,
+        transition: "opacity 0.3s ease",
       }}
     >
       {/* Logo Image */}
