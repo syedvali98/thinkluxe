@@ -84,10 +84,14 @@ const processSteps = [
 
 export default function KitchenPage() {
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [hoveredStep, setHoveredStep] = useState(0);
+  const [selectedStep, setSelectedStep] = useState(0); // Persisted/clicked step
   const [ballAngle, setBallAngle] = useState(-90); // Start at top (-90 degrees)
   const [isHovering, setIsHovering] = useState(false);
   const circleRef = useRef<HTMLDivElement>(null);
+
+  // The displayed step: hovered step when hovering, otherwise selected step
+  const displayedStep = isHovering ? hoveredStep : selectedStep;
 
   // PDF Modal state
   const [pdfModal, setPdfModal] = useState<{ isOpen: boolean; pdf: string; title: string }>({
@@ -102,6 +106,17 @@ export default function KitchenPage() {
 
   const closePdfModal = () => {
     setPdfModal({ isOpen: false, pdf: "", title: "" });
+  };
+
+  // Get angle for a step (center of each quadrant)
+  const getStepAngle = (step: number) => {
+    switch (step) {
+      case 0: return -90;  // Top
+      case 1: return 0;    // Right
+      case 2: return 90;   // Bottom
+      case 3: return 180;  // Left
+      default: return -90;
+    }
   };
 
   // Mouse tracking for the interactive circle
@@ -123,10 +138,21 @@ export default function KitchenPage() {
     // Right: -45 to 45 (Step 2 - Design)
     // Bottom: 45 to 135 (Step 3 - Materials)
     // Left: 135 to -135 (Step 4 - Installation)
-    if (degrees >= -135 && degrees < -45) setCurrentStep(0);
-    else if (degrees >= -45 && degrees < 45) setCurrentStep(1);
-    else if (degrees >= 45 && degrees < 135) setCurrentStep(2);
-    else setCurrentStep(3);
+    if (degrees >= -135 && degrees < -45) setHoveredStep(0);
+    else if (degrees >= -45 && degrees < 45) setHoveredStep(1);
+    else if (degrees >= 45 && degrees < 135) setHoveredStep(2);
+    else setHoveredStep(3);
+  };
+
+  // Handle click to store the selected step
+  const handleClick = () => {
+    setSelectedStep(hoveredStep);
+  };
+
+  // When mouse leaves, reset ball to selected step position
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setBallAngle(getStepAngle(selectedStep));
   };
 
   // Calculate ball position on the circle orbit
@@ -245,17 +271,17 @@ export default function KitchenPage() {
                   <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
                     <AnimatePresence mode="wait">
                       <motion.div
-                        key={currentStep}
+                        key={displayedStep}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
                       >
                         <h3 className="text-[#C9A962] text-xl md:text-2xl uppercase tracking-wider font-medium mb-6">
-                          {processSteps[currentStep].title}
+                          {processSteps[displayedStep].title}
                         </h3>
                         <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-12">
-                          {processSteps[currentStep].description}
+                          {processSteps[displayedStep].description}
                         </p>
                       </motion.div>
                     </AnimatePresence>
@@ -263,7 +289,7 @@ export default function KitchenPage() {
                     {/* Step Counter */}
                     <div className="mt-auto">
                       <span className="text-gray-600 text-sm uppercase tracking-[0.3em]">
-                        Step {currentStep + 1}
+                        Step {displayedStep + 1}
                       </span>
                     </div>
                   </div>
@@ -273,14 +299,15 @@ export default function KitchenPage() {
                     className="relative flex items-center justify-center p-8 md:p-12"
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setIsHovering(true)}
-                    onMouseLeave={() => setIsHovering(false)}
+                    onMouseLeave={handleMouseLeave}
+                    onClick={handleClick}
                   >
                     {/* Step Labels positioned around the circle */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       {/* Top Label - Discovery */}
                       <span
                         className={`absolute top-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
-                          currentStep === 0 ? "text-[#C9A962]" : "text-gray-600"
+                          displayedStep === 0 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Discovery and Consultation
@@ -289,7 +316,7 @@ export default function KitchenPage() {
                       {/* Right Label - Design */}
                       <span
                         className={`absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
-                          currentStep === 1 ? "text-[#C9A962]" : "text-gray-600"
+                          displayedStep === 1 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Design Development
@@ -298,7 +325,7 @@ export default function KitchenPage() {
                       {/* Bottom Label - Materials */}
                       <span
                         className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
-                          currentStep === 2 ? "text-[#C9A962]" : "text-gray-600"
+                          displayedStep === 2 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Material and Finishes Selection
@@ -307,7 +334,7 @@ export default function KitchenPage() {
                       {/* Left Label - Installation */}
                       <span
                         className={`absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
-                          currentStep === 3 ? "text-[#C9A962]" : "text-gray-600"
+                          displayedStep === 3 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Procurement and Installation
