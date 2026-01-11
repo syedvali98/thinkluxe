@@ -44,10 +44,10 @@ export default function ContactPage() {
               </span>
             </div>
 
-            <h1 className="font-serif italic text-4xl md:text-5xl lg:text-6xl text-[#C9A962] mb-6">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#C9A962] mb-6">
               Let&apos;s Create Something Beautiful
             </h1>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            <p className="text-[#b5b5b5] font-medium text-lg max-w-2xl mx-auto">
               Ready to transform your space? Get in touch with our team to discuss your vision and schedule a consultation.
             </p>
           </motion.div>
@@ -61,7 +61,7 @@ export default function ContactPage() {
             >
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm text-gray-400 mb-2">
+                  <label htmlFor="name" className="block text-sm text-[#b5b5b5] mb-2">
                     Full Name
                   </label>
                   <input
@@ -70,7 +70,7 @@ export default function ContactPage() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#C9A962] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-transparent border border-[#3d3d3d] rounded-full text-white placeholder:text-[#3d3d3d] focus:border-[#C9A962] focus:outline-none transition-colors"
                     placeholder="Your name"
                     required
                   />
@@ -78,7 +78,7 @@ export default function ContactPage() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="email" className="block text-sm text-gray-400 mb-2">
+                    <label htmlFor="email" className="block text-sm text-[#b5b5b5] mb-2">
                       Email Address
                     </label>
                     <input
@@ -87,13 +87,13 @@ export default function ContactPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#C9A962] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-transparent border border-[#3d3d3d] rounded-full text-white placeholder:text-[#3d3d3d] focus:border-[#C9A962] focus:outline-none transition-colors"
                       placeholder="your@email.com"
                       required
                     />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm text-gray-400 mb-2">
+                    <label htmlFor="phone" className="block text-sm text-[#b5b5b5] mb-2">
                       Phone Number
                     </label>
                     <input
@@ -102,14 +102,14 @@ export default function ContactPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#C9A962] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-transparent border border-[#3d3d3d] rounded-full text-white placeholder:text-[#3d3d3d] focus:border-[#C9A962] focus:outline-none transition-colors"
                       placeholder="(416) 555-1234"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="block text-sm text-gray-400 mb-2">
+                  <label htmlFor="service" className="block text-sm text-[#b5b5b5] mb-2">
                     Service Interested In
                   </label>
                   <select
@@ -117,7 +117,7 @@ export default function ContactPage() {
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg text-white focus:border-[#C9A962] focus:outline-none transition-colors"
+                    className="w-full pl-4 pr-8 py-3 bg-black border border-[#3d3d3d] rounded-full text-white focus:border-[#C9A962] focus:outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23C9A962%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[right_1rem_center] bg-[length:1.25rem]"
                   >
                     <option value="">Select a service</option>
                     <option value="kitchen">Custom Kitchen & Millwork</option>
@@ -128,7 +128,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm text-gray-400 mb-2">
+                  <label htmlFor="message" className="block text-sm text-[#b5b5b5] mb-2">
                     Your Message
                   </label>
                   <textarea
@@ -137,7 +137,7 @@ export default function ContactPage() {
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    className="w-full px-4 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#C9A962] focus:outline-none transition-colors resize-none"
+                    className="w-full px-6 py-4 bg-transparent border border-[#3d3d3d] rounded-3xl text-white placeholder:text-[#3d3d3d] focus:border-[#C9A962] focus:outline-none transition-colors resize-none"
                     placeholder="Tell us about your project..."
                     required
                   />
@@ -145,7 +145,7 @@ export default function ContactPage() {
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[#C9A962] text-black font-medium rounded-lg hover:bg-[#b8994f] transition-colors cursor-pointer"
+                  className="w-full py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg cursor-pointer"
                 >
                   Send Message
                 </button>
@@ -197,7 +197,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Address</p>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-[#b5b5b5] text-sm">
                       Unit 15 - 80 Clementine Dr,<br />
                       Brampton, ON, L6Y 0L8, Canada
                     </p>
@@ -223,7 +223,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Hours</p>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-[#b5b5b5] text-sm">
                       Mon - Fri: 10am - 5pm (By Appointment)<br />
                       Weekends: By Appointment Only
                     </p>
@@ -249,7 +249,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Phone</p>
-                    <p className="text-gray-400 text-sm">416 555 1234</p>
+                    <p className="text-[#b5b5b5] text-sm">416 555 1234</p>
                   </div>
                 </div>
 
@@ -272,7 +272,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Email</p>
-                    <p className="text-gray-400 text-sm">info@thinkluxe.com</p>
+                    <p className="text-[#b5b5b5] text-sm">info@thinkluxe.com</p>
                   </div>
                 </div>
               </div>
