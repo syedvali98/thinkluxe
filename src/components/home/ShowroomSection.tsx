@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Container } from "@/components/ui";
@@ -11,37 +11,64 @@ const showroomImages = [
   "/images/showroom-2.jpeg",
   "/images/showroom-3.jpeg",
   "/images/showroom-4.jpeg",
+  "/images/showroom-5.jpg",
+  "/images/showroom-6.jpg",
+  "/images/showroom-7.jpg",
+  "/images/showroom-8.jpg",
+  "/images/showroom-9.jpg",
+  "/images/showroom-10.jpg",
+  "/images/showroom-11.jpg",
+  "/images/showroom-12.jpg",
+  "/images/showroom-13.jpg",
+  "/images/showroom-14.jpg",
+  "/images/showroom-15.jpg",
+  "/images/showroom-16.jpg",
+  "/images/showroom-17.jpg",
+  "/images/showroom-18.jpg",
+  "/images/showroom-19.jpg",
 ];
 
 export default function ShowroomSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % showroomImages.length);
-  };
+  }, []);
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + showroomImages.length) % showroomImages.length);
   };
 
+  // Auto-scroll effect
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000); // Change slide every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isPaused, nextSlide]);
+
   return (
-    <section className="bg-black py-16 md:py-24">
+    <section className="bg-black py-16 md:pt-24 pb-8">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-black rounded-[60px] overflow-hidden"
+          className="bg-black rounded-[60px] overflow-hidden border border-[#C9A962]/30"
         >
           <div className="grid md:grid-cols-2">
-            {/* Left Content Column - with golden border on top, left, bottom */}
-            <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center border-t border-l border-b border-[#C9A962]/30 rounded-l-[60px]">
+            {/* Left Content Column */}
+            <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
               <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-6">
                 Visit Our Showroom
               </h3>
 
-              <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-8">
+              <p className="text-[#A3A3A3] text-sm md:text-base leading-relaxed mb-8">
                 Step into our exclusive showroom, a curated design environment where every
                 finish, texture, and detail has been hand-selected to inspire elevated living.
                 Experience artisanal millwork, architectural-grade materials, and bespoke
@@ -51,7 +78,7 @@ export default function ShowroomSection() {
               {/* Address */}
               <div className="flex items-start gap-3 mb-4">
                 <svg
-                  className="h-5 w-5 text-gray-500 mt-0.5 flex-shrink-0"
+                  className="h-5 w-5 text-[#C9A962] mt-0.5 flex-shrink-0"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
@@ -68,7 +95,7 @@ export default function ShowroomSection() {
                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                   />
                 </svg>
-                <span className="text-gray-400 text-sm">
+                <span className="text-[#A3A3A3] text-sm">
                   Unit 15 - 80 Clementine Dr, Brampton,<br />
                   ON, L6Y 0L8, Canada.
                 </span>
@@ -77,7 +104,7 @@ export default function ShowroomSection() {
               {/* Hours */}
               <div className="flex items-start gap-3 mb-8">
                 <svg
-                  className="h-5 w-5 text-gray-500 mt-0.5 flex-shrink-0"
+                  className="h-5 w-5 text-[#C9A962] mt-0.5 flex-shrink-0"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
@@ -89,7 +116,7 @@ export default function ShowroomSection() {
                     d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <div className="text-gray-400 text-sm">
+                <div className="text-[#A3A3A3] text-sm">
                   <p>Mon - Fri : 10am - 5pm (By Appointment Only)</p>
                   <p>Weekends : By Appointment Only</p>
                 </div>
@@ -104,7 +131,11 @@ export default function ShowroomSection() {
             </div>
 
             {/* Right Image Column */}
-            <div className="relative min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
+            <div
+              className="relative min-h-[300px] md:min-h-[400px] lg:min-h-[500px]"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
               {/* Image Carousel */}
               <AnimatePresence mode="wait">
                 <motion.div
@@ -144,20 +175,11 @@ export default function ShowroomSection() {
                 </svg>
               </button>
 
-              {/* Carousel Dots */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                {showroomImages.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentSlide
-                        ? "bg-white"
-                        : "bg-white/40 hover:bg-white/60"
-                    }`}
-                    aria-label={`Go to image ${index + 1}`}
-                  />
-                ))}
+              {/* Slide Counter */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
+                <span className="text-white/70 text-sm font-medium">
+                  {currentSlide + 1} / {showroomImages.length}
+                </span>
               </div>
             </div>
           </div>

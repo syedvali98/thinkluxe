@@ -8,11 +8,17 @@ const navigation = {
   column1: [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
-    { name: "Services", href: "/services" },
   ],
+  services: {
+    name: "Services",
+    subItems: [
+      { name: "Custom Kitchen & Millwork", href: "/kitchen" },
+      { name: "Aluminum Doors & Windows", href: "/aluminum-doors-windows" },
+    ],
+  },
   column2: [
     { name: "Gallery", href: "/gallery" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact Us", href: "/contact" },
   ],
   social: [
     {
@@ -72,18 +78,18 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
           {/* Left Side - Get in Touch */}
           <div className="lg:col-span-5">
-            <h3 className="font-serif text-3xl md:text-4xl text-[#C9A962] italic">
+            <h3 className="font-serif text-3xl md:text-4xl text-[#C9A962]">
               Get in Touch
             </h3>
-            <p className="mt-4 text-gray-400 text-sm md:text-base leading-relaxed">
-              Have a project? Let&apos;s get in touch. We respond fast.
+            <p className="mt-4 text-[#7B7B7B] text-sm md:text-base leading-relaxed">
+              Have a project? Let&apos;s get in touch. <br/> We respond fast.
             </p>
             <div className="mt-8 flex gap-5">
               {navigation.social.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-gray-500 hover:text-[#C9A962] transition-colors"
+                  className="text-[#7B7B7B] hover:text-[#C9A962] transition-colors"
                 >
                   <span className="sr-only">{item.name}</span>
                   <item.icon className="h-5 w-5" aria-hidden="true" />
@@ -103,7 +109,27 @@ export default function Footer() {
                   className={`text-xs uppercase tracking-[0.2em] transition-colors ${
                     pathname === item.href
                       ? "text-[#C9A962]"
-                      : "text-gray-400 hover:text-white"
+                      : "text-[#7B7B7B] hover:text-[#7B7B7B]"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+
+            {/* Services Column */}
+            <div className="flex flex-col gap-3">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#7B7B7B]">
+                {navigation.services.name}
+              </span>
+              {navigation.services.subItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`text-xs tracking-[0.1em] transition-colors pl-2 ${
+                    pathname === item.href
+                      ? "text-[#C9A962]"
+                      : "text-[#7B7B7B] hover:text-[#C9A962]"
                   }`}
                 >
                   {item.name}
@@ -120,7 +146,7 @@ export default function Footer() {
                   className={`text-xs uppercase tracking-[0.2em] transition-colors ${
                     pathname === item.href
                       ? "text-[#C9A962]"
-                      : "text-gray-400 hover:text-white"
+                      : "text-[#7B7B7B] hover:text-[#C9A962]"
                   }`}
                 >
                   {item.name}
@@ -132,7 +158,7 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <a
                 href="mailto:info@thinkluxe.com"
-                className="text-sm text-gray-300 hover:text-[#C9A962] transition-colors flex items-center gap-2"
+                className="text-sm text-[#7B7B7B] hover:text-[#C9A962] transition-colors flex items-center gap-2 pb-2 border-b-2 border-white"
               >
                 info@thinkluxe.com
                 <svg
@@ -151,7 +177,7 @@ export default function Footer() {
               </a>
               <a
                 href="tel:4165551234"
-                className="text-sm text-gray-300 hover:text-[#C9A962] transition-colors"
+                className="text-sm text-[#7B7B7B] hover:text-[#C9A962] transition-colors"
               >
                 416 555 1234
               </a>

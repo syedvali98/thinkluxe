@@ -10,9 +10,16 @@ import { useMenu } from "@/context/MenuContext";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
-  { name: "Kitchen", href: "/kitchen" },
-  { name: "Aluminum Doors & Windows", href: "/aluminum-doors-windows" },
+  {
+    name: "Services",
+    href: "#",
+    subItems: [
+      { name: "Custom Kitchen & Millwork", href: "/kitchen" },
+      { name: "Aluminum Doors & Windows", href: "/aluminum-doors-windows" },
+    ]
+  },
   { name: "Gallery", href: "/gallery" },
+  { name: "Contact Us", href: "/contact" },
 ];
 
 export default function Header() {
@@ -22,6 +29,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const { scrollY } = useScroll();
 
   // Track scroll for glass effect and hide/show on scroll direction
@@ -64,12 +72,12 @@ export default function Header() {
           {/* Left - Tagline */}
           <div className="flex-1">
             <motion.div
-              className="text-[10px] md:text-xs font-medium uppercase tracking-[0.2em] text-white/70 hidden sm:block leading-relaxed"
+              className="text-xs md:text-sm font-medium uppercase tracking-[0.2em] text-[#CAC7A9] hidden sm:block leading-relaxed"
               initial={{ opacity: 0 }}
-              animate={{ opacity: isScrolled ? 1 : 0.7 }}
+              animate={{ opacity: isScrolled ? 1 : 0.85 }}
               transition={{ duration: 0.3 }}
             >
-              <p>Luxury Tailored to the Elite,</p>
+              <p>Luxury Tailored for the Elite,</p>
               <p>Now Within Reach.</p>
             </motion.div>
           </div>
@@ -164,14 +172,57 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.4, delay: index * 0.08 }}
+                    className="relative"
+                    onMouseEnter={() => item.subItems && setHoveredItem(item.name)}
+                    onMouseLeave={() => setHoveredItem(null)}
                   >
-                    <Link
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-3xl md:text-4xl font-serif text-white hover:text-[#C9A962] transition-colors uppercase tracking-wide"
-                    >
-                      {item.name}
-                    </Link>
+                    {item.subItems ? (
+                      // Services with submenu
+                      <div className="flex flex-col items-center">
+                        <span className="text-3xl md:text-4xl font-serif text-white hover:text-[#C9A962] transition-colors tracking-wide cursor-pointer">
+                          {item.name}
+                        </span>
+
+                        {/* Submenu items that slide down */}
+                        <AnimatePresence>
+                          {hoveredItem === item.name && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                              className="flex flex-col items-center gap-4 mt-4 overflow-hidden"
+                            >
+                              {item.subItems.map((subItem, subIndex) => (
+                                <motion.div
+                                  key={subItem.name}
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.4, delay: subIndex * 0.1, ease: "easeOut" }}
+                                >
+                                  <Link
+                                    href={subItem.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="text-xl md:text-xl font-sans text-[#CAC7A9] hover:text-[#C9A962] transition-colors tracking-wide whitespace-nowrap"
+                                  >
+                                    {subItem.name}
+                                  </Link>
+                                </motion.div>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      // Regular menu item
+                      <Link
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-3xl md:text-4xl font-serif text-white hover:text-[#C9A962] transition-colors tracking-wide"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </motion.div>
                 ))}
               </nav>

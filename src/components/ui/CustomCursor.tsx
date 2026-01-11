@@ -48,8 +48,8 @@ export default function CustomCursor({ isVisible }: CustomCursorProps) {
         className="relative -translate-x-1/2 -translate-y-1/2"
       >
         {/* Glass effect disc */}
-        <div className="w-24 h-24 rounded-full flex items-center justify-center backdrop-blur-[4px] bg-white/[0.03] border border-white/10">
-          <span className="text-white text-[10px] font-medium uppercase tracking-wider">
+        <div className="w-32 h-32 rounded-full flex items-center justify-center backdrop-blur-[6px] bg-black/10 border border-[#C9A962]">
+          <span className="text-[#FFF] text-[10px] font-medium uppercase tracking-wider">
             View More
           </span>
         </div>

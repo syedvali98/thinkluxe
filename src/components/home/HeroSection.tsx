@@ -10,27 +10,20 @@ export default function HeroSection() {
   const [cursorVisible, setCursorVisible] = useState(false);
   const [leftPaused, setLeftPaused] = useState(false);
   const [rightPaused, setRightPaused] = useState(false);
+  const [leftVideoStarted, setLeftVideoStarted] = useState(true);
+  const [rightVideoStarted, setRightVideoStarted] = useState(true);
   const leftVideoRef = useRef<HTMLVideoElement>(null);
   const rightVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Handle video playback on hover
+  // Autoplay videos on mount
   useEffect(() => {
-    if (hoveredSide === "left" && leftVideoRef.current && !leftPaused) {
+    if (leftVideoRef.current) {
       leftVideoRef.current.play().catch(() => {});
-    } else if (leftVideoRef.current && hoveredSide !== "left") {
-      leftVideoRef.current.pause();
-      leftVideoRef.current.currentTime = 0;
-      setLeftPaused(false);
     }
-
-    if (hoveredSide === "right" && rightVideoRef.current && !rightPaused) {
+    if (rightVideoRef.current) {
       rightVideoRef.current.play().catch(() => {});
-    } else if (rightVideoRef.current && hoveredSide !== "right") {
-      rightVideoRef.current.pause();
-      rightVideoRef.current.currentTime = 0;
-      setRightPaused(false);
     }
-  }, [hoveredSide, leftPaused, rightPaused]);
+  }, []);
 
   const handleMouseEnter = (side: "left" | "right") => {
     setHoveredSide(side);
@@ -82,49 +75,54 @@ export default function HeroSection() {
             onMouseEnter={() => handleMouseEnter("left")}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Background Image */}
+            {/* Background Image - hides once video has started */}
             <div className="absolute inset-0 bg-[#0a0a0a]">
               {/* Placeholder gradient - replace with actual image */}
               <div
                 className={`absolute inset-0 bg-gradient-to-br from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] transition-opacity duration-700 ${
-                  hoveredSide === "left" ? "opacity-0" : "opacity-100"
+                  leftVideoStarted ? "opacity-0" : "opacity-100"
                 }`}
               />
               {/* Background image layer */}
               <div
                 className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${
-                  hoveredSide === "left" ? "opacity-0" : "opacity-100"
+                  leftVideoStarted ? "opacity-0" : "opacity-100"
                 }`}
                 style={{
-                  backgroundImage: "url('/images/aluminum-bg.png')",
+                  backgroundImage: "url('/images/aluminum-bg.jpg')",
                 }}
               />
             </div>
 
-            {/* Video (hidden until hover) */}
+            {/* Video - stays visible once started */}
             <video
               ref={leftVideoRef}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                hoveredSide === "left" ? "opacity-100" : "opacity-0"
+                leftVideoStarted ? "opacity-100" : "opacity-0"
               }`}
               muted
               loop
               playsInline
-              preload="metadata"
+              autoPlay
+              preload="auto"
             >
-              <source src="/videos/aluminum-video.mp4" type="video/mp4" />
+              <source src="/videos/aluminium-hero.mp4" type="video/mp4" />
             </video>
 
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+            {/* Dark overlay - visible when not hovering */}
+            <div
+              className={`absolute inset-0 bg-black/60 transition-opacity duration-700 ${
+                hoveredSide === "left" ? "opacity-0" : "opacity-100"
+              }`}
+            />
 
-            {/* Content */}
-            <div className="relative z-10 h-full flex items-end pb-24 px-8 md:px-16">
+            {/* Content - Bottom center */}
+            <div className="relative z-10 h-full flex items-end justify-center pb-24 px-8 md:px-16">
               <motion.h2
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="font-serif text-xl md:text-2xl lg:text-3xl text-white leading-tight whitespace-nowrap"
+                className="font-serif text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
               >
                 Aluminum Doors & Windows
               </motion.h2>
@@ -166,49 +164,54 @@ export default function HeroSection() {
             onMouseEnter={() => handleMouseEnter("right")}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Background Image */}
+            {/* Background Image - hides once video has started */}
             <div className="absolute inset-0 bg-[#0a0a0a]">
               {/* Placeholder gradient - replace with actual image */}
               <div
                 className={`absolute inset-0 bg-gradient-to-bl from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] transition-opacity duration-700 ${
-                  hoveredSide === "right" ? "opacity-0" : "opacity-100"
+                  rightVideoStarted ? "opacity-0" : "opacity-100"
                 }`}
               />
               {/* Background image layer */}
               <div
                 className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${
-                  hoveredSide === "right" ? "opacity-0" : "opacity-100"
+                  rightVideoStarted ? "opacity-0" : "opacity-100"
                 }`}
                 style={{
-                  backgroundImage: "url('/images/kitchen-bg.png')",
+                  backgroundImage: "url('/images/kitchen-bg.jpg')",
                 }}
               />
             </div>
 
-            {/* Video (hidden until hover) */}
+            {/* Video - stays visible once started */}
             <video
               ref={rightVideoRef}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                hoveredSide === "right" ? "opacity-100" : "opacity-0"
+                rightVideoStarted ? "opacity-100" : "opacity-0"
               }`}
               muted
               loop
               playsInline
-              preload="metadata"
+              autoPlay
+              preload="auto"
             >
               <source src="/videos/kitchen-video.mp4" type="video/mp4" />
             </video>
 
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+            {/* Dark overlay - visible when not hovering */}
+            <div
+              className={`absolute inset-0 bg-black/60 transition-opacity duration-700 ${
+                hoveredSide === "right" ? "opacity-0" : "opacity-100"
+              }`}
+            />
 
-            {/* Content */}
-            <div className="relative z-10 h-full flex items-end justify-end pb-24 px-8 md:px-16">
+            {/* Content - Bottom center */}
+            <div className="relative z-10 h-full flex items-end justify-center pb-24 px-8 md:px-16">
               <motion.h2
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="font-serif text-xl md:text-2xl lg:text-3xl text-white leading-tight text-right whitespace-nowrap"
+                className="font-serif text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
               >
                 Custom Kitchen & Millwork
               </motion.h2>

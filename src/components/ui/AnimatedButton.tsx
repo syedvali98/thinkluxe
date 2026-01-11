@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useEffect, useState, useId } from "react";
+import { useState, useEffect } from "react";
+import { motion, useMotionValue, animate, useMotionTemplate } from "framer-motion";
 import Link from "next/link";
 
 interface AnimatedButtonProps {
@@ -16,135 +17,70 @@ export default function AnimatedButton({
   onClick,
   className = "",
 }: AnimatedButtonProps) {
-  const uniqueId = useId();
-  const svgRef = useRef<SVGSVGElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const [pathLength, setPathLength] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const angle = useMotionValue(0);
 
+  // Animate rotation on hover
   useEffect(() => {
-    if (pathRef.current) {
-      const length = pathRef.current.getTotalLength();
-      setPathLength(length);
+    let controls: ReturnType<typeof animate> | undefined;
+    if (isHovered) {
+      controls = animate(angle, angle.get() + 360, {
+        duration: 1.5,
+        repeat: Infinity,
+        ease: "linear",
+      });
+    } else {
+      // Reset angle smoothly when not hovered
+      angle.set(0);
     }
-  }, []);
+    return () => controls?.stop();
+  }, [isHovered, angle]);
 
-  // Path starts just below top-left corner on the left edge to avoid corner artifacts
-  // Traces: left edge → bottom → arc around right → top edge → back down to start
-  const borderPath = "M 1,2 L 1,49 L 176,49 A 24,24 0 0 0 176,1 L 1,1 L 1,3";
-
-  // Unique gradient IDs to avoid conflicts with multiple buttons
-  const whiteGradientId = `whiteShineGradient-${uniqueId}`;
-  const goldGradientId = `goldShineGradient-${uniqueId}`;
+  // Create the rotating gradient background
+  const gradientBackground = useMotionTemplate`conic-gradient(from ${angle}deg, #1a1a1a 0%, #C9A962 50%, #1a1a1a 100%)`;
 
   const buttonContent = (
-    <>
-      {/* SVG Border with animation */}
-      <svg
-        ref={svgRef}
-        className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
-        viewBox="-1 -1 202 52"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          {/* Shiny white/silver gradient for default state */}
-          <linearGradient id={whiteGradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#9CA3AF" />
-            <stop offset="20%" stopColor="#D1D5DB" />
-            <stop offset="40%" stopColor="#F3F4F6" />
-            <stop offset="50%" stopColor="#FFFFFF" />
-            <stop offset="60%" stopColor="#F3F4F6" />
-            <stop offset="80%" stopColor="#D1D5DB" />
-            <stop offset="100%" stopColor="#9CA3AF" />
-          </linearGradient>
-
-          {/* Animated gradient with shine effect */}
-          <linearGradient id={goldGradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#A8893D" />
-            <stop offset="20%" stopColor="#C9A962" />
-            <stop offset="40%" stopColor="#F5E6BA" />
-            <stop offset="50%" stopColor="#FFFAED" />
-            <stop offset="60%" stopColor="#F5E6BA" />
-            <stop offset="80%" stopColor="#C9A962" />
-            <stop offset="100%" stopColor="#A8893D" />
-          </linearGradient>
-        </defs>
-
-        {/* White/silver base border - always visible, fades on hover */}
-        <path
-          d={borderPath}
-          fill="none"
-          stroke={`url(#${whiteGradientId})`}
-          strokeWidth="0.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{
-            opacity: isHovered ? 0 : 1,
-            transition: "opacity 0.3s ease",
-          }}
-        />
-
-        {/* Gold animated border with gradient */}
-        <path
-          ref={pathRef}
-          d={borderPath}
-          fill="none"
-          stroke={`url(#${goldGradientId})`}
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{
-            strokeDasharray: pathLength || 500,
-            strokeDashoffset: isHovered ? 0 : (pathLength || 500),
-            transition: "stroke-dashoffset 0.3s ease-out",
-          }}
-        />
-      </svg>
-
-      {/* Button Text */}
-      <span
-        className="relative z-10 text-sm font-medium uppercase tracking-wider transition-colors duration-500"
+    <div
+      className={`relative w-2/5 p-[1.5px] rounded-r-full rounded-l-none overflow-hidden cursor-pointer ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Static gradient border - visible when not hovered */}
+      <div
+        className="absolute inset-0 rounded-r-full rounded-l-none transition-opacity duration-300"
         style={{
-          color: isHovered ? "#C9A962" : "white",
+          background: "linear-gradient(to right, #1a1a1a 0%, #C9A962 100%)",
+          opacity: isHovered ? 0 : 1,
         }}
-      >
-        {children}
-      </span>
-    </>
+      />
+
+      {/* Rotating gradient border - visible when hovered */}
+      <motion.div
+        className="absolute inset-0 rounded-r-full rounded-l-none transition-opacity duration-300"
+        style={{
+          background: gradientBackground,
+          opacity: isHovered ? 1 : 0,
+        }}
+      />
+
+      {/* Inner content */}
+      <div className="relative bg-black rounded-r-full rounded-l-none px-2 py-5 flex items-center justify-center">
+        <span
+          className="text-xs font-medium uppercase tracking-wider transition-colors duration-300 whitespace-nowrap"
+          style={{ color: isHovered ? "#C9A962" : "white" }}
+        >
+          {children}
+        </span>
+      </div>
+    </div>
   );
 
-  const baseClasses = `
-    relative inline-flex items-center justify-center
-    px-8 py-4 min-w-[200px] h-[50px]
-    rounded-r-full rounded-l-none
-    bg-transparent
-    overflow-visible
-    ${className}
-  `.trim();
-
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
-
   if (href) {
-    return (
-      <Link
-        href={href}
-        className={baseClasses}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {buttonContent}
-      </Link>
-    );
+    return <Link href={href}>{buttonContent}</Link>;
   }
 
   return (
-    <button
-      onClick={onClick}
-      className={baseClasses}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <button type="button" onClick={onClick}>
       {buttonContent}
     </button>
   );
