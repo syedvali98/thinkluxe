@@ -49,31 +49,18 @@ export default function AluminumDoorsWindowsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="font-serif text-3xl md:text-5xl lg:text-5xl text-[#C9A962] leading-tight">
+            <h1 className="mt-22 font-serif font-semibold text-3xl md:text-5xl lg:text-4xl text-[#C9A962] leading-tight">
               Aluminum Doors & Windows
             </h1>
-            <p className="mt-6 text-lg md:text-xl lg:text-2xl text-gray-300">
+            <p className="mt-3 text-lg md:text-xl lg:text-xl text-gray-300">
               Elegant European Style Windows and Doors Crafted for Beauty, Function, and Quality
             </p>
-            <div className="mt-8">
+            <div className="mt-18">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-[#C9A962]/60 text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] transition-all uppercase tracking-wider text-lg md:text-xl shadow-[0_0_15px_rgba(201,169,98,0.3)]"
+                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg"
               >
                 Book a Consultation
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
               </Link>
             </div>
           </motion.div>
@@ -100,10 +87,10 @@ export default function AluminumDoorsWindowsPage() {
                 <span className="relative">Our Products</span>
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic mb-6">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-6">
               Aluminum Windows and Doors
             </h2>
-            <p className="text-gray-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+            <p className="text-[#b5b5b5] font-medium text-base md:text-lg max-w-3xl mx-auto ">
               Our Product offerings include all types and operating styles of windows and doors, transforming your spaces with endless customization options and best-in-class energy efficiency performance.
             </p>
           </motion.div>
@@ -129,7 +116,7 @@ export default function AluminumDoorsWindowsPage() {
 
                 {/* Card Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
-                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962] italic mb-4">
+                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962]  mb-4">
                     Aluminum Windows
                   </h3>
                   <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] transition-colors">
@@ -152,7 +139,7 @@ export default function AluminumDoorsWindowsPage() {
 
                 {/* Card Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
-                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962] italic mb-4">
+                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962]  mb-4">
                     Aluminum Doors
                   </h3>
                   <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] transition-colors">
@@ -165,9 +152,9 @@ export default function AluminumDoorsWindowsPage() {
         </Container>
       </section>
 
-      {/* Golden Divider */}
+      {/* Divider */}
       <Container>
-        <div className="h-[1px] bg-[#C9A962]" />
+        <div className="h-[1px] bg-[#686868]" />
       </Container>
 
       {/* Certifications Section */}
@@ -180,7 +167,7 @@ export default function AluminumDoorsWindowsPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] italic leading-relaxed max-w-4xl mx-auto">
+            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-4xl mx-auto">
               Our certifications provide assurance to clients regarding the performance, safety, and environmental impact of the product.
             </h2>
           </motion.div>
@@ -195,7 +182,7 @@ export default function AluminumDoorsWindowsPage() {
           >
             <div className="relative w-full rounded-[40px] overflow-hidden">
               <Image
-                src="/images/certifications.jpg"
+                src="/images/certifications.png"
                 alt="Our Certifications"
                 width={1920}
                 height={600}
@@ -217,7 +204,7 @@ export default function AluminumDoorsWindowsPage() {
               <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
                 NFRC (National Fenestration Rating Council)
               </h3>
-              <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
                 NFRC is North American certification that provides standardized ratings for the energy performance of windows, doors, and skylights, helping consumers make informed decisions about energy efficiency and performance.
               </p>
             </div>
@@ -227,7 +214,7 @@ export default function AluminumDoorsWindowsPage() {
               <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
                 ENERGY STAR
               </h3>
-              <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
                 ENERGY STAR identifies and promotes energy-efficient products, including windows, which meet strict energy efficiency criteria set by the U.S. Environmental Protection Agency (EPA) and the U.S. Department of Energy (DOE).
               </p>
             </div>
@@ -237,7 +224,7 @@ export default function AluminumDoorsWindowsPage() {
               <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
                 CSA (Canadian Standards Association)
               </h3>
-              <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
                 CSA Certification validates windows' compliance with Canadian safety and performance standards set by the Canadian Standards Association. It guarantees structural integrity, thermal performance, and durability, instilling confidence in consumers regarding the windows' safety and reliability in Canadian settings.
               </p>
             </div>
@@ -247,7 +234,7 @@ export default function AluminumDoorsWindowsPage() {
               <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
                 ISO (International Organization for Standardization)
               </h3>
-              <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
                 ISO certification indicates adherence to internationally recognized standards for product quality, performance, and environmental management, ensuring consistency and reliability in windows production.
               </p>
             </div>

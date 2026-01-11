@@ -10,6 +10,8 @@ interface AnimatedButtonProps {
   onClick?: () => void;
   className?: string;
   fullRounded?: boolean;
+  isExternal?: boolean;
+  lightMode?: boolean;
 }
 
 export default function AnimatedButton({
@@ -18,6 +20,8 @@ export default function AnimatedButton({
   onClick,
   className = "",
   fullRounded = false,
+  isExternal = false,
+  lightMode = false,
 }: AnimatedButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
   const angle = useMotionValue(0);
@@ -38,8 +42,13 @@ export default function AnimatedButton({
     return () => controls?.stop();
   }, [isHovered, angle]);
 
+  // Colors based on mode
+  const baseColor = lightMode ? "#d7cda9" : "#1a1a1a";
+  const textColor = lightMode ? "#d7cda9" : "white";
+  const bgClass = lightMode ? "bg-white" : "bg-black";
+
   // Create the rotating gradient background
-  const gradientBackground = useMotionTemplate`conic-gradient(from ${angle}deg, #1a1a1a 0%, #C9A962 50%, #1a1a1a 100%)`;
+  const gradientBackground = useMotionTemplate`conic-gradient(from ${angle}deg, ${baseColor} 0%, #C9A962 50%, ${baseColor} 100%)`;
 
   const roundedClass = fullRounded ? "rounded-full" : "rounded-r-full rounded-l-none";
   const widthClass = fullRounded ? "inline-block" : "w-2/5";
@@ -54,7 +63,7 @@ export default function AnimatedButton({
       <div
         className={`absolute inset-0 ${roundedClass} transition-opacity duration-300`}
         style={{
-          background: "linear-gradient(to right, #1a1a1a 0%, #C9A962 100%)",
+          background: `linear-gradient(to right, ${baseColor} 0%, #C9A962 100%)`,
           opacity: isHovered ? 0 : 1,
         }}
       />
@@ -69,10 +78,10 @@ export default function AnimatedButton({
       />
 
       {/* Inner content */}
-      <div className={`relative bg-black ${roundedClass} ${fullRounded ? "px-8 py-3" : "px-2 py-5"} flex items-center justify-center`}>
+      <div className={`relative ${bgClass} ${roundedClass} ${fullRounded ? "px-10 py-4" : "px-2 py-5"} flex items-center justify-center`}>
         <span
-          className="text-xs font-medium uppercase tracking-wider transition-colors duration-300 whitespace-nowrap"
-          style={{ color: isHovered ? "#C9A962" : "white" }}
+          className={`${fullRounded ? "text-sm" : "text-xs"} font-medium uppercase tracking-wider transition-colors duration-300 whitespace-nowrap`}
+          style={{ color: isHovered ? "#C9A962" : textColor }}
         >
           {children}
         </span>
@@ -81,6 +90,13 @@ export default function AnimatedButton({
   );
 
   if (href) {
+    if (isExternal) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {buttonContent}
+        </a>
+      );
+    }
     return <Link href={href}>{buttonContent}</Link>;
   }
 

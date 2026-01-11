@@ -84,7 +84,7 @@ function ImageViewer({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
           </svg>
         </button>
-        <div className="w-px h-5 bg-white/20" />
+        <div className="w-px h-5 bg-[#f5f5f0]/20" />
         <button
           onClick={(e) => { e.stopPropagation(); handleReset(); }}
           className="p-2 text-white/70 hover:text-white transition-colors"
@@ -317,18 +317,18 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="mt-22 font-serif text-3xl md:text-5xl lg:text-4xl text-[#C9A962] leading-tight">
+            <h1 className="mt-22 font-serif font-semibold text-3xl md:text-5xl lg:text-4xl text-[#C9A962] leading-tight">
               We create bespoke spaces with refined materials, master
               craftsmanship, and elevated design.
             </h1>
-            <p className="mt-3 text-lg md:text-xl lg:text-2xl text-gray-300">
+            <p className="mt-3 text-lg md:text-xl lg:text-xl text-gray-300">
               Every project is guided by intention, expertise, and impeccable
               taste.
             </p>
             <div className="mt-18">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg"
+                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-white text-white backdrop-blur-md bg-[#f5f5f0]/10 hover:bg-[#f5f5f0]/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg"
               >
                 Book a Consultation
               </Link>
@@ -338,7 +338,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section - Horizontal layout */}
-      <section className="bg-white py-16">
+      <section className="bg-[#f5f5f0] py-16">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -589,7 +589,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Testimonials Section */}
-      <Section className="bg-white">
+      <Section className="bg-[#f5f5f0]">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -772,7 +772,7 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-b-3xl border border-[#C9A962] border-t-0 p-8 md:p-12 mt-4"
+            className="bg-[#f5f5f0] rounded-b-3xl border border-[#C9A962] border-t-0 p-8 md:p-12 mt-4"
           >
             <div className="grid lg:grid-cols-[55%_45%] gap-4 items-center">
               <div>
@@ -786,7 +786,7 @@ export default function AboutPage() {
                 </p>
                 <form className="flex max-w-xl">
                   <div className="relative w-full rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-white">
-                    <div className="flex items-center w-full rounded-full bg-white">
+                    <div className="flex items-center w-full rounded-full bg-[#f5f5f0]">
                       <input
                         type="email"
                         placeholder="Enter your email"

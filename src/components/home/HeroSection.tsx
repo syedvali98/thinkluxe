@@ -70,7 +70,7 @@ export default function HeroSection() {
         <div className="flex h-full">
           {/* Left Column - Aluminum Doors & Windows */}
           <Link
-            href="/services#aluminum"
+            href="/aluminum-doors-windows"
             className="relative flex-1 group"
             onMouseEnter={() => handleMouseEnter("left")}
             onMouseLeave={handleMouseLeave}
@@ -159,7 +159,7 @@ export default function HeroSection() {
 
           {/* Right Column - Custom Kitchen & Millwork */}
           <Link
-            href="/services#kitchen"
+            href="/kitchen"
             className="relative flex-1 group"
             onMouseEnter={() => handleMouseEnter("right")}
             onMouseLeave={handleMouseLeave}

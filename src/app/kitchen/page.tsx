@@ -22,7 +22,7 @@ const serviceCards = [
     pdf: "/pdfs/kitchen-2.pdf",
   },
   {
-    title: "Media Unit, Dinning, Entrance & Office",
+    title: "Media Unit, Dinning,\nEntrance & Office",
     description: "Elegant solutions for every room in your home, designed with precision and style.",
     image: "/images/kitchen-3.jpg",
     pdf: "/pdfs/kitchen-3.pdf",
@@ -198,33 +198,20 @@ export default function KitchenPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-5xl mx-auto text-center"
           >
-            <h1 className="font-serif text-3xl md:text-5xl lg:text-5xl text-[#C9A962] leading-tight">
+            <h1 className="mt-22 font-serif font-semibold text-3xl md:text-5xl lg:text-4xl text-[#C9A962] leading-tight">
               Luxury Kitchens. Signature Millwork.
             </h1>
-            <p className="mt-6 text-lg md:text-xl lg:text-2xl text-gray-300">
+            <p className="mt-3 text-lg md:text-xl lg:text-xl text-gray-300">
               Beautifully crafted spaces designed with intention, thoughtful detail, and enduring quality, bringing a heightened sense of elegance and comfort to your home.
             </p>
-            <div className="mt-8">
+            <div className="mt-18">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-[#C9A962]/60 text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] transition-all uppercase tracking-wider text-lg md:text-xl shadow-[0_0_15px_rgba(201,169,98,0.3)]"
+                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg"
               >
                 Book a Consultation
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
               </Link>
             </div>
           </motion.div>
@@ -251,7 +238,7 @@ export default function KitchenPage() {
                 <span className="relative">Our Process</span>
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
               A Seamless Journey from Vision to Reality
             </h2>
           </motion.div>
@@ -277,10 +264,10 @@ export default function KitchenPage() {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <h3 className="text-[#C9A962] text-xl md:text-2xl uppercase tracking-wider font-medium mb-6">
+                        <h3 className="text-[#C9A962] text-xl md:text-3xl uppercase tracking-wider font-medium mb-6 max-w-lg">
                           {processSteps[displayedStep].title}
                         </h3>
-                        <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-12">
+                        <p className="text-[#b5b5b5] text-base md:text-lg font-medium leading-relaxed mb-12 max-w-sm">
                           {processSteps[displayedStep].description}
                         </p>
                       </motion.div>
@@ -288,7 +275,7 @@ export default function KitchenPage() {
 
                     {/* Step Counter */}
                     <div className="mt-auto">
-                      <span className="text-gray-600 text-sm uppercase tracking-[0.3em]">
+                      <span className="text-[#C9A962] font-medium uppercase tracking-[0.3em]">
                         Step {displayedStep + 1}
                       </span>
                     </div>
@@ -296,18 +283,18 @@ export default function KitchenPage() {
 
                   {/* Right Side - Interactive Circle */}
                   <div
-                    className="relative flex items-center justify-center p-8 md:p-12"
+                    className="relative flex items-center justify-center p-8 md:p-12 mr-6"
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setIsHovering(true)}
                     onMouseLeave={handleMouseLeave}
                     onClick={handleClick}
                   >
                     {/* Step Labels positioned around the circle */}
-                    <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="absolute inset-0 flex items-center justify-center font-medium">
                       {/* Top Label - Discovery */}
                       <span
-                        className={`absolute top-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
-                          displayedStep === 0 ? "text-[#C9A962]" : "text-gray-600"
+                        className={`absolute top-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 text-center cursor-pointer max-w-[140px] ${
+                          displayedStep === 0 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
                         Discovery and Consultation
@@ -315,8 +302,8 @@ export default function KitchenPage() {
 
                       {/* Right Label - Design */}
                       <span
-                        className={`absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
-                          displayedStep === 1 ? "text-[#C9A962]" : "text-gray-600"
+                        className={`absolute right-4 md:right-4 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center max-w-[100px] ${
+                          displayedStep === 1 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
                         Design Development
@@ -324,8 +311,8 @@ export default function KitchenPage() {
 
                       {/* Bottom Label - Materials */}
                       <span
-                        className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
-                          displayedStep === 2 ? "text-[#C9A962]" : "text-gray-600"
+                        className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center max-w-[190px] ${
+                          displayedStep === 2 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
                         Material and Finishes Selection
@@ -333,8 +320,8 @@ export default function KitchenPage() {
 
                       {/* Left Label - Installation */}
                       <span
-                        className={`absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
-                          displayedStep === 3 ? "text-[#C9A962]" : "text-gray-600"
+                        className={`absolute left-4 md:left-[-30] top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center max-w-[160px] ${
+                          displayedStep === 3 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
                         Procurement and Installation
@@ -351,13 +338,13 @@ export default function KitchenPage() {
                         className="absolute inset-0 rounded-full transition-all duration-100"
                         style={{
                           background: `conic-gradient(
-                            from ${ballAngle + 80}deg,
+                            from ${ballAngle + 90}deg,
                             #C9A962 0deg,
                             #C9A962 30deg,
                             #8B7A3D 60deg,
-                            #4a4a4a 120deg,
-                            #333333 180deg,
-                            #4a4a4a 240deg,
+                            #282316 120deg,
+                            #0b0b0b 180deg,
+                            #282316 240deg,
                             #8B7A3D 300deg,
                             #C9A962 330deg,
                             #C9A962 360deg
@@ -374,8 +361,8 @@ export default function KitchenPage() {
                           <Image
                             src="/images/logo.png"
                             alt="ThinkLuxe"
-                            width={120}
-                            height={120}
+                            width={180}
+                            height={180}
                             className="object-contain opacity-80"
                           />
                         </div>
@@ -410,7 +397,7 @@ export default function KitchenPage() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="bg-black py-24 md:py-32">
+      <section className="bg-black py-24 md:pt-6 md:pb-32">
         <Container>
           {/* Section Header */}
           <motion.div
@@ -429,7 +416,7 @@ export default function KitchenPage() {
                 <span className="relative">Custom Kitchen & Millwork</span>
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
               Where Functional Spaces Become Luxury Statements
             </h2>
           </motion.div>
@@ -456,20 +443,20 @@ export default function KitchenPage() {
                 />
 
                 {/* Glassy Overlay - solid frosted bar, expands on hover */}
-                <div className="absolute bottom-0 left-0 right-0 h-[70px] group-hover:h-[55%] transition-all duration-500 ease-out bg-black/60 backdrop-blur-md p-5 flex flex-col justify-center group-hover:justify-start group-hover:pt-8 text-center group-hover:text-left">
+                <div className="absolute bottom-0 left-0 right-0 h-[100px] group-hover:h-[65%] transition-all duration-500 ease-out bg-black/30 backdrop-blur-md p-5 flex flex-col justify-center group-hover:justify-start group-hover:pt-8 text-center group-hover:text-left">
                   {/* Title - always visible */}
-                  <h3 className="font-serif text-white group-hover:text-[#C9A962] text-xl md:text-2xl leading-tight transition-all duration-300">
+                  <h3 className="!font-sans text-white font-medium text-xl md:text-2xl leading-tight transition-all duration-300 whitespace-pre-line min-h-[56px] flex items-center justify-center group-hover:items-start group-hover:justify-start">
                     {card.title}
                   </h3>
 
                   {/* Description & Link - visible on hover */}
                   <div className="hidden group-hover:flex flex-col opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 mt-4">
-                    <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                    <p className="text-gray-300 leading-relaxed mb-4 h-[72px]">
                       {card.description}
                     </p>
                     <button
                       onClick={() => openPdfModal(card.pdf, card.title)}
-                      className="text-[#C9A962] text-sm underline underline-offset-4 hover:text-white transition-colors text-left"
+                      className=" text-sm underline underline-offset-4 hover:text-[#C9A962] text-white transition-colors text-left"
                     >
                       View catalog
                     </button>
