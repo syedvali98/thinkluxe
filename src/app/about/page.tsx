@@ -8,9 +8,9 @@ import { Container, Section, AnimatedButton } from "@/components/ui";
 
 // Gallery images
 const galleryRow1 = [
-  "/images/about-us-gallery-1.jpg",
+  "/images/about-us-gallery-1.png",
   "/images/about-us-gallery-2.jpg",
-  "/images/about-us-gallery-3.jpg",
+  "/images/about-us-gallery-3.png",
   "/images/about-us-gallery-4.jpg",
   "/images/about-us-gallery-5.jpg",
 ];
@@ -150,38 +150,38 @@ const testimonials = [
     name: "Samantha T.",
     project: "Kitchen Transformation",
     quote:
-      "ThinkLuxe delivered exceptional service throughout the project. Their team transformed my space with precise craftsmanship, seamless coordination, and premium finishes. A highly professional experience with impressive results.",
+      "Think Luxe delivered exceptional service throughout the project. Their team transformed my space with precise craftsmanship, seamless coordination, and premium finishes. A highly professional experience with impressive results.",
     featured: true,
   },
   {
     name: "Emily R.",
     project: "Bedroom Transformation",
     quote:
-      "ThinkLuxe transformed my bedroom with excellent craftsmanship and organized project management. The team delivered premium results and a smooth, professional experience throughout.",
+      "Think Luxe transformed my bedroom with excellent craftsmanship and organized project management. The team delivered premium results and a smooth, professional experience throughout.",
   },
   {
     name: "David L.",
     project: "Full House Transformation",
     quote:
-      "Our home renovation was handled flawlessly. ThinkLuxe provided expert guidance, quality finishes, and reliable communication, creating a beautifully elevated space we truly love.",
+      "Our home renovation was handled flawlessly. Think Luxe provided expert guidance, quality finishes, and reliable communication, creating a beautifully elevated space we truly love.",
   },
   {
     name: "John M.",
     project: "Millwork",
     quote:
-      "ThinkLuxe created stunning custom millwork with precise detailing and exceptional professionalism. Their team ensured a seamless process and truly impressive final results.",
+      "Think Luxe created stunning custom millwork with precise detailing and exceptional professionalism. Their team ensured a seamless process and truly impressive final results.",
   },
   {
     name: "Sarah K.",
     project: "Bathroom Renovation",
     quote:
-      "The attention to detail was remarkable. ThinkLuxe transformed our outdated bathroom into a spa-like retreat. Professional, punctual, and the results exceeded our expectations.",
+      "The attention to detail was remarkable. Think Luxe transformed our outdated bathroom into a spa-like retreat. Professional, punctual, and the results exceeded our expectations.",
   },
   {
     name: "Michael P.",
     project: "Living Room Design",
     quote:
-      "Working with ThinkLuxe was a pleasure from start to finish. They listened to our vision and delivered beyond what we imagined. Truly exceptional craftsmanship.",
+      "Working with Think Luxe was a pleasure from start to finish. They listened to our vision and delivered beyond what we imagined. Truly exceptional craftsmanship.",
   },
 ];
 
@@ -213,11 +213,13 @@ function StarRating({ className = "" }: { className?: string }) {
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
-          className="w-4 h-4 text-[#C9A962]"
+          className="w-4 h-4 text-[#FFF500]"
           fill="currentColor"
+          stroke="#b0a902"
+          strokeWidth="1"
           viewBox="0 0 20 20"
         >
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          <path d="M10 1l2.5 6.5H19l-5.5 4.5 2 7L10 15l-5.5 4 2-7L1 7.5h6.5L10 1z" />
         </svg>
       ))}
     </div>
@@ -297,7 +299,7 @@ export default function AboutPage() {
 
           {/* Image fallback - shown until video loads */}
           <Image
-            src="/images/about-us-hero-bg.jpg"
+            src="/images/about-us-hero-bg.jpeg"
             alt="Luxury interior"
             fill
             className={`object-cover transition-opacity duration-1000 ${
@@ -315,33 +317,20 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="font-serif text-3xl md:text-5xl lg:text-5xl text-[#C9A962] leading-tight">
+            <h1 className="mt-22 font-serif text-3xl md:text-5xl lg:text-4xl text-[#C9A962] leading-tight">
               We create bespoke spaces with refined materials, master
               craftsmanship, and elevated design.
             </h1>
-            <p className="mt-6 text-lg md:text-xl lg:text-2xl text-gray-300">
+            <p className="mt-3 text-lg md:text-xl lg:text-2xl text-gray-300">
               Every project is guided by intention, expertise, and impeccable
               taste.
             </p>
-            <div className="mt-8">
+            <div className="mt-18">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-[#C9A962]/60 text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] transition-all uppercase tracking-wider text-lg md:text-xl shadow-[0_0_15px_rgba(201,169,98,0.3)]"
+                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg"
               >
                 Book a Consultation
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
               </Link>
             </div>
           </motion.div>
@@ -349,7 +338,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section - Horizontal layout */}
-      <Section className="bg-white py-12">
+      <section className="bg-white py-16">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -358,7 +347,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="flex flex-col md:flex-row md:items-center md:justify-between gap-8"
           >
-            <p className="text-[#C9A962] font-serif text-2xl md:text-3xl italic">
+            <p className="text-[#C9A962] font-serif font-semibold text-2xl md:text-4xl">
               Luxury, Thoughtfully Crafted
             </p>
             <div className="flex flex-wrap gap-8 md:gap-16">
@@ -369,12 +358,12 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center"
+                  className={`flex-shrink-0 ${index === 0 ? "w-[160px]" : index === 2 ? "w-[200px]" : "w-[100px]"}`}
                 >
-                  <p className="text-4xl md:text-5xl font-serif text-black">
+                  <p className="text-4xl md:text-4xl font-sans font-medium text-black">
                     {stat.value}
                   </p>
-                  <p className="mt-1 text-gray-600 text-xs uppercase tracking-wider">
+                  <p className="mt-6 text-[#555555] font-medium uppercase tracking-wider leading-tight">
                     {stat.label}
                   </p>
                 </motion.div>
@@ -382,10 +371,10 @@ export default function AboutPage() {
             </div>
           </motion.div>
         </Container>
-      </Section>
+      </section>
 
       {/* Our Philosophy Section - Black background with 2x2 grid */}
-      <section className="bg-black py-16 md:py-24">
+      <section className="bg-black py-16 md:pt-24 md:pb-6">
         <Container>
           {/* Centered tag with gold border */}
           <motion.div
@@ -395,9 +384,9 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="flex justify-center mb-12"
           >
-            <span className="relative px-6 py-2 rounded-full text-[#C9A962] text-sm uppercase tracking-wider shadow-[0_0_15px_rgba(201,169,98,0.3)] bg-black">
-              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-br from-[#C9A962] to-gray-600">
-                <span className="block w-full h-full rounded-full bg-black" />
+            <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
+              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
+                <span className="block w-full h-full rounded-full bg-[#303030]" />
               </span>
               <span className="relative">Our Philosophy</span>
             </span>
@@ -413,7 +402,7 @@ export default function AboutPage() {
           >
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Top Left - Image (no borders) */}
-              <div className="aspect-square overflow-hidden relative rounded-tl-[3rem]">
+              <div className="overflow-hidden relative rounded-tl-[3rem]">
                 <Image
                   src="/images/phil-2.png"
                   alt="Luxury interior"
@@ -423,8 +412,8 @@ export default function AboutPage() {
               </div>
 
               {/* Top Right - Text (borders on top, right, left) */}
-              <div className="aspect-square p-8 md:p-12 flex items-center border-t border-r border-l border-[#C9A962] rounded-tr-[3rem]">
-                <p className="text-gray-300 leading-relaxed text-xl">
+              <div className="p-16 md:p-16 flex items-center border-t border-r border-l border-[#C9A962] rounded-tr-[3rem]">
+                <p className="text-[#B5B5B5] leading-relaxed py-6 text-lg font-medium">
                   At{" "}
                   <span className="text-[#C9A962] font-semibold">Think Luxe</span>, our
                   mission is to elevate living through exceptional design and
@@ -436,10 +425,10 @@ export default function AboutPage() {
                   perfectly crafted home at a time.
                 </p>
               </div>
-
+              
               {/* Bottom Left - Text (borders on bottom, left, top) */}
-              <div className="aspect-square p-8 md:p-12 flex flex-col justify-center border-b border-l border-t border-[#C9A962] rounded-bl-[3rem]">
-                <p className="text-gray-300 leading-relaxed text-xl">
+              <div className="p-16 md:p-16 flex flex-col justify-center border-b border-l border-t border-[#C9A962] rounded-bl-[3rem]">
+                <p className="text-[#B5B5B5] leading-relaxed py-6 text-lg font-medium">
                   Each project is custom tailored to the client&apos;s requirements
                   and budgets, ensuring a seamless experience for our clients.
                   Building your dream home is a journey of excellence, where every
@@ -455,7 +444,7 @@ export default function AboutPage() {
               </div>
 
               {/* Bottom Right - Image (no outer borders, only dividers) */}
-              <div className="aspect-square overflow-hidden relative rounded-br-[3rem]">
+              <div className="overflow-hidden relative rounded-br-[3rem]">
                 <Image
                   src="/images/phil-1.jpg"
                   alt="Modern kitchen"
@@ -478,13 +467,13 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <span className="relative inline-block px-6 py-2 rounded-full text-[#C9A962] text-sm uppercase tracking-wider shadow-[0_0_15px_rgba(201,169,98,0.3)] bg-black mb-4">
-              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-br from-[#C9A962] to-gray-600">
-                <span className="block w-full h-full rounded-full bg-black" />
+            <span className="relative inline-block px-6 py-2 rounded-full text-white text-xs tracking-wider mb-4">
+              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
+                <span className="block w-full h-full rounded-full bg-[#303030]" />
               </span>
               <span className="relative">Our Gallery</span>
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-[#C9A962] italic">
+            <h2 className="font-serif text-3xl md:text-4xl text-[#C9A962]">
               Where our vision meets exceptional results.
             </h2>
           </motion.div>
@@ -592,12 +581,9 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-center mt-8"
           >
-            <Link
-              href="/gallery"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-full border border-[#C9A962] text-[#C9A962] hover:bg-[#C9A962]/10 transition-colors uppercase tracking-wider text-sm font-medium"
-            >
+            <AnimatedButton href="/gallery" fullRounded>
               View More
-            </Link>
+            </AnimatedButton>
           </motion.div>
         </Container>
       </Section>
@@ -612,9 +598,9 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="font-serif text-3xl md:text-4xl text-[#C9A962]">
+            <h2 className="font-serif font-semibold text-3xl md:text-4xl text-[#C9A962]">
               Testimonials:{" "}
-              <span className="text-gray-600">
+              <span>
                 Hear from those we&apos;ve served
               </span>
             </h2>
@@ -631,7 +617,7 @@ export default function AboutPage() {
             {/* Text card on LEFT */}
             <div className="bg-transparent rounded-lg p-8 flex flex-col justify-between">
               <div>
-                <p className="text-gray-700 leading-relaxed text-lg">
+                <p className="text-black font-medium leading-relaxed text-xl ">
                   &ldquo;{testimonials[0].quote}&rdquo;
                 </p>
                 {/* Golden divider line */}
@@ -675,12 +661,13 @@ export default function AboutPage() {
               {infiniteTestimonials.map((testimonial, index) => (
                 <div
                   key={`${testimonial.name}-${index}`}
-                  className="bg-transparent rounded-lg p-6 flex-shrink-0 w-full md:w-1/3"
+                  className="bg-transparent rounded-lg py-6 px-10 flex-shrink-0 w-full md:w-1/3"
                 >
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                    &ldquo;{testimonial.quote}&rdquo;
+                  <StarRating className="mb-4" />
+                  <p className="text-black font-medium text leading-relaxed mb-4">
+                    {testimonial.quote}
                   </p>
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-3">
                     <Avatar name={testimonial.name} size="sm" />
                     <div>
                       <p className="text-black text-sm font-medium">
@@ -689,7 +676,6 @@ export default function AboutPage() {
                       <p className="text-gray-500 text-xs">{testimonial.project}</p>
                     </div>
                   </div>
-                  <StarRating />
                 </div>
               ))}
             </motion.div>
@@ -699,18 +685,18 @@ export default function AboutPage() {
           <div className="flex justify-center gap-4 mt-8">
             <button
               onClick={handleTestimonialPrev}
-              className="p-3 bg-[#C9A962] text-white rounded-full hover:bg-[#B8983D] transition-colors shadow-lg"
+              className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                <path stroke="#caa550" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               onClick={handleTestimonialNext}
-              className="p-3 bg-[#C9A962] text-white rounded-full hover:bg-[#B8983D] transition-colors shadow-lg"
+              className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                <path stroke="#caa550" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
@@ -727,18 +713,18 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <span className="relative inline-block px-6 py-2 rounded-full text-[#C9A962] text-sm uppercase tracking-wider shadow-[0_0_15px_rgba(201,169,98,0.3)] bg-black mb-4">
-              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-br from-[#C9A962] to-gray-600">
-                <span className="block w-full h-full rounded-full bg-black" />
+            <span className="relative inline-block px-6 py-2 rounded-full text-white text-xs tracking-wider mb-4">
+              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
+                <span className="block w-full h-full rounded-full bg-[#303030]" />
               </span>
               <span className="relative">Values</span>
             </span>
             <h2 className="font-serif text-3xl md:text-4xl text-[#C9A962] mb-4">
               Our Core Values
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-[#b5b5b5] max-w-2xl mx-auto">
               Excellence is at the heart of everything we do, and it is
-              supported by these core values.
+              supported by <br/> these core values.
             </p>
           </motion.div>
 
@@ -750,7 +736,7 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`p-[1px] bg-gradient-to-b from-[#C9A962] to-black ${
+                className={`p-[1px] bg-gradient-to-b from-[#C9A962] to-[#29210e] ${
                   index === 0 ? 'rounded-tl-3xl' :
                   index === 2 ? 'rounded-tr-3xl' : ''
                 }`}
@@ -760,8 +746,8 @@ export default function AboutPage() {
                   index === 2 ? 'rounded-tr-3xl' : ''
                 }`}>
                   {/* Number badge */}
-                  <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mb-8">
-                    <span className="text-white font-serif text-lg">{value.number}</span>
+                  <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mb-18">
+                    <span className="text-[#C9A962]">{value.number}</span>
                   </div>
 
                   <h3 className="font-serif text-2xl text-[#C9A962] mb-4">
@@ -786,14 +772,14 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-b-3xl border border-[#C9A962] border-t-0 p-8 md:p-12 mt-12"
+            className="bg-white rounded-b-3xl border border-[#C9A962] border-t-0 p-8 md:p-12 mt-4"
           >
-            <div className="grid lg:grid-cols-[70%_30%] gap-8 items-center">
+            <div className="grid lg:grid-cols-[55%_45%] gap-4 items-center">
               <div>
-                <h2 className="font-serif text-3xl md:text-4xl text-[#C9A962] italic mb-4">
+                <h2 className="font-serif font-semibold text-3xl md:text-4xl text-[#C9A962] mb-4 max-w-xl">
                   Begin Your Journey With Think Luxe
                 </h2>
-                <p className="text-gray-600 mb-8">
+                <p className="text-[#555555] font-medium mb-20 max-w-xl">
                   Share your email to take the first step toward a refined,
                   tailor-made living experience crafted with precision and
                   elegance.
@@ -808,7 +794,7 @@ export default function AboutPage() {
                       />
                       <button
                         type="submit"
-                        className="px-6 py-3 m-1 rounded-full bg-[#C9A962] text-white font-medium hover:bg-[#B8984F] transition-colors uppercase tracking-wider text-sm whitespace-nowrap"
+                        className="px-6 py-3 m-1 rounded-full bg-[#C9A962] text-white font-medium hover:bg-[#B8984F] transition-colors tracking-wider text-sm whitespace-nowrap"
                       >
                         Get Started
                       </button>
@@ -818,10 +804,10 @@ export default function AboutPage() {
               </div>
 
               {/* Bento Image Grid on RIGHT */}
-              <div className="hidden lg:grid grid-cols-2 gap-2 h-full min-h-[280px]">
+              <div className="hidden lg:grid grid-cols-[65%_35%] gap-2 h-full min-h-[280px] px-14 py-4">
                 {/* Left column - 40% top, 60% bottom */}
                 <div className="grid grid-rows-[40%_60%] gap-2">
-                  <div className="relative overflow-hidden rounded-tl-2xl">
+                  <div className="relative overflow-hidden rounded-tl-[60px]">
                     <Image
                       src="/images/cta-1.png"
                       alt="Interior design"
@@ -829,7 +815,7 @@ export default function AboutPage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="relative overflow-hidden rounded-bl-2xl">
+                  <div className="relative overflow-hidden rounded-bl-[60px]">
                     <Image
                       src="/images/cta-3.png"
                       alt="Modern kitchen"
@@ -840,7 +826,7 @@ export default function AboutPage() {
                 </div>
                 {/* Right column - 60% top, 40% bottom */}
                 <div className="grid grid-rows-[60%_40%] gap-2">
-                  <div className="relative overflow-hidden rounded-tr-2xl">
+                  <div className="relative overflow-hidden rounded-tr-[60px]">
                     <Image
                       src="/images/cta-2.jpg"
                       alt="Luxury space"
@@ -848,7 +834,7 @@ export default function AboutPage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="relative overflow-hidden rounded-br-2xl">
+                  <div className="relative overflow-hidden rounded-br-[60px]">
                     <Image
                       src="/images/cta-4.png"
                       alt="Bathroom design"

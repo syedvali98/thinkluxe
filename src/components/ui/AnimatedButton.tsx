@@ -9,6 +9,7 @@ interface AnimatedButtonProps {
   href?: string;
   onClick?: () => void;
   className?: string;
+  fullRounded?: boolean;
 }
 
 export default function AnimatedButton({
@@ -16,6 +17,7 @@ export default function AnimatedButton({
   href,
   onClick,
   className = "",
+  fullRounded = false,
 }: AnimatedButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
   const angle = useMotionValue(0);
@@ -39,15 +41,18 @@ export default function AnimatedButton({
   // Create the rotating gradient background
   const gradientBackground = useMotionTemplate`conic-gradient(from ${angle}deg, #1a1a1a 0%, #C9A962 50%, #1a1a1a 100%)`;
 
+  const roundedClass = fullRounded ? "rounded-full" : "rounded-r-full rounded-l-none";
+  const widthClass = fullRounded ? "inline-block" : "w-2/5";
+
   const buttonContent = (
     <div
-      className={`relative w-2/5 p-[1.5px] rounded-r-full rounded-l-none overflow-hidden cursor-pointer ${className}`}
+      className={`relative ${widthClass} p-[1.5px] ${roundedClass} overflow-hidden cursor-pointer ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Static gradient border - visible when not hovered */}
       <div
-        className="absolute inset-0 rounded-r-full rounded-l-none transition-opacity duration-300"
+        className={`absolute inset-0 ${roundedClass} transition-opacity duration-300`}
         style={{
           background: "linear-gradient(to right, #1a1a1a 0%, #C9A962 100%)",
           opacity: isHovered ? 0 : 1,
@@ -56,7 +61,7 @@ export default function AnimatedButton({
 
       {/* Rotating gradient border - visible when hovered */}
       <motion.div
-        className="absolute inset-0 rounded-r-full rounded-l-none transition-opacity duration-300"
+        className={`absolute inset-0 ${roundedClass} transition-opacity duration-300`}
         style={{
           background: gradientBackground,
           opacity: isHovered ? 1 : 0,
@@ -64,7 +69,7 @@ export default function AnimatedButton({
       />
 
       {/* Inner content */}
-      <div className="relative bg-black rounded-r-full rounded-l-none px-2 py-5 flex items-center justify-center">
+      <div className={`relative bg-black ${roundedClass} ${fullRounded ? "px-8 py-3" : "px-2 py-5"} flex items-center justify-center`}>
         <span
           className="text-xs font-medium uppercase tracking-wider transition-colors duration-300 whitespace-nowrap"
           style={{ color: isHovered ? "#C9A962" : "white" }}

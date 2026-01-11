@@ -244,9 +244,9 @@ export default function KitchenPage() {
           >
             {/* Pill Title */}
             <div className="inline-block mb-6">
-              <span className="relative px-6 py-2 rounded-full text-[#C9A962] text-sm uppercase tracking-wider shadow-[0_0_15px_rgba(201,169,98,0.3)] bg-black">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-br from-[#C9A962] to-gray-600">
-                  <span className="block w-full h-full rounded-full bg-black" />
+              <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
+                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
+                  <span className="block w-full h-full rounded-full bg-[#303030]" />
                 </span>
                 <span className="relative">Our Process</span>
               </span>
@@ -422,9 +422,9 @@ export default function KitchenPage() {
           >
             {/* Pill Title */}
             <div className="inline-block mb-6">
-              <span className="relative px-6 py-2 rounded-full text-[#C9A962] text-sm uppercase tracking-wider shadow-[0_0_15px_rgba(201,169,98,0.3)] bg-black">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-br from-[#C9A962] to-gray-600">
-                  <span className="block w-full h-full rounded-full bg-black" />
+              <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
+                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
+                  <span className="block w-full h-full rounded-full bg-[#303030]" />
                 </span>
                 <span className="relative">Custom Kitchen & Millwork</span>
               </span>

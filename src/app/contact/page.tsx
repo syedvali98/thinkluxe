@@ -36,9 +36,9 @@ export default function ContactPage() {
           >
             {/* Pill Badge */}
             <div className="flex justify-center mb-6">
-              <span className="relative px-6 py-2 rounded-full text-[#C9A962] text-sm uppercase tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-br from-[#C9A962] to-gray-600">
-                  <span className="block w-full h-full rounded-full bg-black" />
+              <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
+                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
+                  <span className="block w-full h-full rounded-full bg-[#303030]" />
                 </span>
                 <span className="relative">Contact Us</span>
               </span>
