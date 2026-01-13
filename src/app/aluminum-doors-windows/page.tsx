@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -8,26 +8,49 @@ import { Container } from "@/components/ui";
 
 export default function AluminumDoorsWindowsPage() {
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Lazy load video when hero section is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <main className="bg-black">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background with video and image fallback */}
         <div className="absolute inset-0">
-          {/* Video background */}
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            onCanPlayThrough={() => setVideoLoaded(true)}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-              videoLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <source src="/videos/aluminium-hero.mp4" type="video/mp4" />
-          </video>
+          {/* Video background - lazy loaded */}
+          {shouldLoadVideo && (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              onCanPlayThrough={() => setVideoLoaded(true)}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                videoLoaded ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <source src="/videos/aluminium-hero.mp4" type="video/mp4" />
+            </video>
+          )}
 
           {/* Image fallback - shown until video loads */}
           <Image
@@ -42,23 +65,23 @@ export default function AluminumDoorsWindowsPage() {
           <div className="absolute inset-0 bg-black/60" />
         </div>
 
-        <Container className="relative z-10">
+        <Container className="relative z-10 px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="mt-22 font-serif font-semibold text-3xl md:text-5xl lg:text-4xl text-[#C9A962] leading-tight">
+            <h1 className="mt-20 font-serif font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] leading-tight">
               Aluminum Doors & Windows
             </h1>
-            <p className="mt-3 text-lg md:text-xl lg:text-xl text-gray-300">
+            <p className="mt-3 text-base sm:text-lg md:text-xl text-gray-300">
               Elegant European Style Windows and Doors Crafted for Beauty, Function, and Quality
             </p>
-            <div className="mt-18">
+            <div className="mt-10 sm:mt-14 md:mt-16">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-4 px-12 py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg"
+                className="inline-flex items-center gap-2 sm:gap-4 px-6 py-3 sm:px-8 sm:py-4 md:px-12 md:py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-xs sm:text-sm md:text-lg"
               >
                 Book a Consultation
               </Link>
@@ -68,29 +91,29 @@ export default function AluminumDoorsWindowsPage() {
       </section>
 
       {/* Our Products Section */}
-      <section className="bg-black py-24 md:py-32">
-        <Container>
+      <section className="bg-black py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
             {/* Pill Title */}
-            <div className="inline-block mb-6">
-              <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
+            <div className="inline-block mb-4 md:mb-6">
+              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
                 <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
                   <span className="block w-full h-full rounded-full bg-[#303030]" />
                 </span>
                 <span className="relative">Our Products</span>
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-6">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-4 md:mb-6">
               Aluminum Windows and Doors
             </h2>
-            <p className="text-[#b5b5b5] font-medium text-base md:text-lg max-w-3xl mx-auto ">
+            <p className="text-[#b5b5b5] font-medium text-sm sm:text-base md:text-lg max-w-3xl mx-auto">
               Our Product offerings include all types and operating styles of windows and doors, transforming your spaces with endless customization options and best-in-class energy efficiency performance.
             </p>
           </motion.div>
@@ -101,25 +124,26 @@ export default function AluminumDoorsWindowsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
           >
             {/* Aluminum Windows Card */}
             <Link href="/aluminum-doors-windows/windows" className="group">
-              <div className="relative aspect-[4/3] rounded-l-[40px] overflow-hidden">
+              <div className="relative aspect-[4/3] rounded-[20px] md:rounded-l-[30px] md:rounded-r-none lg:rounded-l-[40px] overflow-hidden">
                 <Image
                   src="/images/aluminium-windows-card.jpg"
                   alt="Aluminum Windows"
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                 {/* Card Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
-                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962]  mb-4">
+                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-center">
+                  <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 md:mb-4">
                     Aluminum Windows
                   </h3>
-                  <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] transition-colors">
+                  <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] group-active:text-[#C9A962] transition-colors">
                     Explore more
                   </span>
                 </div>
@@ -128,21 +152,22 @@ export default function AluminumDoorsWindowsPage() {
 
             {/* Aluminum Doors Card */}
             <Link href="/aluminum-doors-windows/doors" className="group">
-              <div className="relative aspect-[4/3] rounded-r-[40px] overflow-hidden">
+              <div className="relative aspect-[4/3] rounded-[20px] md:rounded-r-[30px] md:rounded-l-none lg:rounded-r-[40px] overflow-hidden">
                 <Image
                   src="/images/aluminium-doors-card.jpg"
                   alt="Aluminum Doors"
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                 {/* Card Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
-                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962]  mb-4">
+                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-center">
+                  <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 md:mb-4">
                     Aluminum Doors
                   </h3>
-                  <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] transition-colors">
+                  <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] group-active:text-[#C9A962] transition-colors">
                     Explore more
                   </span>
                 </div>
@@ -153,13 +178,13 @@ export default function AluminumDoorsWindowsPage() {
       </section>
 
       {/* Divider */}
-      <Container>
+      <Container className="px-4 sm:px-6">
         <div className="h-[1px] bg-[#686868]" />
       </Container>
 
       {/* Certifications Section */}
-      <section className="bg-black py-24 md:py-32">
-        <Container>
+      <section className="bg-black py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -167,7 +192,7 @@ export default function AluminumDoorsWindowsPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-4xl mx-auto">
+            <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-4xl mx-auto">
               Our certifications provide assurance to clients regarding the performance, safety, and environmental impact of the product.
             </h2>
           </motion.div>
@@ -178,15 +203,16 @@ export default function AluminumDoorsWindowsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-16"
+            className="mt-8 md:mt-16"
           >
-            <div className="relative w-full rounded-[40px] overflow-hidden">
+            <div className="relative w-full rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
               <Image
                 src="/images/certifications.png"
                 alt="Our Certifications"
                 width={1920}
                 height={600}
                 className="w-full h-auto object-contain"
+                loading="lazy"
               />
             </div>
           </motion.div>
@@ -197,7 +223,7 @@ export default function AluminumDoorsWindowsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16"
+            className="mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16"
           >
             {/* NFRC */}
             <div>

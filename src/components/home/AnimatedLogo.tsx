@@ -12,6 +12,23 @@ export default function AnimatedLogo() {
   const { scrollY } = useScroll();
   const { isMenuOpen } = useMenu();
 
+  // Responsive logo sizing based on screen width
+  const getLogoSize = (width: number) => {
+    if (width < 480) return 200; // Mobile
+    if (width < 768) return 280; // Small tablet
+    if (width < 1024) return 340; // Tablet
+    return 400; // Desktop
+  };
+
+  // Responsive animation thresholds
+  const getScrollThreshold = (width: number) => {
+    if (width < 768) return 250; // Faster animation on mobile
+    return 400; // Desktop
+  };
+
+  const logoSize = getLogoSize(windowSize.width);
+  const scrollThreshold = getScrollThreshold(windowSize.width);
+
   // Get window dimensions for calculating positions
   useEffect(() => {
     const updateSize = () => {
@@ -23,10 +40,10 @@ export default function AnimatedLogo() {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  // Hide/show with header once logo is in navbar position (after scroll 400)
+  // Hide/show with header once logo is in navbar position (after scroll threshold)
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (latest) => {
-      if (latest > 400) {
+      if (latest > scrollThreshold) {
         // Logo is in navbar - follow header hide/show behavior
         if (latest > lastScrollY && latest > 100) {
           setIsVisible(false);
@@ -41,7 +58,7 @@ export default function AnimatedLogo() {
     });
 
     return () => unsubscribe();
-  }, [scrollY, lastScrollY]);
+  }, [scrollY, lastScrollY, scrollThreshold]);
 
   // Calculate center position
   const centerX = windowSize.width / 2;
@@ -49,22 +66,28 @@ export default function AnimatedLogo() {
 
   // Navbar logo position (center of navbar)
   const navbarX = windowSize.width / 2;
-  const navbarY = 44;
+  const navbarY = windowSize.width < 768 ? 36 : 44; // Smaller navbar position on mobile
 
-  // Scale: 1 -> 0.5 (400px logo to 200px navbar logo)
-  const scale = useTransform(scrollY, [0, 200, 400], [1, 0.7, 0.5]);
+  // Final navbar logo size (responsive)
+  const finalLogoSize = windowSize.width < 768 ? 150 : 200;
+  const finalScale = finalLogoSize / logoSize;
+  const midScale = (1 + finalScale) / 2;
+  const midThreshold = scrollThreshold / 2;
+
+  // Scale: 1 -> finalScale (responsive logo to navbar logo)
+  const scale = useTransform(scrollY, [0, midThreshold, scrollThreshold], [1, midScale, finalScale]);
 
   // X position: center -> navbar center
   const x = useTransform(
     scrollY,
-    [0, 200, 400],
+    [0, midThreshold, scrollThreshold],
     [centerX, centerX, navbarX]
   );
 
   // Y position: center -> navbar top
   const y = useTransform(
     scrollY,
-    [0, 200, 400],
+    [0, midThreshold, scrollThreshold],
     [centerY, centerY - 50, navbarY]
   );
 
@@ -86,12 +109,12 @@ export default function AnimatedLogo() {
         transition: "opacity 0.3s ease",
       }}
     >
-      {/* Logo Image */}
+      {/* Logo Image - responsive sizing */}
       <div
         className="relative rounded-full overflow-hidden"
         style={{
-          width: 400,
-          height: 400,
+          width: logoSize,
+          height: logoSize,
         }}
       >
         <Image

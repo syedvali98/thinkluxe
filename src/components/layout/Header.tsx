@@ -126,9 +126,9 @@ export default function Header() {
         >
           <Link
             href="/"
-            className="fixed z-50 top-[44px] left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="fixed z-50 top-[36px] md:top-[44px] left-1/2 -translate-x-1/2 -translate-y-1/2"
           >
-            <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden">
+            <div className="relative w-[150px] h-[150px] md:w-[200px] md:h-[200px] rounded-full overflow-hidden">
               <Image
                 src="/images/logo.png"
                 alt="ThinkLuxe"
@@ -163,8 +163,8 @@ export default function Header() {
             {/* Glass effect overlay */}
             <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
 
-            <div className="flex flex-col items-center justify-center min-h-screen relative z-10">
-              <nav className="flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center justify-center min-h-screen relative z-10 px-4">
+              <nav className="flex flex-col items-center gap-6 md:gap-8">
                 {navigation.map((item, index) => (
                   <motion.div
                     key={item.name}
@@ -179,7 +179,7 @@ export default function Header() {
                     {item.subItems ? (
                       // Services with submenu
                       <div className="flex flex-col items-center">
-                        <span className="text-3xl md:text-4xl font-serif text-white hover:text-[#C9A962] transition-colors tracking-wide cursor-pointer">
+                        <span className="text-2xl sm:text-3xl md:text-4xl font-serif text-white hover:text-[#C9A962] transition-colors tracking-wide cursor-pointer">
                           {item.name}
                         </span>
 
@@ -203,7 +203,7 @@ export default function Header() {
                                   <Link
                                     href={subItem.href}
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="text-xl md:text-xl font-sans text-[#CAC7A9] hover:text-[#C9A962] transition-colors tracking-wide whitespace-nowrap"
+                                    className="text-base sm:text-lg md:text-xl font-sans text-[#CAC7A9] hover:text-[#C9A962] transition-colors tracking-wide whitespace-nowrap"
                                   >
                                     {subItem.name}
                                   </Link>
@@ -218,7 +218,7 @@ export default function Header() {
                       <Link
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-3xl md:text-4xl font-serif text-white hover:text-[#C9A962] transition-colors tracking-wide"
+                        className="text-2xl sm:text-3xl md:text-4xl font-serif text-white hover:text-[#C9A962] transition-colors tracking-wide"
                       >
                         {item.name}
                       </Link>
@@ -232,10 +232,10 @@ export default function Header() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="absolute bottom-12 left-0 right-0 text-center"
+                className="absolute bottom-8 md:bottom-12 left-0 right-0 text-center"
               >
-                <p className="text-gray-500 text-sm">info@thinkluxe.com</p>
-                <p className="text-gray-500 text-sm">416 555 1234</p>
+                <p className="text-gray-500 text-xs sm:text-sm">info@thinkluxe.com</p>
+                <p className="text-gray-500 text-xs sm:text-sm">416 555 1234</p>
               </motion.div>
             </div>
           </motion.div>

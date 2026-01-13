@@ -59,11 +59,11 @@ export default function ShowroomSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-black rounded-[60px] overflow-hidden border border-[#C9A962]/30"
+          className="bg-black rounded-[30px] sm:rounded-[45px] lg:rounded-[60px] overflow-hidden border border-[#C9A962]/30"
         >
           <div className="grid md:grid-cols-2">
-            {/* Left Content Column */}
-            <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+            {/* Left Content Column - shows second on mobile for better visual hierarchy */}
+            <div className="order-2 md:order-1 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center">
               <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-6">
                 Visit Our Showroom
               </h3>
@@ -124,15 +124,15 @@ export default function ShowroomSection() {
 
               {/* Animated CTA Button */}
               <div>
-                <AnimatedButton href="/contact">
+                <AnimatedButton href="/contact" fullWidthMobile>
                   Schedule a Visit
                 </AnimatedButton>
               </div>
             </div>
 
-            {/* Right Image Column */}
+            {/* Right Image Column - shows first on mobile for visual impact */}
             <div
-              className="relative min-h-[300px] md:min-h-[400px] lg:min-h-[500px]"
+              className="order-1 md:order-2 relative min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[500px]"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
             >
@@ -155,29 +155,29 @@ export default function ShowroomSection() {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation Arrows */}
+              {/* Navigation Arrows - smaller on mobile */}
               <button
                 onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:border-white hover:text-white transition-colors z-10"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:border-white hover:text-white transition-colors z-10"
                 aria-label="Previous image"
               >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:border-white hover:text-white transition-colors z-10"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:border-white hover:text-white transition-colors z-10"
                 aria-label="Next image"
               >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </button>
 
               {/* Slide Counter */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
-                <span className="text-white/70 text-sm font-medium">
+              <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-10">
+                <span className="text-white/70 text-xs sm:text-sm font-medium">
                   {currentSlide + 1} / {showroomImages.length}
                 </span>
               </div>

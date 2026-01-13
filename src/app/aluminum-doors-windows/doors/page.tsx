@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui";
@@ -508,9 +508,27 @@ export default function AluminumDoorsPage() {
   const [selectedStep, setSelectedStep] = useState(0);
   const [ballAngle, setBallAngle] = useState(-90);
   const [isHovering, setIsHovering] = useState(false);
+  const [circleScale, setCircleScale] = useState(1);
   const circleRef = useRef<HTMLDivElement>(null);
 
   const displayedStep = isHovering ? hoveredStep : selectedStep;
+
+  // Handle responsive circle scale
+  useEffect(() => {
+    const updateScale = () => {
+      if (window.innerWidth < 640) {
+        setCircleScale(0.56); // 180px / 320px
+      } else if (window.innerWidth < 768) {
+        setCircleScale(0.69); // 220px / 320px
+      } else {
+        setCircleScale(1);
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
 
   // Get angle for a step
   const getStepAngle = (step: number) => {
@@ -553,19 +571,19 @@ export default function AluminumDoorsPage() {
   return (
     <main className="bg-black">
       {/* Door Types Section */}
-      <section className="py-24 md:py-32">
-        <Container>
+      <section className="py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-8 md:mb-12"
           >
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic mb-4">
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic mb-3 md:mb-4">
               Aluminum Doors
             </h1>
-            <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+            <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
               Browse through a variety of door styles to find the best one for your home.
             </p>
           </motion.div>
@@ -575,15 +593,15 @@ export default function AluminumDoorsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-12"
+            className="mb-8 md:mb-12"
           >
             <div className="flex justify-center">
-              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#0a0a0a] border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
+              <div className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-full bg-[#0a0a0a] border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
                 {doorTypes.map((type, index) => (
                   <button
                     key={type.id}
                     onClick={() => setSelectedTab(index)}
-                    className={`px-5 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-300 ${
+                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all duration-300 ${
                       selectedTab === index
                         ? "border border-[#C9A962] text-white"
                         : "text-gray-400 hover:text-white"
@@ -604,21 +622,22 @@ export default function AluminumDoorsPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6"
             >
               {/* Left - Image */}
-              <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden">
+              <div className="relative aspect-[4/5] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
                 <Image
                   src={doorTypes[selectedTab].image}
                   alt={doorTypes[selectedTab].title}
                   fill
                   className="object-cover"
+                  loading="lazy"
                 />
               </div>
 
               {/* Right - Content Card */}
-              <div className="relative p-[1px] rounded-[40px] bg-gradient-to-br from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
-                <div className="bg-[#0a0a0a] rounded-[40px] p-8 md:p-10 lg:p-12 h-full flex flex-col justify-center">
+              <div className="relative p-[1px] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] bg-gradient-to-br from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
+                <div className="bg-[#0a0a0a] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] p-6 sm:p-8 md:p-10 lg:p-12 h-full flex flex-col justify-center">
                   <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] italic mb-6">
                     {doorTypes[selectedTab].title}
                   </h2>
@@ -855,26 +874,26 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black py-24 md:py-32">
-        <Container>
+      <section className="bg-black py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
             {/* Pill Title */}
-            <div className="inline-block mb-6">
-              <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
+            <div className="inline-block mb-4 md:mb-6">
+              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
                 <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
                   <span className="block w-full h-full rounded-full bg-[#303030]" />
                 </span>
                 <span className="relative">Our Process</span>
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic">
               From Consultation to Installation
             </h2>
           </motion.div>
@@ -886,80 +905,73 @@ export default function AluminumDoorsPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative p-[1px] rounded-[40px] bg-gradient-to-r from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
-              <div className="bg-[#0a0a0a] rounded-[40px] overflow-hidden">
-                <div className="grid md:grid-cols-2 min-h-[500px]">
-                  {/* Left Content - Step Details */}
-                  <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={displayedStep}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <h3 className="text-[#C9A962] text-xl md:text-2xl uppercase tracking-wider font-medium mb-6">
-                          {processSteps[displayedStep].title}
-                        </h3>
-                        <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-12">
-                          {processSteps[displayedStep].description}
-                        </p>
-                      </motion.div>
-                    </AnimatePresence>
-
-                    {/* Step Counter */}
-                    <div className="mt-auto">
-                      <span className="text-gray-600 text-sm uppercase tracking-[0.3em]">
-                        Step {displayedStep + 1}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Right Side - Interactive Circle */}
+            <div className="relative p-[1px] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] bg-gradient-to-r from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
+              <div className="bg-[#0a0a0a] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
+                <div className="flex flex-col md:grid md:grid-cols-2 min-h-[500px] md:min-h-[500px]">
+                  {/* Interactive Circle - Shows first on mobile */}
                   <div
-                    className="relative flex items-center justify-center p-8 md:p-12"
+                    className="order-1 md:order-2 relative flex items-center justify-center p-6 sm:p-8 md:p-12 min-h-[320px] sm:min-h-[380px] md:min-h-0"
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setIsHovering(true)}
                     onMouseLeave={handleMouseLeave}
                     onClick={handleClick}
                   >
-                    {/* Step Labels */}
+                    {/* Step Labels - Tappable buttons */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span
-                        className={`absolute top-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(0);
+                          setBallAngle(getStepAngle(0));
+                        }}
+                        className={`absolute top-4 sm:top-6 md:top-8 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[90px] sm:max-w-[110px] md:max-w-[140px] ${
                           displayedStep === 0 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Consultation & Assessment
-                      </span>
-                      <span
-                        className={`absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(1);
+                          setBallAngle(getStepAngle(1));
+                        }}
+                        className={`absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[70px] sm:max-w-[85px] md:max-w-[100px] ${
                           displayedStep === 1 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Custom Design & Engineering
-                      </span>
-                      <span
-                        className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(2);
+                          setBallAngle(getStepAngle(2));
+                        }}
+                        className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] sm:max-w-[120px] md:max-w-[140px] ${
                           displayedStep === 2 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Precision Manufacturing
-                      </span>
-                      <span
-                        className={`absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(3);
+                          setBallAngle(getStepAngle(3));
+                        }}
+                        className={`absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[70px] sm:max-w-[85px] md:max-w-[100px] ${
                           displayedStep === 3 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Professional Installation
-                      </span>
+                      </button>
                     </div>
 
                     {/* Interactive Circle Container */}
                     <div
                       ref={circleRef}
-                      className="relative w-[280px] h-[280px] md:w-[320px] md:h-[320px]"
+                      className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[320px] md:h-[320px]"
                     >
                       {/* Circle Border with gradient */}
                       <div
@@ -990,22 +1002,49 @@ export default function AluminumDoorsPage() {
                           alt="ThinkLuxe"
                           width={120}
                           height={120}
-                          className="object-contain opacity-80"
+                          className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px] object-contain opacity-80"
                         />
                       </div>
 
                       {/* Following Ball */}
                       <motion.div
-                        className="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                        className="absolute w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
                         style={{
                           left: "50%",
                           top: "50%",
-                          marginLeft: "-8px",
-                          marginTop: "-8px",
+                          marginLeft: "-6px",
+                          marginTop: "-6px",
                         }}
-                        animate={{ x: ballX, y: ballY }}
+                        animate={{ x: ballX * circleScale, y: ballY * circleScale }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       />
+                    </div>
+                  </div>
+
+                  {/* Left Content - Step Details */}
+                  <div className="order-2 md:order-1 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={displayedStep}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <h3 className="text-[#C9A962] text-lg sm:text-xl md:text-2xl uppercase tracking-wider font-medium mb-4 md:mb-6">
+                          {processSteps[displayedStep].title}
+                        </h3>
+                        <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-12">
+                          {processSteps[displayedStep].description}
+                        </p>
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Step Counter */}
+                    <div className="mt-auto">
+                      <span className="text-gray-600 text-sm uppercase tracking-[0.2em] md:tracking-[0.3em]">
+                        Step {displayedStep + 1}
+                      </span>
                     </div>
                   </div>
                 </div>

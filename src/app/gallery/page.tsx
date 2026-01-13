@@ -83,7 +83,7 @@ function ImageViewer({
       </button>
 
       {/* Controls */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full border border-white/10">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 sm:gap-4 bg-black/60 backdrop-blur-sm px-4 py-2 sm:px-6 sm:py-3 rounded-full border border-white/10">
         <button
           onClick={(e) => { e.stopPropagation(); handleZoomOut(); }}
           className="p-2 text-white/70 hover:text-white transition-colors disabled:opacity-30"
@@ -120,9 +120,9 @@ function ImageViewer({
       {/* Previous button */}
       <button
         onClick={(e) => { e.stopPropagation(); onPrev(); }}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white transition-colors bg-black/40 rounded-full"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 text-white/70 hover:text-white transition-colors bg-black/40 rounded-full"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
@@ -130,9 +130,9 @@ function ImageViewer({
       {/* Next button */}
       <button
         onClick={(e) => { e.stopPropagation(); onNext(); }}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white transition-colors bg-black/40 rounded-full"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 text-white/70 hover:text-white transition-colors bg-black/40 rounded-full"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
@@ -279,8 +279,8 @@ export default function GalleryPage() {
   // Border radius: 40px -> 0px over 150px scroll
   const borderRadius = useTransform(scrollY, [0, 150], [40, 0]);
 
-  // Horizontal padding: 32px -> 0px over 150px scroll
-  const horizontalPadding = useTransform(scrollY, [0, 150], [32, 0]);
+  // Horizontal padding: 8px -> 0px over 150px scroll
+  const horizontalPadding = useTransform(scrollY, [0, 150], [8, 0]);
 
   // Scale: 1 -> 1.15 over 150px scroll (zoom in effect)
   const videoScale = useTransform(scrollY, [0, 150], [1, 1.15]);
@@ -312,7 +312,7 @@ export default function GalleryPage() {
   return (
     <main className="bg-black">
       {/* Hero Section with Video Carousel */}
-      <section ref={containerRef} className="relative pt-24">
+      <section ref={containerRef} className="relative pt-20 sm:pt-22 md:pt-24">
         {/* Video Container with scroll-based styling */}
         <motion.div
           className="relative overflow-hidden mx-auto"
@@ -322,8 +322,8 @@ export default function GalleryPage() {
             paddingRight: horizontalPadding,
           }}
         >
-          {/* Video Carousel */}
-          <div className="relative aspect-video w-full overflow-hidden rounded-[inherit]">
+          {/* Video Carousel - Remaining viewport height after header */}
+          <div className="relative h-[calc(100vh-80px)] sm:h-[calc(100vh-88px)] md:h-[calc(100vh-96px)] w-full overflow-hidden rounded-[inherit]">
             <AnimatePresence
               initial={false}
               custom={direction}
@@ -344,7 +344,7 @@ export default function GalleryPage() {
                   ref={(el) => {
                     videoRefs.current[currentVideo] = el;
                   }}
-                  className="w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                   muted
                   playsInline
                   onEnded={handleVideoEnd}
@@ -447,12 +447,12 @@ export default function GalleryPage() {
       </section>
 
       {/* Gallery Grid Section */}
-      <section className="bg-[#ffffff] py-20 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="bg-[#ffffff] py-12 sm:py-16 md:py-24 lg:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 md:mb-12">
             {/* Pill Badge - Gold gradient border style */}
-            <div className="flex justify-center mb-6">
+            <div className="flex justify-center mb-4 md:mb-6">
               <span className="relative px-6 py-2 rounded-full text-black text-xs tracking-wider">
                 <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#eccd84]">
                   <span className="block w-full h-full rounded-full bg-[#dcdcdc]" />
@@ -462,28 +462,28 @@ export default function GalleryPage() {
             </div>
 
             {/* Heading */}
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-[#C9A962] mb-4">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[#C9A962] mb-3 md:mb-4">
               Experience Luxury in Every Detail
             </h2>
 
             {/* Subtext */}
-            <p className="text-[#555555] font-medium md:text-lg max-w-md mx-auto">
+            <p className="text-[#555555] font-medium text-sm sm:text-base md:text-lg max-w-md mx-auto px-4 sm:px-0">
               A showcase of bespoke creations designed to inspire modern luxury
               living.
             </p>
           </div>
 
           {/* Tab Selector */}
-          <div className="flex justify-center mb-12">
-            <div className="inline-flex items-center gap-2 p-3 rounded-full border border-[#C9A962] bg-[#ffffff]">
+          <div className="flex justify-center mb-8 md:mb-12 px-4 sm:px-0">
+            <div className="inline-flex items-center gap-1 sm:gap-2 p-1.5 sm:p-2 md:p-3 rounded-full border border-[#C9A962] bg-[#ffffff]">
               {galleryCategories.map((category, index) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(index)}
-                  className={`px-10 py-6 rounded-full font-medium transition-all duration-300 cursor-pointer ${
+                  className={`px-3 py-2 sm:px-5 sm:py-3 md:px-10 md:py-6 rounded-full font-medium transition-all duration-300 cursor-pointer text-[10px] sm:text-xs md:text-base whitespace-nowrap ${
                     selectedCategory === index
-                      ? " bg-[#efefef] text-[#C9A962]"
-                      : " text-[#c5bca6] hover:text-[#ac945d]"
+                      ? "bg-[#efefef] text-[#C9A962]"
+                      : "text-[#c5bca6] hover:text-[#ac945d]"
                   }`}
                 >
                   {category.tabName}
@@ -492,7 +492,7 @@ export default function GalleryPage() {
             </div>
           </div>
 
-          {/* Image Grid - 4 rows, 70%/30% split */}
+          {/* Image Grid - stacked on mobile, 70%/30% split on desktop */}
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedCategory}
@@ -500,7 +500,7 @@ export default function GalleryPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-3 md:gap-4"
             >
               {galleryCategories[selectedCategory].rows.map((row, rowIndex) => {
                 const totalRows =
@@ -514,13 +514,13 @@ export default function GalleryPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: rowIndex * 0.1 }}
-                    className="flex gap-4"
+                    className="flex flex-col md:flex-row gap-3 md:gap-4"
                   >
-                    {/* First image - 70% width */}
+                    {/* First image - full width on mobile, 70% on desktop */}
                     <div
-                      className={`relative aspect-[4/3] w-[70%] overflow-hidden group cursor-pointer ${
-                        isFirstRow ? "rounded-tl-[30px]" : ""
-                      } ${isLastRow ? "rounded-bl-[30px]" : ""}`}
+                      className={`relative aspect-[4/3] w-full md:w-[70%] overflow-hidden group cursor-pointer rounded-[20px] md:rounded-none ${
+                        isFirstRow ? "md:rounded-tl-[30px]" : ""
+                      } ${isLastRow ? "md:rounded-bl-[30px]" : ""}`}
                       onClick={() => handleImageClick(row[0].src)}
                     >
                       <Image
@@ -528,14 +528,15 @@ export default function GalleryPage() {
                         alt={row[0].alt}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
                       />
                     </div>
 
-                    {/* Second image - 30% width */}
+                    {/* Second image - full width on mobile, 30% on desktop */}
                     <div
-                      className={`relative aspect-[4/3] w-[30%] overflow-hidden group cursor-pointer ${
-                        isFirstRow ? "rounded-tr-[30px]" : ""
-                      } ${isLastRow ? "rounded-br-[30px]" : ""}`}
+                      className={`relative aspect-[4/3] w-full md:w-[30%] overflow-hidden group cursor-pointer rounded-[20px] md:rounded-none ${
+                        isFirstRow ? "md:rounded-tr-[30px]" : ""
+                      } ${isLastRow ? "md:rounded-br-[30px]" : ""}`}
                       onClick={() => handleImageClick(row[1].src)}
                     >
                       <Image
@@ -543,6 +544,7 @@ export default function GalleryPage() {
                         alt={row[1].alt}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
                       />
                     </div>
                   </motion.div>
@@ -552,7 +554,7 @@ export default function GalleryPage() {
           </AnimatePresence>
 
           {/* View More on Instagram Button */}
-          <div className="flex justify-center mt-12">
+          <div className="flex justify-center mt-8 md:mt-12">
             <AnimatedButton
               href="https://instagram.com"
               fullRounded

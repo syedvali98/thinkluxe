@@ -10,20 +10,55 @@ export default function HeroSection() {
   const [cursorVisible, setCursorVisible] = useState(false);
   const [leftPaused, setLeftPaused] = useState(false);
   const [rightPaused, setRightPaused] = useState(false);
-  const [leftVideoStarted, setLeftVideoStarted] = useState(true);
-  const [rightVideoStarted, setRightVideoStarted] = useState(true);
+  const [leftVideoLoaded, setLeftVideoLoaded] = useState(false);
+  const [rightVideoLoaded, setRightVideoLoaded] = useState(false);
   const leftVideoRef = useRef<HTMLVideoElement>(null);
   const rightVideoRef = useRef<HTMLVideoElement>(null);
+  const leftSectionRef = useRef<HTMLAnchorElement>(null);
+  const rightSectionRef = useRef<HTMLAnchorElement>(null);
 
-  // Autoplay videos on mount
+  // Lazy load videos using IntersectionObserver
   useEffect(() => {
-    if (leftVideoRef.current) {
-      leftVideoRef.current.play().catch(() => {});
+    const options = {
+      root: null,
+      rootMargin: "100px",
+      threshold: 0.1,
+    };
+
+    const leftObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && leftVideoRef.current && !leftVideoLoaded) {
+          leftVideoRef.current.load();
+          leftVideoRef.current.play().catch(() => {});
+          setLeftVideoLoaded(true);
+          leftObserver.disconnect();
+        }
+      });
+    }, options);
+
+    const rightObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && rightVideoRef.current && !rightVideoLoaded) {
+          rightVideoRef.current.load();
+          rightVideoRef.current.play().catch(() => {});
+          setRightVideoLoaded(true);
+          rightObserver.disconnect();
+        }
+      });
+    }, options);
+
+    if (leftSectionRef.current) {
+      leftObserver.observe(leftSectionRef.current);
     }
-    if (rightVideoRef.current) {
-      rightVideoRef.current.play().catch(() => {});
+    if (rightSectionRef.current) {
+      rightObserver.observe(rightSectionRef.current);
     }
-  }, []);
+
+    return () => {
+      leftObserver.disconnect();
+      rightObserver.disconnect();
+    };
+  }, [leftVideoLoaded, rightVideoLoaded]);
 
   const handleMouseEnter = (side: "left" | "right") => {
     setHoveredSide(side);
@@ -65,28 +100,29 @@ export default function HeroSection() {
     <>
       <CustomCursor isVisible={cursorVisible} />
 
-      <section className="relative h-screen w-full overflow-hidden">
-        {/* Two Column Layout */}
-        <div className="flex h-full">
+      <section className="relative min-h-screen w-full overflow-hidden">
+        {/* Two Column Layout - stacks on mobile, side-by-side on md+ */}
+        <div className="flex flex-col md:flex-row h-full min-h-screen">
           {/* Left Column - Aluminum Doors & Windows */}
           <Link
+            ref={leftSectionRef}
             href="/aluminum-doors-windows"
-            className="relative flex-1 group"
+            className="relative min-h-[50vh] md:min-h-0 flex-1 group"
             onMouseEnter={() => handleMouseEnter("left")}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Background Image - hides once video has started */}
+            {/* Background Image - shows until video loads */}
             <div className="absolute inset-0 bg-[#0a0a0a]">
-              {/* Placeholder gradient - replace with actual image */}
+              {/* Placeholder gradient */}
               <div
                 className={`absolute inset-0 bg-gradient-to-br from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] transition-opacity duration-700 ${
-                  leftVideoStarted ? "opacity-0" : "opacity-100"
+                  leftVideoLoaded ? "opacity-0" : "opacity-100"
                 }`}
               />
               {/* Background image layer */}
               <div
                 className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${
-                  leftVideoStarted ? "opacity-0" : "opacity-100"
+                  leftVideoLoaded ? "opacity-0" : "opacity-100"
                 }`}
                 style={{
                   backgroundImage: "url('/images/aluminum-bg.jpg')",
@@ -94,17 +130,16 @@ export default function HeroSection() {
               />
             </div>
 
-            {/* Video - stays visible once started */}
+            {/* Video - lazy loaded, visible once loaded */}
             <video
               ref={leftVideoRef}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                leftVideoStarted ? "opacity-100" : "opacity-0"
+                leftVideoLoaded ? "opacity-100" : "opacity-0"
               }`}
               muted
               loop
               playsInline
-              autoPlay
-              preload="auto"
+              preload="none"
             >
               <source src="/videos/aluminium-hero.mp4" type="video/mp4" />
             </video>
@@ -116,21 +151,42 @@ export default function HeroSection() {
               }`}
             />
 
-            {/* Content - Bottom center */}
-            <div className="relative z-10 h-full flex items-end justify-center pb-24 px-8 md:px-16">
+            {/* Content - Center on mobile, bottom on desktop */}
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center md:justify-end pb-0 md:pb-24 px-4 sm:px-8 md:px-16">
               <motion.h2
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="font-serif text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
+                className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
               >
                 Aluminum Doors & Windows
               </motion.h2>
+
+              {/* Mobile tap indicator */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="md:hidden flex flex-col items-center mt-4 text-white/70"
+              >
+                <span className="text-xs uppercase tracking-widest mb-2">Tap to explore</span>
+                <motion.svg
+                  animate={{ y: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </motion.svg>
+              </motion.div>
             </div>
 
             {/* Play/Pause button - visible when video is playing */}
             <motion.button
-              className="absolute bottom-8 left-8 z-30"
+              className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-30"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
                 opacity: hoveredSide === "left" ? 1 : 0,
@@ -154,28 +210,29 @@ export default function HeroSection() {
 
           </Link>
 
-          {/* Center Divider */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 z-20" />
+          {/* Center Divider - hidden on mobile since columns stack */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 z-20" />
 
           {/* Right Column - Custom Kitchen & Millwork */}
           <Link
+            ref={rightSectionRef}
             href="/kitchen"
-            className="relative flex-1 group"
+            className="relative min-h-[50vh] md:min-h-0 flex-1 group"
             onMouseEnter={() => handleMouseEnter("right")}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Background Image - hides once video has started */}
+            {/* Background Image - shows until video loads */}
             <div className="absolute inset-0 bg-[#0a0a0a]">
-              {/* Placeholder gradient - replace with actual image */}
+              {/* Placeholder gradient */}
               <div
                 className={`absolute inset-0 bg-gradient-to-bl from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] transition-opacity duration-700 ${
-                  rightVideoStarted ? "opacity-0" : "opacity-100"
+                  rightVideoLoaded ? "opacity-0" : "opacity-100"
                 }`}
               />
               {/* Background image layer */}
               <div
                 className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${
-                  rightVideoStarted ? "opacity-0" : "opacity-100"
+                  rightVideoLoaded ? "opacity-0" : "opacity-100"
                 }`}
                 style={{
                   backgroundImage: "url('/images/kitchen-bg.jpg')",
@@ -183,17 +240,16 @@ export default function HeroSection() {
               />
             </div>
 
-            {/* Video - stays visible once started */}
+            {/* Video - lazy loaded, visible once loaded */}
             <video
               ref={rightVideoRef}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                rightVideoStarted ? "opacity-100" : "opacity-0"
+                rightVideoLoaded ? "opacity-100" : "opacity-0"
               }`}
               muted
               loop
               playsInline
-              autoPlay
-              preload="auto"
+              preload="none"
             >
               <source src="/videos/kitchen-video.mp4" type="video/mp4" />
             </video>
@@ -205,21 +261,42 @@ export default function HeroSection() {
               }`}
             />
 
-            {/* Content - Bottom center */}
-            <div className="relative z-10 h-full flex items-end justify-center pb-24 px-8 md:px-16">
+            {/* Content - Center on mobile, bottom on desktop */}
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center md:justify-end pb-0 md:pb-24 px-4 sm:px-8 md:px-16">
               <motion.h2
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="font-serif text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
+                className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
               >
                 Custom Kitchen & Millwork
               </motion.h2>
+
+              {/* Mobile tap indicator */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="md:hidden flex flex-col items-center mt-4 text-white/70"
+              >
+                <span className="text-xs uppercase tracking-widest mb-2">Tap to explore</span>
+                <motion.svg
+                  animate={{ y: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </motion.svg>
+              </motion.div>
             </div>
 
             {/* Play/Pause button - visible when video is playing */}
             <motion.button
-              className="absolute bottom-8 right-8 z-30"
+              className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-30"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
                 opacity: hoveredSide === "right" ? 1 : 0,

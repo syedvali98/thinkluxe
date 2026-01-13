@@ -12,6 +12,7 @@ interface AnimatedButtonProps {
   fullRounded?: boolean;
   isExternal?: boolean;
   lightMode?: boolean;
+  fullWidthMobile?: boolean;
 }
 
 export default function AnimatedButton({
@@ -22,6 +23,7 @@ export default function AnimatedButton({
   fullRounded = false,
   isExternal = false,
   lightMode = false,
+  fullWidthMobile = false,
 }: AnimatedButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
   const angle = useMotionValue(0);
@@ -51,7 +53,12 @@ export default function AnimatedButton({
   const gradientBackground = useMotionTemplate`conic-gradient(from ${angle}deg, ${baseColor} 0%, #C9A962 50%, ${baseColor} 100%)`;
 
   const roundedClass = fullRounded ? "rounded-full" : "rounded-r-full rounded-l-none";
-  const widthClass = fullRounded ? "inline-block" : "w-2/5";
+  const getWidthClass = () => {
+    if (fullWidthMobile) return "w-full md:inline-block";
+    if (fullRounded) return "inline-block";
+    return "w-2/5";
+  };
+  const widthClass = getWidthClass();
 
   const buttonContent = (
     <div

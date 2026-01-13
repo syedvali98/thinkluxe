@@ -74,91 +74,94 @@ export default function Footer() {
   return (
     <footer className="bg-[#121211B2] relative overflow-hidden">
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 relative z-10">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 md:py-16 lg:px-8 relative z-10">
+        <div className="grid gap-8 md:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-12">
           {/* Left Side - Get in Touch */}
-          <div className="lg:col-span-5">
-            <h3 className="font-serif text-3xl md:text-4xl text-[#C9A962]">
+          <div className="lg:col-span-5 text-center md:text-left">
+            <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[#C9A962]">
               Get in Touch
             </h3>
             <p className="mt-4 text-[#7B7B7B] text-sm md:text-base leading-relaxed">
               Have a project? Let&apos;s get in touch. <br/> We respond fast.
             </p>
-            <div className="mt-8 flex gap-5">
+            <div className="mt-6 md:mt-8 flex gap-5 md:gap-4 justify-center md:justify-start">
               {navigation.social.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-[#7B7B7B] hover:text-[#C9A962] transition-colors"
+                  className="text-[#7B7B7B] hover:text-[#C9A962] transition-colors p-2 -m-2"
+                  aria-label={item.name}
                 >
-                  <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-5 w-5" aria-hidden="true" />
+                  <item.icon className="h-6 w-6 sm:h-5 sm:w-5" aria-hidden="true" />
                 </a>
               ))}
             </div>
           </div>
 
           {/* Right Side - Navigation & Contact */}
-          <div className="lg:col-span-7 flex flex-wrap gap-8 md:gap-12 lg:justify-end">
-            {/* Nav Column 1 */}
-            <div className="flex flex-col gap-3">
-              {navigation.column1.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`text-xs uppercase tracking-[0.2em] transition-colors ${
-                    pathname === item.href
-                      ? "text-[#C9A962]"
-                      : "text-[#7B7B7B] hover:text-[#7B7B7B]"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+          <div className="lg:col-span-7 w-full md:w-auto">
+            {/* Navigation Grid - 2x2 on mobile, flex on desktop */}
+            <div className="grid grid-cols-2 md:flex md:flex-wrap gap-8 md:gap-12 justify-items-center md:justify-end text-center md:text-left">
+              {/* Nav Column 1 */}
+              <div className="flex flex-col gap-3">
+                {navigation.column1.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`text-xs uppercase tracking-[0.2em] transition-colors ${
+                      pathname === item.href
+                        ? "text-[#C9A962]"
+                        : "text-[#7B7B7B] hover:text-[#C9A962]"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Nav Column 2 */}
+              <div className="flex flex-col gap-3">
+                {navigation.column2.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`text-xs uppercase tracking-[0.2em] transition-colors ${
+                      pathname === item.href
+                        ? "text-[#C9A962]"
+                        : "text-[#7B7B7B] hover:text-[#C9A962]"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Services Column - full width on mobile */}
+              <div className="col-span-2 md:col-span-1 flex flex-col gap-3 items-center md:items-start">
+                <span className="text-xs uppercase tracking-[0.2em] text-[#7B7B7B]">
+                  {navigation.services.name}
+                </span>
+                {navigation.services.subItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`text-xs tracking-[0.1em] transition-colors ${
+                      pathname === item.href
+                        ? "text-[#C9A962]"
+                        : "text-[#7B7B7B] hover:text-[#C9A962]"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
             </div>
 
-            {/* Services Column */}
-            <div className="flex flex-col gap-3">
-              <span className="text-xs uppercase tracking-[0.2em] text-[#7B7B7B]">
-                {navigation.services.name}
-              </span>
-              {navigation.services.subItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`text-xs tracking-[0.1em] transition-colors pl-2 ${
-                    pathname === item.href
-                      ? "text-[#C9A962]"
-                      : "text-[#7B7B7B] hover:text-[#C9A962]"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-
-            {/* Nav Column 2 */}
-            <div className="flex flex-col gap-3">
-              {navigation.column2.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`text-xs uppercase tracking-[0.2em] transition-colors ${
-                    pathname === item.href
-                      ? "text-[#C9A962]"
-                      : "text-[#7B7B7B] hover:text-[#C9A962]"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-
-            {/* Contact Info */}
-            <div className="flex flex-col gap-3">
+            {/* Contact Info - full width on mobile, centered */}
+            <div className="mt-8 md:mt-6 flex flex-col items-center md:items-end gap-4">
               <a
                 href="mailto:info@thinkluxe.com"
-                className="text-sm text-[#7B7B7B] hover:text-[#C9A962] transition-colors flex items-center gap-2 pb-2 border-b-2 border-white"
+                className="text-sm text-[#7B7B7B] hover:text-[#C9A962] transition-colors flex items-center gap-2 pb-2 border-b border-white/30"
               >
                 <svg
                   className="h-4 w-4"
@@ -174,7 +177,7 @@ export default function Footer() {
                   />
                 </svg>
                 info@thinkluxe.com
-                <span className="w-6 h-6 rounded-full border border-current flex items-center justify-center">
+                <span className="hidden sm:flex w-6 h-6 rounded-full border border-current items-center justify-center">
                   <svg
                     className="h-3 w-3"
                     fill="none"
@@ -214,9 +217,9 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Footer Logo */}
-      <div className="relative w-full flex justify-center">
-        <div className="w-[70vw]">
+      {/* Footer Logo - larger on mobile for visual impact */}
+      <div className="relative w-full flex justify-center mt-8 md:mt-0">
+        <div className="w-[90vw] sm:w-[80vw] lg:w-[70vw]">
           <Image
             src="/images/footer-logo.png"
             alt="ThinkLuxe"

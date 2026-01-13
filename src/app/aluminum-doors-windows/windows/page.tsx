@@ -1,193 +1,175 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui";
 
-// Window types data with placeholder content
+// Color swatches for product options (# encoded as %23 for URLs)
+const colorSwatches = [
+  "/images/colors/%232b0600.png",
+  "/images/colors/%23312623.png",
+  "/images/colors/%23370E00.png",
+  "/images/colors/%23430c01.png",
+  "/images/colors/%234e5051.png",
+  "/images/colors/%235d3b37.png",
+  "/images/colors/%23681A00.png",
+  "/images/colors/%23686e70.png",
+  "/images/colors/%23696e6e.png",
+  "/images/colors/%2369594a.png",
+  "/images/colors/%23cad0d7.png",
+  "/images/colors/%23f5d7bf.png",
+  "/images/colors/black.png",
+];
+
+// Window types data with nested product options
 const windowTypes = [
+  {
+    id: "single-hung",
+    name: "Single-Hung",
+    title: "Single-Hung Windows",
+    image: "/images/single-hung.png",
+    description: [
+      "Single-hung windows have a fixed upper sash and a lower sash that slides up and down to let in fresh air. They are a cost-effective solution with a classic look that complements vertical spaces and coordinates with homes of any architectural style.",
+      "Think Luxe's single-hung windows are energy efficient, easy to operate, and made of the highest quality materials. From design to delivery, our exceptional service ensures you are satisfied every step of the way. The design of each window can be modified and adapted to suit your creativity and project specifications.",
+      "Meets stringent Energy Star, CSA and other certifications. Uses high-quality vinyl or aluminum profiles that won't peel, crack or bend. Hidden drain hole design ensures water drains quickly. Space saving great option for patios and walkways. Glass options available for added privacy, security and noise reduction.",
+    ],
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-1.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "grilles", name: "Grilles", title: "Custom Grille Styles", image: "/images/grille-product-1.png", description: "Grilles come in a variety of patterns and designs. The intentional use of grilles can further enhance your home's specific style or architectural design." },
+    ],
+  },
   {
     id: "tilt-turn",
     name: "Tilt and Turn",
-    title: "Tilt and Turn Windows",
-    image: "/images/windows/tilt-turn.jpg",
+    title: "Tilt And Turn Windows",
+    image: "/images/tilt-and-turn.png",
     description: [
-      "Tilt and turn windows offer versatile ventilation options with a dual-action mechanism. They can tilt inward from the top for secure ventilation or swing fully inward like a door for easy cleaning and maximum airflow.",
-      "Think Luxe's tilt and turn windows are engineered for superior energy efficiency, featuring multi-point locking systems and premium seals that provide excellent thermal and acoustic insulation.",
+      "Tilt-and-turn windows can be opened multiple ways with the turn of a handle. They open inward like casement windows and can also tilt inward to let in fresh air. They are ideal for homeowners, architects, and developers looking for a versatile, energy-saving solution.",
+      "Think Luxe's tilt-and-turn windows are equipped with high-quality hardware, which enables the dual functionality of the window as well as secure locking with a single handle. With our windows, you can enjoy the best features of casement, fixed and tilt designs with elegance and simplicity.",
+      "The compact design, refined bevels, and slopes give the profile a modern and elegant look. Extremely durable and modern gasket ensures windows are tight and reliable. High-quality insulated glass and top-notch craftsmanship ensure comfort. Can be used alone or with other window combinations.",
     ],
-    features: [
-      "Dual-action opening mechanism for versatile ventilation",
-      "Multi-point locking system for enhanced security",
-      "Easy interior cleaning with full inward swing",
-      "Excellent thermal and acoustic insulation",
-      "Child-safe tilt position for secure airflow",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
     id: "casement",
     name: "Casement",
     title: "Casement Windows",
-    image: "/images/windows/casement.jpg",
+    image: "/images/casement.png",
     description: [
-      "Casement windows are hinged on the side and open outward like a door, providing unobstructed views and maximum ventilation. Their simple design makes them a timeless choice for both modern and traditional homes.",
-      "Think Luxe's casement windows feature precision-engineered hardware and premium aluminum frames that ensure smooth operation and long-lasting durability in all weather conditions.",
+      "Casement windows are side-hinged and open outward. They are the only type of window that opens completely, providing excellent ventilation and unobstructed views for nearly any residential or commercial property. Our casement windows have insulated frames and standard Low-E high-performance double glazing. They are custom-made to fit nearly any opening shape or size.",
+      "Certified for various performance levels by organizations such as NFRC, CSA and Energy Star. Multi-point locking system tightly seals the window sash, providing excellent anti-theft. High-quality hardware provides smooth and easy operation for opening and closing windows. Unique multi-chamber, fusion-welded sash and frame design ensure durability. Customizable in a variety of colors, sizes, finishes. Casement windows can be easily combined with other window styles to create eye-catching effects.",
     ],
-    features: [
-      "Full opening for maximum ventilation",
-      "Unobstructed views with minimal frame profiles",
-      "Excellent energy efficiency with tight seal when closed",
-      "Easy operation with ergonomic handles",
-      "Available in single or multi-panel configurations",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
     id: "folding",
     name: "Folding",
     title: "Folding Windows",
-    image: "/images/windows/folding.jpg",
+    image: "/images/folding.png",
     description: [
-      "Folding windows, also known as bi-fold windows, create a seamless connection between indoor and outdoor spaces. Multiple panels fold and stack neatly to one side, opening up entire walls.",
-      "Think Luxe's folding windows are designed with precision-engineered tracks and premium hardware for smooth, effortless operation, transforming your living spaces with the touch of a hand.",
+      "Designed for easy folding, Think Luxe's windows can be folded sideways or up and down to create a spacious opening. Our folding windows have passed various strict industry performance certifications, providing advanced weather protection and energy efficiency to ensure year-round comfort in any climate.",
+      "Each of our window sashes can be completely customized to your needs, opening inwards or outwards and folding to the left or right. The configuration can be split down the middle or folded in one direction to suit you and your space.",
+      "Offers a wide view through large glass and oversized dimensions. Security and anti-theft hardware. Insulated weatherstripping and perimeter sealing. Multiple configuration design options.",
     ],
-    features: [
-      "Creates wide, unobstructed openings",
-      "Panels fold and stack compactly to one side",
-      "Premium track system for smooth operation",
-      "Perfect for connecting indoor and outdoor spaces",
-      "Available in various panel configurations",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-1.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
     id: "sliding",
     name: "Sliding",
     title: "Sliding Windows",
-    image: "/images/windows/sliding.jpg",
+    image: "/images/sliding.png",
     description: [
-      "Sliding windows operate horizontally along a track, making them ideal for spaces where outward-opening windows aren't practical. They offer excellent ventilation while maintaining a sleek, contemporary aesthetic.",
-      "Think Luxe's sliding windows feature precision-engineered rollers and tracks that ensure whisper-quiet, effortless operation for years of reliable use.",
+      "Sliding windows are ideal for installation in kitchen sinks or in any room where ventilation is essential. Our sliding windows feature durable, stylish, modern frames while providing optimal views and plenty of daylight. These windows are also energy-efficient and are available in a variety of colors, glass, and mesh options to suit different preferences and requirements.",
+      "Available in two-, three-, or multi-panel sliding combinations. Energy-efficient design for excellent energy performance in any climate. Hidden drain hole design ensures water drains quickly. High-quality ball bearings ensure very quiet movement. Unique multi-chamber structure with excellent thermal and sound insulation performance. Selectable screen options let air in while keeping pests out. Customized according to your size, needs, lifestyle and budget. Almost limitless options to fit perfectly into any aesthetic style.",
     ],
-    features: [
-      "Space-saving horizontal operation",
-      "Smooth, effortless sliding mechanism",
-      "Ideal for hard-to-reach areas",
-      "Low maintenance with easy cleaning access",
-      "Available in two or three-panel designs",
-    ],
-  },
-  {
-    id: "single-hung",
-    name: "Single-Hung",
-    title: "Single-Hung Windows",
-    image: "/images/windows/single-hung.jpg",
-    description: [
-      "Single-hung windows have a fixed upper sash and a lower sash that slides up and down to let in fresh air. They are a cost-effective solution with a classic look that complements vertical spaces and coordinates with homes of any architectural style.",
-      "Think Luxe's single-hung windows are energy efficient, easy to operate, and made of the highest quality materials. From design to delivery, our exceptional service ensures you are satisfied every step of the way. The design of each window can be modified and adapted to suit your creativity and project specifications.",
-    ],
-    features: [
-      "Meets stringent Energy Star, CSA and other certifications",
-      "Uses high-quality vinyl or aluminum profiles that won't peel, crack or bend",
-      "Hidden drain hole design ensures water drains quickly",
-      "Space saving great option for patios and walkways",
-      "Glass options available for added privacy, security and noise reduction",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-3.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
     id: "double-hung",
     name: "Double-Hung",
     title: "Double-Hung Windows",
-    image: "/images/windows/double-hung.jpg",
+    image: "/images/double-hung.png",
     description: [
-      "Double-hung windows feature two operable sashes that move up and down, allowing for superior ventilation control. Both sashes can be tilted inward for easy cleaning from inside your home.",
-      "Think Luxe's double-hung windows combine classic elegance with modern engineering, featuring smooth operation, excellent energy efficiency, and low-maintenance design.",
+      "Double-hung windows are the most popular type of window. Consisting of two sashes that can move up and down independently, they provide better ventilation. Think Luxe double-hung windows feature interlocking devices, sealing strips, and high-quality sash locks that combine beauty and performance.",
+      "Take advantage of the various customization options Think Luxe offers to create the perfect double-hung window that's unique to your space.",
+      "Provides the option to open from the top or bottom. Meets stringent Energy Star, CSA and other certifications. Maximize your home's ability to ventilate effectively. Uses high-quality vinyl or aluminum profiles that won't peel, crack or bend. Provide high-performance energy options to increase energy efficiency. High-quality components allow for simple, convenient operation.",
     ],
-    features: [
-      "Both upper and lower sashes are operable",
-      "Tilt-in sashes for easy interior cleaning",
-      "Superior ventilation with dual airflow options",
-      "Classic design suits any architectural style",
-      "Enhanced security with integrated locks",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-4.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
     id: "bay",
     name: "Bay",
     title: "Bay Windows",
-    image: "/images/windows/bay.jpg",
+    image: "/images/bay.png",
     description: [
-      "Bay windows project outward from the wall, creating additional interior space and capturing light from multiple angles. They add architectural interest and create cozy nooks perfect for seating or display areas.",
-      "Think Luxe's bay windows are custom-crafted with precision angles and premium aluminum frames, creating stunning focal points that enhance both interior comfort and exterior curb appeal.",
+      "Bay windows are composed of a range of fixed or openable window styles, set at various angles to create a gentle arc. This innovative three-dimensional design expands the room and extends beyond the exterior wall, maximizing natural light and allowing more light into the room.",
+      "Think Luxe's bay windows are functional and beautiful, customized to your home. Our bay windows can be casement, double hung or picture style units, a combination of windows that extend outwards from the house, creating a beautiful exterior appearance and attractive interior spaces for your building.",
+      "Multiple windows are connected in select combinations to increase space and light in the room. Made from high-quality extruded profiles that won't chip or peel. Resistant to fading and mildew. Available in a variety of configurations, a range of colors, and unique grille designs.",
     ],
-    features: [
-      "Creates additional interior space and depth",
-      "Captures light from multiple angles",
-      "Adds architectural interest to any facade",
-      "Custom angles available to suit your design",
-      "Optional window seat configurations",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-5.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
     id: "skylight",
     name: "Skylight",
     title: "Skylight Windows",
-    image: "/images/windows/skylight.jpg",
+    image: "/images/skylight.png",
     description: [
-      "Skylight windows are installed in roofs or ceilings to bring natural light into spaces that conventional windows can't reach. They transform dark interiors and create a unique connection to the sky above.",
-      "Think Luxe's skylight windows feature advanced glazing options and weatherproof construction, ensuring optimal light transmission while protecting against the elements and maintaining energy efficiency.",
+      "Wanjia skylights are designed to provide a perfect combination of natural lighting and natural ventilation for your space. We offer three operation modes: manual, electric, and chain drive. These modes allow you to bring the beauty of the outdoors into the interior in a unique way, providing unparalleled quality and excellent lighting effects to enhance the atmosphere of your home.",
+      "Trustworthy leader of windows and doors in Canada for 20 years. All products meet international specifications to ensure energy, safety and structural requirements compliance. We provide the most efficient and cost-effective solutions to design, build and deliver products on time and within budget. With clear instructions and pre-tested components, products can be installed seamlessly, saving you time and labor on site. Customer satisfaction is as high as 98%.",
     ],
-    features: [
-      "Brings natural light to interior spaces",
-      "Fixed or operable ventilation options",
-      "Advanced weatherproof construction",
-      "Energy-efficient glazing options available",
-      "Ideal for hallways, bathrooms, and attic spaces",
-    ],
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." }],
   },
 ];
 
-// Product options data with placeholder content
-const productOptions = [
-  {
-    id: "materials",
-    name: "Materials",
-    title: "Aluminum",
-    image: "/images/windows/materials-aluminum.png",
-    description:
-      "Aluminum windows strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum windows can last up to 30 years with minimal maintenance, making them a smart long-term investment for your home.",
-  },
-  {
-    id: "color",
-    name: "Color",
-    title: "Custom Colors",
-    image: "/images/windows/colors.png",
-    description:
-      "Choose from an extensive palette of standard and custom colors to perfectly match your home's aesthetic. Our advanced powder coating technology ensures vibrant, long-lasting finishes that resist fading, chipping, and weathering for years to come.",
-  },
-  {
-    id: "glass",
-    name: "Glass",
-    title: "Glass Options",
-    image: "/images/windows/glass.png",
-    description:
-      "Select from a variety of glass options including double and triple glazing, Low-E coatings, tinted glass, and decorative patterns. Our energy-efficient glass solutions help reduce heating and cooling costs while providing excellent sound insulation.",
-  },
-  {
-    id: "hardware",
-    name: "Hardware",
-    title: "Premium Hardware",
-    image: "/images/windows/hardware.png",
-    description:
-      "Our windows feature premium-grade hardware including multi-point locking systems, smooth-operating handles, and durable hinges. Available in various finishes to complement your window frames and interior design preferences.",
-  },
-  {
-    id: "grilles",
-    name: "Grilles",
-    title: "Decorative Grilles",
-    image: "/images/windows/grilles.png",
-    description:
-      "Add character and style with our range of decorative grille patterns. Choose from classic colonial, prairie, diamond, and custom designs that can be applied between glass panes or on the surface for easy cleaning.",
-  },
-];
 
 // Product series data with placeholder content
 const productSeries = [
@@ -533,18 +515,44 @@ const processSteps = [
 ];
 
 export default function AluminumWindowsPage() {
-  const [selectedTab, setSelectedTab] = useState(4); // Default to Single-Hung (index 4)
-  const [selectedOption, setSelectedOption] = useState(0); // Default to Materials
+  const [selectedTab, setSelectedTab] = useState(0); // Default to Single-Hung (index 0)
+  const [selectedOption, setSelectedOption] = useState(0); // Default to first option
   const [selectedSeries, setSelectedSeries] = useState(0); // Default to Series 75
+
+  // Reset selectedOption when window type changes
+  useEffect(() => {
+    setSelectedOption(0);
+  }, [selectedTab]);
+
+  // Get current product options based on selected window type
+  const currentProductOptions = windowTypes[selectedTab].productOptions;
 
   // Our Process section state
   const [hoveredStep, setHoveredStep] = useState(0);
   const [selectedStep, setSelectedStep] = useState(0);
   const [ballAngle, setBallAngle] = useState(-90);
   const [isHovering, setIsHovering] = useState(false);
+  const [circleScale, setCircleScale] = useState(1);
   const circleRef = useRef<HTMLDivElement>(null);
 
   const displayedStep = isHovering ? hoveredStep : selectedStep;
+
+  // Handle responsive circle scale
+  useEffect(() => {
+    const updateScale = () => {
+      if (window.innerWidth < 640) {
+        setCircleScale(0.56); // 180px / 320px
+      } else if (window.innerWidth < 768) {
+        setCircleScale(0.69); // 220px / 320px
+      } else {
+        setCircleScale(1);
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
 
   // Get angle for a step
   const getStepAngle = (step: number) => {
@@ -587,8 +595,8 @@ export default function AluminumWindowsPage() {
   return (
     <main className="bg-black">
       {/* Window Types Section */}
-      <section className="py-24 md:py-32">
-        <Container>
+      <section className="py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -596,10 +604,10 @@ export default function AluminumWindowsPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic mb-4">
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] font-semibold mb-4">
               Aluminum Windows
             </h1>
-            <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+            <p className="text-[#b5b5b5] font-medium text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4 sm:px-0">
               Browse through a variety of window styles to find the best one for your home.
             </p>
           </motion.div>
@@ -612,15 +620,15 @@ export default function AluminumWindowsPage() {
             className="mb-12"
           >
             <div className="flex justify-center">
-              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#0a0a0a] border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
                 {windowTypes.map((type, index) => (
                   <button
                     key={type.id}
                     onClick={() => setSelectedTab(index)}
-                    className={`px-5 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-300 ${
+                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all duration-300 cursor-pointer ${
                       selectedTab === index
-                        ? "border border-[#C9A962] text-white"
-                        : "text-gray-400 hover:text-white"
+                        ? "border border-[#C9A962] bg-[#0a0a0a] text-[#C9A962]"
+                        : "text-[#b5b5b5] hover:text-white active:text-white"
                     }`}
                   >
                     {type.name}
@@ -638,43 +646,35 @@ export default function AluminumWindowsPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6"
             >
               {/* Left - Image */}
-              <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden">
+              <div className="relative aspect-[4/5] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
                 <Image
                   src={windowTypes[selectedTab].image}
                   alt={windowTypes[selectedTab].title}
                   fill
                   className="object-cover"
+                  loading="lazy"
                 />
               </div>
 
               {/* Right - Content Card */}
-              <div className="relative p-[1px] rounded-[40px] bg-gradient-to-br from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
-                <div className="bg-[#0a0a0a] rounded-[40px] p-8 md:p-10 lg:p-12 h-full flex flex-col justify-center">
-                  <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] italic mb-6">
+              <div className="relative p-[1px] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] bg-gradient-to-br from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
+                <div className="bg-[#0a0a0a] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] p-5 sm:p-6 md:p-10 lg:p-12 h-full flex flex-col justify-center">
+                  <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-4 sm:mb-6">
                     {windowTypes[selectedTab].title}
                   </h2>
 
                   {/* Description paragraphs */}
-                  <div className="space-y-4 mb-8">
+                  <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                     {windowTypes[selectedTab].description.map((para, index) => (
-                      <p key={index} className="text-gray-400 text-sm md:text-base leading-relaxed">
+                      <p key={index} className="text-[#b5b5b5] text-xs sm:text-sm md:text-base leading-relaxed">
                         {para}
                       </p>
                     ))}
                   </div>
 
-                  {/* Features list */}
-                  <ul className="space-y-3">
-                    {windowTypes[selectedTab].features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-3 text-gray-400 text-sm md:text-base">
-                        <span className="text-[#C9A962] mt-1.5">•</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </div>
             </motion.div>
@@ -683,31 +683,31 @@ export default function AluminumWindowsPage() {
       </section>
 
       {/* Product Options Section */}
-      <section className="pb-24 md:pb-32">
-        <Container>
+      <section className="pb-16 md:pb-24 lg:pb-32">
+        <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-[#f5f5f0] rounded-[60px] p-8 md:p-12 lg:p-16"
+            className="bg-white rounded-[20px] sm:rounded-[30px] md:rounded-[45px] lg:rounded-[60px] p-5 sm:p-6 md:p-10 lg:p-16"
           >
             {/* Header */}
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic text-center mb-10">
+            <h2 className="font-serif font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] text-center mb-6 sm:mb-8 md:mb-10">
               Product Options
             </h2>
 
             {/* Tab Selector */}
-            <div className="flex justify-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#e8e5dc]">
-                {productOptions.map((option, index) => (
+            <div className="flex justify-center mb-8 sm:mb-10 md:mb-12">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-white border border-[#C9A962] overflow-x-auto max-w-full scrollbar-hide">
+                {currentProductOptions.map((option, index) => (
                   <button
                     key={option.id}
                     onClick={() => setSelectedOption(index)}
-                    className={`px-5 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-300 ${
+                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap cursor-pointer transition-all duration-300 ease-in-out ${
                       selectedOption === index
-                        ? "border border-[#C9A962] text-[#C9A962] bg-[#f5f5f0]"
-                        : "text-gray-500 hover:text-gray-700"
+                        ? "bg-[#e8e5dc] text-[#C9A962]"
+                        : "bg-transparent text-gray-500 hover:text-gray-700 active:text-gray-700"
                     }`}
                   >
                     {option.name}
@@ -719,32 +719,51 @@ export default function AluminumWindowsPage() {
             {/* Content Area */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={selectedOption}
+                key={`${selectedTab}-${selectedOption}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center"
+                className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center"
               >
-                {/* Left - Image */}
+                {/* Left - Image or Color Grid */}
                 <div className="flex justify-center">
-                  <div className="relative w-full max-w-[400px] aspect-square">
-                    <Image
-                      src={productOptions[selectedOption].image}
-                      alt={productOptions[selectedOption].title}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
+                  {currentProductOptions[selectedOption].images ? (
+                    // Color swatches grid - responsive columns
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 w-full max-w-[400px]">
+                      {currentProductOptions[selectedOption].images.map((img, idx) => (
+                        <div key={idx} className="relative aspect-square rounded-lg overflow-hidden">
+                          <Image
+                            src={img}
+                            alt={`Color option ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    // Single image
+                    <div className="relative w-full max-w-[300px] sm:max-w-[350px] md:max-w-[400px] aspect-square">
+                      <Image
+                        src={currentProductOptions[selectedOption].image || ""}
+                        alt={currentProductOptions[selectedOption].title}
+                        fill
+                        className="object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Right - Text Content */}
-                <div>
-                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962] italic mb-4">
-                    {productOptions[selectedOption].title}
+                <div className="text-center md:text-left">
+                  <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 sm:mb-4">
+                    {currentProductOptions[selectedOption].title}
                   </h3>
-                  <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-                    {productOptions[selectedOption].description}
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed">
+                    {currentProductOptions[selectedOption].description}
                   </p>
                 </div>
               </motion.div>
@@ -754,21 +773,26 @@ export default function AluminumWindowsPage() {
       </section>
 
       {/* Product Series Section */}
-      <section className="py-24 md:py-32">
-        <Container>
+      <section className="py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-8 sm:mb-10 md:mb-12"
           >
             {/* Pill Badge */}
-            <span className="inline-block px-4 py-1.5 rounded-full border border-gray-600 text-gray-400 text-xs uppercase tracking-wider mb-6">
-              Series
-            </span>
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] italic leading-relaxed max-w-3xl mx-auto">
+            <div className="inline-block mb-4 sm:mb-6">
+              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
+                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
+                  <span className="block w-full h-full rounded-full bg-[#303030]" />
+                </span>
+                <span className="relative">Series</span>
+              </span>
+            </div>
+            <h2 className="font-serif font-semibold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-3xl mx-auto px-2 sm:px-0">
               Browse Through our Aluminum Product Series To Find The Best One For Your home.
             </h2>
           </motion.div>
@@ -779,18 +803,18 @@ export default function AluminumWindowsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-12"
+            className="mb-8 sm:mb-10 md:mb-12"
           >
             <div className="flex justify-center">
-              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#0a0a0a] border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
                 {productSeries.map((series, index) => (
                   <button
                     key={series.id}
                     onClick={() => setSelectedSeries(index)}
-                    className={`px-5 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-300 ${
+                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all duration-300 cursor-pointer ${
                       selectedSeries === index
-                        ? "border border-[#C9A962] text-white"
-                        : "text-gray-400 hover:text-white"
+                        ? "border border-[#C9A962] bg-[#0a0a0a] text-white"
+                        : "text-[#b5b5b5] hover:text-white active:text-white"
                     }`}
                   >
                     {series.tabName}
@@ -810,43 +834,44 @@ export default function AluminumWindowsPage() {
               transition={{ duration: 0.3 }}
             >
               {/* Hero Image */}
-              <div className="relative aspect-[16/9] rounded-[40px] overflow-hidden mb-12">
+              <div className="relative aspect-[16/9] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden mb-8 sm:mb-10 md:mb-12">
                 <Image
                   src={productSeries[selectedSeries].image}
                   alt={productSeries[selectedSeries].productType}
                   fill
                   className="object-cover"
+                  loading="lazy"
                 />
               </div>
 
               {/* Product Title & Technical Parameters */}
-              <div className="mb-16">
+              <div className="mb-10 sm:mb-12 md:mb-16">
                 {/* Title Area */}
-                <div className="mb-8">
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-6xl md:text-7xl lg:text-8xl font-bold text-white">
+                <div className="mb-6 sm:mb-8">
+                  <div className="flex items-baseline gap-2 sm:gap-3 mb-2">
+                    <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white">
                       {productSeries[selectedSeries].seriesNumber}
                     </span>
-                    <span className="text-sm text-gray-400 uppercase tracking-wider">
+                    <span className="text-xs sm:text-sm text-[#b5b5b5] uppercase tracking-wider">
                       Series
                     </span>
                   </div>
-                  <p className="text-[#C9A962] uppercase tracking-wider text-sm">
+                  <p className="text-[#C9A962] uppercase tracking-wider text-xs sm:text-sm">
                     {productSeries[selectedSeries].productType}
                   </p>
                 </div>
 
                 {/* Technical Parameters Heading */}
-                <h3 className="text-white text-lg font-medium mb-6">
+                <h3 className="text-white text-base sm:text-lg font-medium mb-4 sm:mb-6">
                   Technical Parameters:
                 </h3>
 
                 {/* Technical Parameters Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 sm:gap-x-8 gap-y-4 sm:gap-y-6">
                   {productSeries[selectedSeries].technicalParams.map((param, index) => (
                     <div key={index}>
-                      <p className="text-[#C9A962] text-sm mb-1">{param.label}</p>
-                      <p className="text-gray-400 text-sm whitespace-pre-line">{param.value}</p>
+                      <p className="text-[#C9A962] text-xs sm:text-sm mb-1">{param.label}</p>
+                      <p className="text-[#b5b5b5] text-xs sm:text-sm whitespace-pre-line">{param.value}</p>
                     </div>
                   ))}
                 </div>
@@ -854,18 +879,18 @@ export default function AluminumWindowsPage() {
 
               {/* Basic Parameters Section */}
               <div>
-                <h3 className="font-serif text-xl md:text-2xl text-white italic mb-8">
+                <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-white mb-6 sm:mb-8">
                   Basic parameters:
                 </h3>
 
                 {/* Parameter Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
                   {productSeries[selectedSeries].basicParams.map((param, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-center text-center"
                     >
-                      <div className="relative w-12 h-12 mb-3">
+                      <div className="relative w-10 h-10 sm:w-12 sm:h-12 mb-2 sm:mb-3">
                         <Image
                           src={param.icon}
                           alt=""
@@ -873,10 +898,10 @@ export default function AluminumWindowsPage() {
                           className="object-contain"
                         />
                       </div>
-                      <p className="text-gray-500 text-xs mb-1 leading-tight">
+                      <p className="text-gray-500 text-[10px] sm:text-xs mb-1 leading-tight">
                         {param.label}
                       </p>
-                      <p className="text-[#C9A962] text-sm font-medium">
+                      <p className="text-[#C9A962] text-xs sm:text-sm font-medium">
                         {param.value}
                       </p>
                     </div>
@@ -889,26 +914,26 @@ export default function AluminumWindowsPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black py-24 md:py-32">
-        <Container>
+      <section className="bg-black py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
             {/* Pill Title */}
-            <div className="inline-block mb-6">
-              <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
+            <div className="inline-block mb-4 md:mb-6">
+              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
                 <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
                   <span className="block w-full h-full rounded-full bg-[#303030]" />
                 </span>
                 <span className="relative">Our Process</span>
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
               From Consultation to Installation
             </h2>
           </motion.div>
@@ -920,80 +945,73 @@ export default function AluminumWindowsPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative p-[1px] rounded-[40px] bg-gradient-to-r from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
-              <div className="bg-[#0a0a0a] rounded-[40px] overflow-hidden">
-                <div className="grid md:grid-cols-2 min-h-[500px]">
-                  {/* Left Content - Step Details */}
-                  <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={displayedStep}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <h3 className="text-[#C9A962] text-xl md:text-2xl uppercase tracking-wider font-medium mb-6">
-                          {processSteps[displayedStep].title}
-                        </h3>
-                        <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-12">
-                          {processSteps[displayedStep].description}
-                        </p>
-                      </motion.div>
-                    </AnimatePresence>
-
-                    {/* Step Counter */}
-                    <div className="mt-auto">
-                      <span className="text-gray-600 text-sm uppercase tracking-[0.3em]">
-                        Step {displayedStep + 1}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Right Side - Interactive Circle */}
+            <div className="relative p-[1px] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] bg-gradient-to-r from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
+              <div className="bg-[#0a0a0a] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
+                <div className="flex flex-col md:grid md:grid-cols-2 min-h-[500px] md:min-h-[500px]">
+                  {/* Interactive Circle - Shows first on mobile */}
                   <div
-                    className="relative flex items-center justify-center p-8 md:p-12"
+                    className="order-1 md:order-2 relative flex items-center justify-center p-6 sm:p-8 md:p-12 min-h-[320px] sm:min-h-[380px] md:min-h-0"
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setIsHovering(true)}
                     onMouseLeave={handleMouseLeave}
                     onClick={handleClick}
                   >
-                    {/* Step Labels */}
+                    {/* Step Labels - Tappable buttons */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span
-                        className={`absolute top-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(0);
+                          setBallAngle(getStepAngle(0));
+                        }}
+                        className={`absolute top-4 sm:top-6 md:top-8 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[90px] sm:max-w-[110px] md:max-w-[140px] ${
                           displayedStep === 0 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Consultation & Assessment
-                      </span>
-                      <span
-                        className={`absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(1);
+                          setBallAngle(getStepAngle(1));
+                        }}
+                        className={`absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[70px] sm:max-w-[85px] md:max-w-[100px] ${
                           displayedStep === 1 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Custom Design & Engineering
-                      </span>
-                      <span
-                        className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[140px] ${
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(2);
+                          setBallAngle(getStepAngle(2));
+                        }}
+                        className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] sm:max-w-[120px] md:max-w-[140px] ${
                           displayedStep === 2 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Precision Manufacturing
-                      </span>
-                      <span
-                        className={`absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[100px] ${
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedStep(3);
+                          setBallAngle(getStepAngle(3));
+                        }}
+                        className={`absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-colors duration-300 text-center max-w-[70px] sm:max-w-[85px] md:max-w-[100px] ${
                           displayedStep === 3 ? "text-[#C9A962]" : "text-gray-600"
                         }`}
                       >
                         Professional Installation
-                      </span>
+                      </button>
                     </div>
 
                     {/* Interactive Circle Container */}
                     <div
                       ref={circleRef}
-                      className="relative w-[280px] h-[280px] md:w-[320px] md:h-[320px]"
+                      className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[320px] md:h-[320px]"
                     >
                       {/* Circle Border with gradient */}
                       <div
@@ -1024,22 +1042,49 @@ export default function AluminumWindowsPage() {
                           alt="ThinkLuxe"
                           width={120}
                           height={120}
-                          className="object-contain opacity-80"
+                          className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px] object-contain opacity-80"
                         />
                       </div>
 
                       {/* Following Ball */}
                       <motion.div
-                        className="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                        className="absolute w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
                         style={{
                           left: "50%",
                           top: "50%",
-                          marginLeft: "-8px",
-                          marginTop: "-8px",
+                          marginLeft: "-6px",
+                          marginTop: "-6px",
                         }}
-                        animate={{ x: ballX, y: ballY }}
+                        animate={{ x: ballX * circleScale, y: ballY * circleScale }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       />
+                    </div>
+                  </div>
+
+                  {/* Left Content - Step Details */}
+                  <div className="order-2 md:order-1 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={displayedStep}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <h3 className="text-[#C9A962] text-lg sm:text-xl md:text-2xl uppercase tracking-wider font-medium mb-4 md:mb-6">
+                          {processSteps[displayedStep].title}
+                        </h3>
+                        <p className="text-[#b5b5b5] text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-12">
+                          {processSteps[displayedStep].description}
+                        </p>
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Step Counter */}
+                    <div className="mt-auto">
+                      <span className="text-gray-600 text-sm uppercase tracking-[0.2em] md:tracking-[0.3em]">
+                        Step {displayedStep + 1}
+                      </span>
                     </div>
                   </div>
                 </div>
