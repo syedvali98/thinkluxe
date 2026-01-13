@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container, Section, AnimatedButton } from "@/components/ui";
+import AnimatedPill from "@/components/ui/AnimatedPill";
 
 // Gallery images
 const galleryRow1 = [
@@ -56,63 +57,140 @@ function ImageViewer({
         onClick={onClose}
         className="absolute top-4 right-4 z-20 p-2 text-white/70 hover:text-white transition-colors"
       >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
         </svg>
       </button>
 
       {/* Controls */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full border border-white/10">
         <button
-          onClick={(e) => { e.stopPropagation(); handleZoomOut(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleZoomOut();
+          }}
           className="p-2 text-white/70 hover:text-white transition-colors disabled:opacity-30"
           title="Zoom out"
           disabled={zoom <= 1}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"
+            />
           </svg>
         </button>
-        <span className="text-white/70 text-sm min-w-[60px] text-center">{Math.round(zoom * 100)}%</span>
+        <span className="text-white/70 text-sm min-w-[60px] text-center">
+          {Math.round(zoom * 100)}%
+        </span>
         <button
-          onClick={(e) => { e.stopPropagation(); handleZoomIn(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleZoomIn();
+          }}
           className="p-2 text-white/70 hover:text-white transition-colors disabled:opacity-30"
           title="Zoom in"
           disabled={zoom >= 4}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
+            />
           </svg>
         </button>
         <div className="w-px h-5 bg-[#f5f5f0]/20" />
         <button
-          onClick={(e) => { e.stopPropagation(); handleReset(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleReset();
+          }}
           className="p-2 text-white/70 hover:text-white transition-colors"
           title="Reset zoom"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
           </svg>
         </button>
       </div>
 
       {/* Previous button */}
       <button
-        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onPrev();
+        }}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white transition-colors bg-black/40 rounded-full"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </button>
 
       {/* Next button */}
       <button
-        onClick={(e) => { e.stopPropagation(); onNext(); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onNext();
+        }}
         className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white transition-colors bg-black/40 rounded-full"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </button>
 
@@ -140,9 +218,9 @@ function ImageViewer({
 }
 
 const stats = [
-  { value: "45M+", label: "Family's Trusted Choice" },
-  { value: "30+", label: "Years of Experience" },
-  { value: "100K+", label: "Projects Completed Globally" },
+  { value: "45M+", label: "Family's Trusted\nChoice" },
+  { value: "30+", label: "Years of\nExperience" },
+  { value: "100K+", label: "Projects\nCompleted Globally" },
 ];
 
 const testimonials = [
@@ -305,7 +383,11 @@ export default function AboutPage() {
 
   const otherTestimonials = testimonials.slice(1);
   // Duplicate testimonials for infinite scroll effect
-  const infiniteTestimonials = [...otherTestimonials, ...otherTestimonials, ...otherTestimonials];
+  const infiniteTestimonials = [
+    ...otherTestimonials,
+    ...otherTestimonials,
+    ...otherTestimonials,
+  ];
   const handleTestimonialPrev = () => {
     setTestimonialIndex((prev) => prev - 1);
   };
@@ -324,7 +406,8 @@ export default function AboutPage() {
   const handlePrev = () => {
     if (selectedImage) {
       const currentIndex = allGalleryImages.indexOf(selectedImage);
-      const prevIndex = (currentIndex - 1 + allGalleryImages.length) % allGalleryImages.length;
+      const prevIndex =
+        (currentIndex - 1 + allGalleryImages.length) % allGalleryImages.length;
       setSelectedImage(allGalleryImages[prevIndex]);
     }
   };
@@ -373,11 +456,11 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="mt-22 font-serif font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] leading-tight">
+            <h1 className="mt-22 font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962] leading-tight">
               We create bespoke spaces with refined materials, master
               craftsmanship, and elevated design.
             </h1>
-            <p className="mt-3 text-base sm:text-lg md:text-xl text-gray-300">
+            <p className="mt-3 text-base sm:text-lg md:text-xl text-[#c9c9c9] font-medium">
               Every project is guided by intention, expertise, and impeccable
               taste.
             </p>
@@ -403,7 +486,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-8"
           >
-            <p className="text-[#C9A962] font-serif font-semibold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center md:text-left">
+            <p className="text-[#C9A962] font-serif font-medium text-2xl sm:text-2xl md:text-3xl lg:text-4xl text-center md:text-left">
               Luxury, Thoughtfully Crafted
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-6 sm:gap-8 md:gap-12 lg:gap-16">
@@ -419,7 +502,7 @@ export default function AboutPage() {
                   <p className="text-3xl sm:text-4xl md:text-4xl font-sans font-medium text-black">
                     {stat.value}
                   </p>
-                  <p className="mt-3 sm:mt-6 text-[#555555] font-medium uppercase tracking-wider leading-tight text-xs sm:text-sm">
+                  <p className="mt-3 sm:mt-6 text-[#555555] font-medium uppercase tracking-wider leading-tight text-xs sm:text-sm whitespace-pre-line">
                     {stat.label}
                   </p>
                 </motion.div>
@@ -430,7 +513,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Philosophy Section - Black background with 2x2 grid */}
-      <section className="bg-black py-12 md:py-16 md:pt-24 md:pb-6">
+      <section className="bg-black py-12 md:pt-16 md:pb-0">
         <Container className="px-4 sm:px-6">
           {/* Centered tag with gold border */}
           <motion.div
@@ -440,12 +523,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="flex justify-center mb-8 md:mb-12"
           >
-            <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
-              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                <span className="block w-full h-full rounded-full bg-[#303030]" />
-              </span>
-              <span className="relative">Our Philosophy</span>
-            </span>
+            <AnimatedPill>Our Philosophy</AnimatedPill>
           </motion.div>
 
           {/* 2x2 Grid with golden border */}
@@ -472,9 +550,11 @@ export default function AboutPage() {
               <div className="order-2 p-6 sm:p-8 md:p-10 lg:p-16 flex items-center border-l border-r md:border-l-0 border-[#C9A962] md:border-t md:rounded-tr-[2rem] lg:rounded-tr-[3rem]">
                 <p className="text-[#B5B5B5] leading-relaxed py-4 md:py-6 text-sm sm:text-base lg:text-lg font-medium">
                   At{" "}
-                  <span className="text-[#C9A962] font-semibold">Think Luxe</span>, our
-                  mission is to elevate living through exceptional design and
-                  flawless craftsmanship. We transform spaces into refined
+                  <span className="text-[#C9A962] font-semibold">
+                    Think Luxe
+                  </span>
+                  , our mission is to elevate living through exceptional design
+                  and flawless craftsmanship. We transform spaces into refined
                   expressions of style, curating bespoke kitchens, millwork,
                   windows, and doors that embody elegance, innovation, and
                   timeless beauty. With a dedication to impeccable detail and a
@@ -497,14 +577,14 @@ export default function AboutPage() {
               {/* Bottom Left - Text - Order 4 on mobile */}
               <div className="order-4 md:order-3 p-6 sm:p-8 md:p-10 lg:p-16 flex flex-col justify-center border-l border-r border-b md:border-r-0 md:border-b-0 md:border-t-0 border-[#C9A962] rounded-b-[1.5rem] sm:rounded-b-[2rem] md:rounded-b-none md:rounded-bl-[2rem] lg:rounded-bl-[3rem]">
                 <p className="text-[#B5B5B5] leading-relaxed py-4 md:py-6 text-sm sm:text-base lg:text-lg font-medium">
-                  Each project is custom tailored to the client&apos;s requirements
-                  and budgets, ensuring a seamless experience for our clients.
-                  Building your dream home is a journey of excellence, where every
-                  detail is crafted with exceptional service and unbeatable
-                  prices. With our in-house experienced designer, transform your
-                  dreams into cherished realities.
+                  Each project is custom tailored to the client&apos;s
+                  requirements and budgets, ensuring a seamless experience for
+                  our clients. Building your dream home is a journey of
+                  excellence, where every detail is crafted with exceptional
+                  service and unbeatable prices. With our in-house experienced
+                  designer, transform your dreams into cherished realities.
                 </p>
-                <div className="mt-4 md:mt-6">
+                <div className="mt-4 md:mt-6 w-full md:w-1/2 lg:w-2/5">
                   <AnimatedButton href="/gallery" fullWidthMobile>
                     View Gallery
                   </AnimatedButton>
@@ -516,7 +596,7 @@ export default function AboutPage() {
       </section>
 
       {/* Gallery Section - Horizontal filmstrip */}
-      <Section className="bg-black overflow-hidden">
+      <Section className="bg-black overflow-hidden md:pt-16">
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -525,13 +605,10 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-8 md:mb-12"
           >
-            <span className="relative inline-block px-6 py-2 rounded-full text-white text-xs tracking-wider mb-4">
-              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                <span className="block w-full h-full rounded-full bg-[#303030]" />
-              </span>
-              <span className="relative">Our Gallery</span>
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[#C9A962]">
+            <div className="mb-4">
+              <AnimatedPill>Our Gallery</AnimatedPill>
+            </div>
+            <h2 className="font-serif font-medium text-2xl sm:text-2xl md:text-3xl text-[#C9A962]">
               Where our vision meets exceptional results.
             </h2>
           </motion.div>
@@ -659,7 +736,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-8 md:mb-12"
           >
-            <h2 className="font-serif font-semibold text-2xl sm:text-3xl md:text-4xl text-[#C9A962]">
+            <h2 className="font-serif font-medium text-2xl sm:text-2xl md:text-3xl text-[#C9A962]">
               Testimonials:{" "}
               <span className="block sm:inline">
                 Hear from those we&apos;ve served
@@ -691,7 +768,7 @@ export default function AboutPage() {
                     <p className="text-black font-medium text-sm md:text-base">
                       {testimonials[0].name}
                     </p>
-                    <p className="text-gray-500 text-xs md:text-sm">
+                    <p className="text-gray-500 text-xs md:text-sm font-medium">
                       {testimonials[0].project}
                     </p>
                   </div>
@@ -720,8 +797,8 @@ export default function AboutPage() {
               className="flex"
               animate={{
                 x: isMobile
-                  ? `-${testimonialIndex * 100}%`      // Mobile: 100% per card
-                  : `-${testimonialIndex * (100 / 3)}%` // Desktop: 33.33% per card
+                  ? `-${testimonialIndex * 100}%` // Mobile: 100% per card
+                  : `-${testimonialIndex * (100 / 3)}%`, // Desktop: 33.33% per card
               }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
@@ -740,7 +817,9 @@ export default function AboutPage() {
                       <p className="text-black text-sm font-medium">
                         {testimonial.name}
                       </p>
-                      <p className="text-gray-500 text-xs">{testimonial.project}</p>
+                      <p className="text-gray-500 text-xs font-medium">
+                        {testimonial.project}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -755,7 +834,13 @@ export default function AboutPage() {
               className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <path stroke="#caa550" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <path
+                  stroke="#caa550"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <button
@@ -763,7 +848,13 @@ export default function AboutPage() {
               className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <path stroke="#caa550" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path
+                  stroke="#caa550"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -771,7 +862,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Values Section - with card borders */}
-      <Section className="bg-black">
+      <Section className="bg-black md:pt-16">
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -780,18 +871,15 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-8 md:mb-12"
           >
-            <span className="relative inline-block px-6 py-2 rounded-full text-white text-xs tracking-wider mb-4">
-              <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                <span className="block w-full h-full rounded-full bg-[#303030]" />
-              </span>
-              <span className="relative">Values</span>
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[#C9A962] mb-4">
+            <div className="mb-4">
+              <AnimatedPill>Values</AnimatedPill>
+            </div>
+            <h2 className="font-serif font-medium text-2xl sm:text-2xl md:text-3xl text-[#C9A962] mb-4">
               Our Core Values
             </h2>
-            <p className="text-[#b5b5b5] max-w-2xl mx-auto text-sm sm:text-base px-4 sm:px-0">
+            <p className="text-[#b5b5b5] max-w-2xl mx-auto text-sm sm:text-base px-4 sm:px-0 font-medium">
               Excellence is at the heart of everything we do, and it is
-              supported by <br className="hidden sm:block"/> these core values.
+              supported by <br className="hidden sm:block" /> these core values.
             </p>
           </motion.div>
 
@@ -799,14 +887,18 @@ export default function AboutPage() {
             {values.map((value, index) => {
               // Mobile: all cards rounded top, desktop: first rounded-tl, last rounded-tr
               const getOuterRounding = () => {
-                if (index === 0) return 'rounded-t-2xl md:rounded-t-none md:rounded-tl-3xl';
-                if (index === 2) return 'rounded-t-2xl md:rounded-t-none md:rounded-tr-3xl';
-                return 'rounded-t-2xl md:rounded-t-none'; // middle card
+                if (index === 0)
+                  return "rounded-t-2xl md:rounded-t-none md:rounded-tl-3xl";
+                if (index === 2)
+                  return "rounded-t-2xl md:rounded-t-none md:rounded-tr-3xl";
+                return "rounded-t-2xl md:rounded-t-none"; // middle card
               };
               const getInnerRounding = () => {
-                if (index === 0) return 'rounded-t-2xl md:rounded-t-none md:rounded-tl-3xl';
-                if (index === 2) return 'rounded-t-2xl md:rounded-t-none md:rounded-tr-3xl';
-                return 'rounded-t-2xl md:rounded-t-none'; // middle card
+                if (index === 0)
+                  return "rounded-t-2xl md:rounded-t-none md:rounded-tl-3xl";
+                if (index === 2)
+                  return "rounded-t-2xl md:rounded-t-none md:rounded-tr-3xl";
+                return "rounded-t-2xl md:rounded-t-none"; // middle card
               };
               return (
                 <motion.div
@@ -815,24 +907,34 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className={`p-[1px] bg-gradient-to-b from-[#C9A962] to-[#29210e] ${getOuterRounding()}`}
+                  className={`p-[1px] ${
+                    index != 2 ? "pb-0 md:pb-[1px]" : ""
+                  } mt-[-8px] md:mt-0 bg-gradient-to-b from-[#C9A962] to-[#29210e] ${getOuterRounding()}`}
                 >
-                  <div className={`p-6 md:p-8 bg-black h-full ${getInnerRounding()}`}>
+                  <div
+                    className={`p-6 md:p-8 bg-black h-full ${getInnerRounding()}`}
+                  >
                     {/* Number badge */}
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mb-12 md:mb-18">
-                      <span className="text-[#C9A962] text-sm md:text-base">{value.number}</span>
+                      <span className="text-[#C9A962] text-sm md:text-base">
+                        {value.number}
+                      </span>
                     </div>
 
-                    <h3 className="font-serif text-xl md:text-2xl text-[#C9A962] mb-3 md:mb-4">
+                    <h3 className="font-serif font-medium text-xl md:text-2xl text-[#C9A962] mb-3 md:mb-4">
                       {value.title}
                     </h3>
-                    <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                      {value.description.split('Think Luxe').map((part, i, arr) => (
-                        <span key={i}>
-                          {part}
-                          {i < arr.length - 1 && <span className="text-[#C9A962]">Think Luxe</span>}
-                        </span>
-                      ))}
+                    <p className="text-[#b5b5b5] text-xs sm:text-sm leading-relaxed pb-6 md:pb-0 font-medium">
+                      {value.description
+                        .split("Think Luxe")
+                        .map((part, i, arr) => (
+                          <span key={i}>
+                            {part}
+                            {i < arr.length - 1 && (
+                              <span className="text-[#C9A962]">Think Luxe</span>
+                            )}
+                          </span>
+                        ))}
                     </p>
                   </div>
                 </motion.div>
@@ -850,7 +952,7 @@ export default function AboutPage() {
           >
             <div className="grid lg:grid-cols-[55%_45%] gap-4 items-center">
               <div>
-                <h2 className="font-serif font-semibold text-2xl sm:text-3xl md:text-4xl text-[#C9A962] mb-3 md:mb-4 max-w-xl">
+                <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-3xl text-[#C9A962] mb-3 md:mb-4 max-w-xl">
                   Begin Your Journey With Think Luxe
                 </h2>
                 <p className="text-[#555555] font-medium mb-8 md:mb-20 max-w-xl text-sm sm:text-base">

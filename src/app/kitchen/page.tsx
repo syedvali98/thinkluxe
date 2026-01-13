@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container, Section } from "@/components/ui";
 import PDFModal from "@/components/ui/PDFModal";
+import AnimatedPill from "@/components/ui/AnimatedPill";
 
 // Service cards data
 const serviceCards = [
@@ -109,7 +110,7 @@ export default function KitchenPage() {
   useEffect(() => {
     const updateScale = () => {
       if (window.innerWidth < 640) {
-        setCircleScale(0.56); // 180px / 320px
+        setCircleScale(0.44); // 140px / 320px
       } else if (window.innerWidth < 768) {
         setCircleScale(0.69); // 220px / 320px
       } else {
@@ -206,6 +207,20 @@ export default function KitchenPage() {
     setBallAngle(getStepAngle(selectedStep));
   };
 
+  // Navigate to previous step (mobile)
+  const goToPrevStep = () => {
+    const newStep = (selectedStep - 1 + processSteps.length) % processSteps.length;
+    setSelectedStep(newStep);
+    setBallAngle(getStepAngle(newStep));
+  };
+
+  // Navigate to next step (mobile)
+  const goToNextStep = () => {
+    const newStep = (selectedStep + 1) % processSteps.length;
+    setSelectedStep(newStep);
+    setBallAngle(getStepAngle(newStep));
+  };
+
   // Calculate ball position on the circle orbit
   const circleRadius = 140; // Radius for ball orbit
   const ballX = Math.cos((ballAngle * Math.PI) / 180) * circleRadius;
@@ -253,10 +268,10 @@ export default function KitchenPage() {
             transition={{ duration: 0.6 }}
             className="max-w-5xl mx-auto text-center"
           >
-            <h1 className="mt-22 font-serif font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] leading-tight">
+            <h1 className="mt-22 font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962] leading-tight">
               Luxury Kitchens. Signature Millwork.
             </h1>
-            <p className="mt-3 text-base sm:text-lg md:text-xl text-gray-300">
+            <p className="mt-3 text-base sm:text-lg md:text-xl text-[#c9c9c9] font-medium">
               Beautifully crafted spaces designed with intention, thoughtful detail, and enduring quality, bringing a heightened sense of elegance and comfort to your home.
             </p>
             <div className="mt-10 sm:mt-14 md:mt-18">
@@ -272,7 +287,7 @@ export default function KitchenPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black py-16 md:py-24 lg:py-32">
+      <section className="bg-black pt-16 pb-6 md:pb-16">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -284,14 +299,9 @@ export default function KitchenPage() {
           >
             {/* Pill Title */}
             <div className="inline-block mb-4 md:mb-6">
-              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                  <span className="block w-full h-full rounded-full bg-[#303030]" />
-                </span>
-                <span className="relative">Our Process</span>
-              </span>
+              <AnimatedPill>Our Process</AnimatedPill>
             </div>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962]">
               A Seamless Journey from Vision to Reality
             </h2>
           </motion.div>
@@ -309,7 +319,7 @@ export default function KitchenPage() {
                 <div className="flex flex-col md:grid md:grid-cols-2 min-h-[500px] md:min-h-[500px]">
                   {/* Interactive Circle - Shows first on mobile, second on desktop */}
                   <div
-                    className="order-1 md:order-2 relative flex items-center justify-center p-6 sm:p-8 md:p-12 md:mr-6 min-h-[320px] sm:min-h-[380px] md:min-h-0"
+                    className="order-1 md:order-2 relative flex items-center justify-center p-6 sm:p-8 md:p-12 md:mr-6 min-h-[280px] sm:min-h-[380px] md:min-h-0"
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setIsHovering(true)}
                     onMouseLeave={handleMouseLeave}
@@ -324,7 +334,7 @@ export default function KitchenPage() {
                           setSelectedStep(0);
                           setBallAngle(getStepAngle(0));
                         }}
-                        className={`absolute top-4 sm:top-6 md:top-8 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 text-center cursor-pointer max-w-[100px] sm:max-w-[120px] md:max-w-[140px] ${
+                        className={`absolute top-4 sm:top-6 md:top-8 left-1/2 -translate-x-1/2 text-[9px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 text-center flex items-center justify-center cursor-pointer max-w-[80px] sm:max-w-[120px] md:max-w-[140px] ${
                           displayedStep === 0 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
@@ -338,7 +348,7 @@ export default function KitchenPage() {
                           setSelectedStep(1);
                           setBallAngle(getStepAngle(1));
                         }}
-                        className={`absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center max-w-[70px] sm:max-w-[85px] md:max-w-[100px] ${
+                        className={`absolute right-6 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 text-[9px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center flex items-center justify-center max-w-[55px] sm:max-w-[85px] md:max-w-[100px] ${
                           displayedStep === 1 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
@@ -352,7 +362,7 @@ export default function KitchenPage() {
                           setSelectedStep(2);
                           setBallAngle(getStepAngle(2));
                         }}
-                        className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center max-w-[120px] sm:max-w-[150px] md:max-w-[190px] ${
+                        className={`absolute bottom-2 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 text-[9px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center flex items-center justify-center max-w-[100px] sm:max-w-[150px] md:max-w-[190px] ${
                           displayedStep === 2 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
@@ -366,7 +376,7 @@ export default function KitchenPage() {
                           setSelectedStep(3);
                           setBallAngle(getStepAngle(3));
                         }}
-                        className={`absolute left-2 sm:left-3 md:-left-8 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center max-w-[80px] sm:max-w-[100px] md:max-w-[160px] ${
+                        className={`absolute left-6 sm:left-3 md:-left-8 top-1/2 -translate-y-1/2 text-[9px] sm:text-xs md:text-sm uppercase tracking-widest transition-colors duration-300 cursor-pointer text-center flex items-center justify-center max-w-[55px] sm:max-w-[100px] md:max-w-[160px] ${
                           displayedStep === 3 ? "text-[#C9A962]" : "text-[#574927]"
                         }`}
                       >
@@ -377,7 +387,7 @@ export default function KitchenPage() {
                     {/* Interactive Circle Container */}
                     <div
                       ref={circleRef}
-                      className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[320px] md:h-[320px]"
+                      className="relative w-[140px] h-[140px] sm:w-[220px] sm:h-[220px] md:w-[320px] md:h-[320px]"
                     >
                       {/* Circle Border with smooth gradient following the ball - sun rising effect */}
                       <div
@@ -441,25 +451,48 @@ export default function KitchenPage() {
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={displayedStep}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="min-h-[180px] sm:min-h-[200px] md:min-h-[220px]"
                       >
-                        <h3 className="text-[#C9A962] text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider font-medium mb-4 md:mb-6 max-w-lg">
+                        <h3 className="text-[#C9A962] text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider font-medium mb-4 md:mb-6 max-w-lg min-h-[56px] sm:min-h-[60px] md:min-h-[72px]">
                           {processSteps[displayedStep].title}
                         </h3>
-                        <p className="text-[#b5b5b5] text-sm sm:text-base md:text-lg font-medium leading-relaxed mb-6 md:mb-12 max-w-sm">
+                        <p className="text-[#b5b5b5] text-sm sm:text-base md:text-lg font-medium leading-relaxed max-w-sm min-h-[170px] sm:min-h-[180px] md:min-h-[190px]">
                           {processSteps[displayedStep].description}
                         </p>
                       </motion.div>
                     </AnimatePresence>
 
-                    {/* Step Counter */}
-                    <div className="mt-auto">
+                    {/* Step Counter with Mobile Togglers */}
+                    <div className="mt-auto flex items-center justify-center md:justify-start gap-12 px-4 md:px-0">
+                      {/* Left Arrow - Mobile Only */}
+                      <button
+                        onClick={goToPrevStep}
+                        className="md:hidden flex items-center justify-center text-[#C9A962] hover:text-[#C9A962]/70 transition-colors"
+                        aria-label="Previous step"
+                      >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        </svg>
+                      </button>
+
                       <span className="text-[#C9A962] font-medium uppercase tracking-[0.2em] md:tracking-[0.3em] text-sm md:text-base">
                         Step {displayedStep + 1}
                       </span>
+
+                      {/* Right Arrow - Mobile Only */}
+                      <button
+                        onClick={goToNextStep}
+                        className="md:hidden flex items-center justify-center text-[#C9A962] hover:text-[#C9A962]/70 transition-colors"
+                        aria-label="Next step"
+                      >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -470,7 +503,7 @@ export default function KitchenPage() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="bg-black py-16 md:pt-6 md:pb-32">
+      <section className="bg-black py-16 md:pt-6">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -478,18 +511,13 @@ export default function KitchenPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8 md:mb-16"
+            className="text-center mb-8 md:mb-8"
           >
             {/* Pill Title */}
             <div className="inline-block mb-4 md:mb-6">
-              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                  <span className="block w-full h-full rounded-full bg-[#303030]" />
-                </span>
-                <span className="relative">Custom Kitchen & Millwork</span>
-              </span>
+              <AnimatedPill>Custom Kitchen & Millwork</AnimatedPill>
             </div>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962]">
               Where Functional Spaces Become Luxury Statements
             </h2>
           </motion.div>
@@ -505,7 +533,7 @@ export default function KitchenPage() {
             {serviceCards.map((card, index) => (
               <div
                 key={index}
-                className={`group relative aspect-[4/3] md:aspect-square overflow-hidden ${getCardRadius(index)}`}
+                className={`group relative aspect-[4/3] md:aspect-[4/3] overflow-hidden ${getCardRadius(index)}`}
               >
                 {/* Background Image */}
                 <Image
@@ -517,15 +545,15 @@ export default function KitchenPage() {
                 />
 
                 {/* Glassy Overlay - always expanded on mobile, hover on desktop */}
-                <div className="absolute bottom-0 left-0 right-0 h-full md:h-[100px] md:group-hover:h-[65%] transition-all duration-500 ease-out bg-gradient-to-t from-black/80 via-black/50 to-transparent md:bg-black/30 md:backdrop-blur-md p-4 sm:p-5 flex flex-col justify-end md:justify-center md:group-hover:justify-start md:group-hover:pt-8 text-left md:text-center md:group-hover:text-left">
+                <div className="absolute bottom-0 left-0 right-0 h-full md:h-[80px] md:group-hover:h-[70%] transition-all duration-500 ease-out bg-gradient-to-t from-black/80 via-black/50 to-transparent md:bg-black/30 md:backdrop-blur-md p-4 sm:p-5 flex flex-col justify-end md:justify-center md:group-hover:justify-start md:group-hover:pt-8 text-left md:text-center md:group-hover:text-left">
                   {/* Title - always visible */}
-                  <h3 className="!font-sans text-white font-medium text-lg sm:text-xl md:text-2xl leading-tight transition-all duration-300 whitespace-pre-line md:min-h-[56px] md:flex md:items-center md:justify-center md:group-hover:items-start md:group-hover:justify-start">
+                  <h3 className="!font-sans text-white font-medium text-lg sm:text-xl md:text-xl leading-tight transition-all duration-300 whitespace-pre-line md:min-h-[56px] md:flex md:items-center md:justify-center md:group-hover:items-start md:group-hover:justify-start">
                     {card.title}
                   </h3>
 
                   {/* Description & Link - always visible on mobile, hover on desktop */}
-                  <div className="flex flex-col md:hidden md:group-hover:flex md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-100 mt-2 md:mt-4">
-                    <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-3 md:mb-4 line-clamp-3 md:line-clamp-none md:h-[72px]">
+                  <div className="flex flex-col md:hidden md:group-hover:flex md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                    <p className="text-[#c9c9c9] text-sm md:text-base leading-relaxed mb-3 md:mb-4 line-clamp-3 md:line-clamp-none">
                       {card.description}
                     </p>
                     <button

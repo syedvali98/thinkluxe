@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Container } from "@/components/ui";
@@ -31,6 +31,8 @@ const showroomImages = [
 export default function ShowroomSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % showroomImages.length);
@@ -40,19 +42,35 @@ export default function ShowroomSection() {
     setCurrentSlide((prev) => (prev - 1 + showroomImages.length) % showroomImages.length);
   };
 
-  // Auto-scroll effect
+  // Detect when section comes into view or exits
   useEffect(() => {
-    if (isPaused) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.2 } // Trigger when 20% of section is visible
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-scroll effect - only starts after section is in view
+  useEffect(() => {
+    if (isPaused || !isInView) return;
 
     const interval = setInterval(() => {
       nextSlide();
     }, 4000); // Change slide every 4 seconds
 
     return () => clearInterval(interval);
-  }, [isPaused, nextSlide]);
+  }, [isPaused, isInView, nextSlide]);
 
   return (
-    <section className="bg-black py-16 md:pt-24 pb-8">
+    <section ref={sectionRef} className="bg-black py-16 md:pt-24 pb-8">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -64,11 +82,11 @@ export default function ShowroomSection() {
           <div className="grid md:grid-cols-2">
             {/* Left Content Column - shows second on mobile for better visual hierarchy */}
             <div className="order-2 md:order-1 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-              <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-6">
+              <h3 className="font-serif font-medium text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-6">
                 Visit Our Showroom
               </h3>
 
-              <p className="text-[#A3A3A3] text-sm md:text-base leading-relaxed mb-8">
+              <p className="text-[#A3A3A3] text-sm md:text-base leading-relaxed mb-8 font-medium">
                 Step into our exclusive showroom, a curated design environment where every
                 finish, texture, and detail has been hand-selected to inspire elevated living.
                 Experience artisanal millwork, architectural-grade materials, and bespoke
@@ -95,7 +113,7 @@ export default function ShowroomSection() {
                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                   />
                 </svg>
-                <span className="text-[#A3A3A3] text-sm">
+                <span className="text-[#A3A3A3] text-sm font-medium">
                   Unit 15 - 80 Clementine Dr, Brampton,<br />
                   ON, L6Y 0L8, Canada.
                 </span>
@@ -116,14 +134,14 @@ export default function ShowroomSection() {
                     d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <div className="text-[#A3A3A3] text-sm">
+                <div className="text-[#A3A3A3] text-sm font-medium">
                   <p>Mon - Fri : 10am - 5pm (By Appointment Only)</p>
                   <p>Weekends : By Appointment Only</p>
                 </div>
               </div>
 
               {/* Animated CTA Button */}
-              <div>
+              <div className="w-full md:w-1/2 lg:w-2/5">
                 <AnimatedButton href="/contact" fullWidthMobile>
                   Schedule a Visit
                 </AnimatedButton>

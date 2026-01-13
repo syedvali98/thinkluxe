@@ -3,9 +3,12 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import CustomCursor from "@/components/ui/CustomCursor";
+import { useMenu } from "@/context/MenuContext";
 
 export default function HeroSection() {
+  const { isMenuOpen } = useMenu();
   const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
   const [cursorVisible, setCursorVisible] = useState(false);
   const [leftPaused, setLeftPaused] = useState(false);
@@ -101,6 +104,21 @@ export default function HeroSection() {
       <CustomCursor isVisible={cursorVisible} />
 
       <section className="relative min-h-screen w-full overflow-hidden">
+        {/* Mobile Logo - positioned at boundary between sections, scrolls naturally */}
+        {!isMenuOpen && (
+          <div className="md:hidden absolute left-1/2 top-[50vh] -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
+            <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden">
+              <Image
+                src="/images/logo.png"
+                alt="ThinkLuxe"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+        )}
+
         {/* Two Column Layout - stacks on mobile, side-by-side on md+ */}
         <div className="flex flex-col md:flex-row h-full min-h-screen">
           {/* Left Column - Aluminum Doors & Windows */}

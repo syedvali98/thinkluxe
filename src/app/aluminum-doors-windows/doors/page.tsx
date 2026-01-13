@@ -4,156 +4,122 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui";
+import AnimatedPill from "@/components/ui/AnimatedPill";
 
-// Door types data with placeholder content
+// Color swatches for product options (# encoded as %23 for URLs)
+const colorSwatches = [
+  "/images/colors/%232b0600.png",
+  "/images/colors/%23312623.png",
+  "/images/colors/%23370E00.png",
+  "/images/colors/%23430c01.png",
+  "/images/colors/%234e5051.png",
+  "/images/colors/%235d3b37.png",
+  "/images/colors/%23681A00.png",
+  "/images/colors/%23686e70.png",
+  "/images/colors/%23696e6e.png",
+  "/images/colors/%2369594a.png",
+  "/images/colors/%23cad0d7.png",
+  "/images/colors/%23f5d7bf.png",
+  "/images/colors/black.png",
+];
+
+// Door types data with nested product options
 const doorTypes = [
+  {
+    id: "casement",
+    name: "Casement",
+    title: "Casement Doors",
+    image: "/images/casement.png",
+    description: [
+      "Casement doors are side-hinged and open outward. They are the only type of door that opens completely, providing excellent ventilation and unobstructed views for nearly any residential or commercial property. Our casement doors have insulated frames and standard Low-E high-performance double glazing. They are custom-made to fit nearly any opening shape or size.",
+      "Certified for various performance levels by organizations such as NFRC, CSA and Energy Star. Multi-point locking system tightly seals the door sash, providing excellent anti-theft. High-quality hardware provides smooth and easy operation for opening and closing doors. Unique multi-chamber, fusion-welded sash and frame design ensure durability. Customizable in a variety of colors, sizes, finishes. Casement doors can be easily combined with other door styles to create eye-catching effects.",
+    ],
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed doors. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
+    ],
+  },
   {
     id: "folding",
     name: "Folding",
     title: "Folding Doors",
-    image: "/images/doors/folding.jpg",
+    image: "/images/folding.png",
     description: [
-      "Folding doors, also known as bi-fold doors, create a seamless connection between indoor and outdoor spaces. Multiple panels fold and stack neatly to one side, opening up entire walls for maximum natural light and ventilation.",
-      "Think Luxe's folding doors are engineered with precision tracks and premium hardware for smooth, effortless operation, transforming your living spaces with elegant functionality.",
+      "Designed for easy folding, Think Luxe's doors can be folded sideways or up and down to create a spacious opening. Our folding doors have passed various strict industry performance certifications, providing advanced weather protection and energy efficiency to ensure year-round comfort in any climate.",
+      "Each of our door sashes can be completely customized to your needs, opening inwards or outwards and folding to the left or right. The configuration can be split down the middle or folded in one direction to suit you and your space.",
+      "Offers a wide view through large glass and oversized dimensions. Security and anti-theft hardware. Insulated weatherstripping and perimeter sealing. Multiple configuration design options.",
     ],
-    features: [
-      "Creates wide, unobstructed openings up to 8 meters",
-      "Panels fold and stack compactly to one side",
-      "Premium track system for whisper-quiet operation",
-      "Perfect for connecting indoor and outdoor living spaces",
-      "Available in 2 to 8 panel configurations",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-1.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed doors. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
     id: "sliding",
     name: "Sliding",
     title: "Sliding Doors",
-    image: "/images/doors/sliding.jpg",
+    image: "/images/sliding.png",
     description: [
-      "Sliding doors operate smoothly along a track, making them ideal for spaces where swing doors aren't practical. They offer excellent views and natural light while maintaining a sleek, contemporary aesthetic.",
-      "Think Luxe's sliding doors feature precision-engineered rollers and tracks that ensure whisper-quiet, effortless operation for years of reliable use.",
+      "Sliding doors are ideal for installation in patios or in any room where ventilation is essential. Our sliding doors feature durable, stylish, modern frames while providing optimal views and plenty of daylight. These doors are also energy-efficient and are available in a variety of colors, glass, and mesh options to suit different preferences and requirements.",
+      "Available in two-, three-, or multi-panel sliding combinations. Energy-efficient design for excellent energy performance in any climate. Hidden drain hole design ensures water drains quickly. High-quality ball bearings ensure very quiet movement. Unique multi-chamber structure with excellent thermal and sound insulation performance. Selectable screen options let air in while keeping pests out. Customized according to your size, needs, lifestyle and budget. Almost limitless options to fit perfectly into any aesthetic style.",
     ],
-    features: [
-      "Space-saving horizontal operation",
-      "Smooth, effortless sliding mechanism",
-      "Large glass panels for maximum natural light",
-      "Multi-point locking system for security",
-      "Available in two, three, or four-panel designs",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-3.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed doors. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
-    id: "lift-slide",
-    name: "Lift & Slide",
-    title: "Lift & Slide Doors",
-    image: "/images/doors/lift-slide.jpg",
+    id: "tilt-turn",
+    name: "Tilt and Turn",
+    title: "Tilt And Turn Doors",
+    image: "/images/tilt-and-turn.png",
     description: [
-      "Lift and slide doors feature an innovative mechanism that lifts the door panel slightly before sliding, allowing for larger and heavier panels while maintaining smooth operation and superior sealing.",
-      "Think Luxe's lift and slide doors combine architectural grandeur with engineering excellence, perfect for luxury homes demanding the largest possible glass expanses.",
+      "Tilt-and-turn doors can be opened multiple ways with the turn of a handle. They open inward like casement doors and can also tilt inward to let in fresh air. They are ideal for homeowners, architects, and developers looking for a versatile, energy-saving solution.",
+      "Think Luxe's tilt-and-turn doors are equipped with high-quality hardware, which enables the dual functionality of the door as well as secure locking with a single handle. With our doors, you can enjoy the best features of casement, fixed and tilt designs with elegance and simplicity.",
+      "The compact design, refined bevels, and slopes give the profile a modern and elegant look. Extremely durable and modern gasket ensures doors are tight and reliable. High-quality insulated glass and top-notch craftsmanship ensure comfort. Can be used alone or with other door combinations.",
     ],
-    features: [
-      "Handles extra-large and heavy door panels",
-      "Superior weather sealing when closed",
-      "Smooth operation despite panel weight",
-      "Ideal for floor-to-ceiling glass walls",
-      "Maximum panel sizes up to 3m x 3m",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed doors. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
-    id: "pivot",
-    name: "Pivot",
-    title: "Pivot Doors",
-    image: "/images/doors/pivot.jpg",
+    id: "awning",
+    name: "Awning",
+    title: "Awning Doors",
+    image: "/images/awning.png",
     description: [
-      "Pivot doors rotate on a central or offset pivot point rather than traditional hinges, creating a dramatic architectural statement. They're perfect for grand entrances and contemporary designs.",
-      "Think Luxe's pivot doors are engineered with concealed pivot systems that support substantial door weights while maintaining smooth, balanced operation.",
+      "Awning doors open outward from the top hinge, providing maximum ventilation while effectively preventing rain from entering the room. Each door can be fully customized to your specific requirements. They are often used alone or installed below large viewing windows to allow for ventilation.",
+      "Our durable awning doors allow for great ventilation, even on rainy days, and have a stylish look that will blend in with the look of almost any space. Whether you're building new or replacing existing doors, we can make your one-of-a-kind awning door to fit your needs.",
+      "Profiles that provide exceptional strength and durability to withstand the elements. Precision miter, fusion fillet. Hidden drainage. Available as a single-unit or dual-unit combination. Variety of standard and custom colors",
     ],
-    features: [
-      "Dramatic architectural statement piece",
-      "Concealed pivot mechanism for clean aesthetics",
-      "Supports oversized door panels",
-      "Available in center or offset pivot configurations",
-      "Perfect for grand entrance applications",
+    productOptions: [
+      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
+      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
+      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
+      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed doors. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
-  },
-  {
-    id: "french",
-    name: "French",
-    title: "French Doors",
-    image: "/images/doors/french.jpg",
-    description: [
-      "French doors feature two hinged panels that open from the center, offering a classic and elegant way to connect spaces. They bring timeless charm while allowing abundant natural light and easy access.",
-      "Think Luxe's French doors combine traditional aesthetics with modern aluminum technology, offering the beauty of classic design with superior performance and durability.",
-    ],
-    features: [
-      "Classic double-door elegance",
-      "Opens from center for symmetrical appearance",
-      "Excellent natural light transmission",
-      "Available with or without glazing bars",
-      "Inward or outward opening options",
-    ],
-  },
-  {
-    id: "entry",
-    name: "Entry",
-    title: "Entry Doors",
-    image: "/images/doors/entry.jpg",
-    description: [
-      "Entry doors are the focal point of your home's facade, combining security, insulation, and aesthetic appeal. Our aluminum entry doors offer modern designs with exceptional durability and weather resistance.",
-      "Think Luxe's entry doors feature multi-point locking systems, thermal breaks, and premium finishes that make a lasting first impression while providing superior protection.",
-    ],
-    features: [
-      "Multi-point locking for maximum security",
-      "Excellent thermal and acoustic insulation",
-      "Wide range of panel designs and finishes",
-      "Optional sidelights and transoms",
-      "Smart lock compatible",
-    ],
-  },
+  }
 ];
 
-// Product options data with placeholder content
-const productOptions = [
-  {
-    id: "materials",
-    name: "Materials",
-    title: "Aluminum",
-    image: "/images/doors/materials-aluminum.png",
-    description:
-      "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years with minimal maintenance, making them a smart long-term investment for your home.",
-  },
-  {
-    id: "color",
-    name: "Color",
-    title: "Custom Colors",
-    image: "/images/doors/colors.png",
-    description:
-      "Choose from an extensive palette of standard and custom colors to perfectly match your home's aesthetic. Our advanced powder coating technology ensures vibrant, long-lasting finishes that resist fading, chipping, and weathering for years to come.",
-  },
-  {
-    id: "glass",
-    name: "Glass",
-    title: "Glass Options",
-    image: "/images/doors/glass.png",
-    description:
-      "Select from a variety of glass options including double and triple glazing, Low-E coatings, tinted glass, and decorative patterns. Our energy-efficient glass solutions help reduce heating and cooling costs while providing excellent sound insulation and privacy.",
-  },
-  {
-    id: "hardware",
-    name: "Hardware",
-    title: "Premium Hardware",
-    image: "/images/doors/hardware.png",
-    description:
-      "Our doors feature premium-grade hardware including multi-point locking systems, smooth-operating handles, and durable hinges. Available in various finishes including brushed nickel, matte black, and polished brass to complement your interior design.",
-  },
-  {
-    id: "threshold",
-    name: "Threshold",
-    title: "Threshold Options",
-    image: "/images/doors/threshold.png",
-    description:
-      "Choose from various threshold options including flush, ramped, and raised profiles. Our low-threshold designs provide easy accessibility while maintaining excellent weather sealing and structural integrity.",
-  },
-];
 
 // Product series data with placeholder content
 const productSeries = [
@@ -162,7 +128,7 @@ const productSeries = [
     tabName: "SERIES 75",
     seriesNumber: "75",
     productType: "ALUMINUM FOLDING DOOR",
-    image: "/images/series/door-series-75.jpg",
+    image: "/images/series/series-75.jpg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -225,7 +191,7 @@ const productSeries = [
     tabName: "SERIES 88",
     seriesNumber: "88",
     productType: "ALUMINUM SLIDING DOOR",
-    image: "/images/series/door-series-88.jpg",
+    image: "/images/series/series-88.jpg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -284,15 +250,15 @@ const productSeries = [
     ],
   },
   {
-    id: "series-100",
-    tabName: "SERIES 100",
-    seriesNumber: "100",
-    productType: "ALUMINUM LIFT & SLIDE DOOR",
-    image: "/images/series/door-series-100.jpg",
+    id: "series-91",
+    tabName: "SERIES 91",
+    seriesNumber: "91",
+    productType: "ALUMINUM CASEMENT DOOR",
+    image: "/images/series/series-91.jpg",
     technicalParams: [
       {
         label: "Profile Thickness:",
-        value: "6063-T5 grade aluminum alloy / thickness 2.8mm",
+        value: "6063-T5 grade aluminum alloy / thickness 2.0mm",
       },
       {
         label: "Heat insulation strip:",
@@ -301,7 +267,7 @@ const productSeries = [
       {
         label: "Profile width:",
         value:
-          "Frame thickness 100mm, Heat insulation strip 28mm; Fan thickness 100mm, Heat insulation strip 28mm;",
+          "Frame thickness 91mm, Heat insulation strip 26mm; Fan thickness 91mm, Heat insulation strip 26mm;",
       },
       {
         label: "Visible surface:",
@@ -310,19 +276,19 @@ const productSeries = [
       {
         label: "Dimensions:",
         value:
-          "Panel width: 1000mm-1500mm\nPanel height: 2400mm-3000mm\nMaximum fan weight: 200kg",
+          "Panel width: 600mm-900mm\nPanel height: 1200mm-1800mm\nMaximum fan weight: 80kg",
       },
       {
         label: "Glass specification:",
         value:
-          "6mm+24A+6mm / 6mm+20A+6mm triple-layer tempered insulated glass",
+          "5mm+20A+5mm / 5mm+16A+5mm double-layer tempered insulated glass",
       },
     ],
     basicParams: [
       {
         icon: "/images/icons/thermal.png",
         label: "Thermal insulation coefficient:",
-        value: "Uw1.8W/m2K",
+        value: "Uw2.0W/m2K",
       },
       {
         icon: "/images/icons/wind.png",
@@ -342,20 +308,20 @@ const productSeries = [
       {
         icon: "/images/icons/sound.png",
         label: "Sound insulation coefficient:",
-        value: "Rw up to 40dB",
+        value: "Rw up to 38dB",
       },
     ],
   },
   {
-    id: "series-120",
-    tabName: "SERIES 120",
-    seriesNumber: "120",
-    productType: "ALUMINUM PIVOT DOOR",
-    image: "/images/series/door-series-120.jpg",
+    id: "series-110",
+    tabName: "SERIES 110",
+    seriesNumber: "110",
+    productType: "ALUMINUM TILT & TURN DOOR",
+    image: "/images/series/series-110.jpg",
     technicalParams: [
       {
         label: "Profile Thickness:",
-        value: "6063-T5 grade aluminum alloy / thickness 3.0mm",
+        value: "6063-T5 grade aluminum alloy / thickness 2.8mm",
       },
       {
         label: "Heat insulation strip:",
@@ -364,28 +330,28 @@ const productSeries = [
       {
         label: "Profile width:",
         value:
-          "Frame thickness 120mm, Heat insulation strip 35mm; Fan thickness 120mm, Heat insulation strip 35mm;",
+          "Frame thickness 110mm, Heat insulation strip 32mm; Fan thickness 110mm, Heat insulation strip 32mm;",
       },
       {
         label: "Visible surface:",
-        value: "Frame 55mm / Sash center column 38mm / Opening sash 80mm, 100mm",
+        value: "Frame 55mm / Sash center column 35mm / Opening sash 75mm, 95mm",
       },
       {
         label: "Dimensions:",
         value:
-          "Panel width: 900mm-1400mm\nPanel height: 2200mm-3200mm\nMaximum fan weight: 250kg",
+          "Panel width: 700mm-1100mm\nPanel height: 1400mm-2200mm\nMaximum fan weight: 120kg",
       },
       {
         label: "Glass specification:",
         value:
-          "8mm+27A+8mm / 8mm+24A+8mm triple-layer tempered insulated glass",
+          "6mm+24A+6mm / 6mm+20A+6mm triple-layer tempered insulated glass",
       },
     ],
     basicParams: [
       {
         icon: "/images/icons/thermal.png",
         label: "Thermal insulation coefficient:",
-        value: "Uw1.6W/m2K",
+        value: "Uw1.8W/m2K",
       },
       {
         icon: "/images/icons/wind.png",
@@ -410,15 +376,15 @@ const productSeries = [
     ],
   },
   {
-    id: "series-150",
-    tabName: "SERIES 150",
-    seriesNumber: "150",
-    productType: "ALUMINUM ENTRY DOOR",
-    image: "/images/series/door-series-150.jpg",
+    id: "series-170",
+    tabName: "SERIES 170",
+    seriesNumber: "170",
+    productType: "ALUMINUM CURTAIN WALL",
+    image: "/images/series/series-170.jpg",
     technicalParams: [
       {
         label: "Profile Thickness:",
-        value: "6063-T5 grade aluminum alloy / thickness 3.2mm",
+        value: "6063-T5 grade aluminum alloy / thickness 3.0mm",
       },
       {
         label: "Heat insulation strip:",
@@ -427,28 +393,28 @@ const productSeries = [
       {
         label: "Profile width:",
         value:
-          "Frame thickness 150mm, Heat insulation strip 45mm; Fan thickness 150mm, Heat insulation strip 45mm;",
+          "Frame thickness 170mm, Heat insulation strip 45mm; Fan thickness 170mm, Heat insulation strip 45mm;",
       },
       {
         label: "Visible surface:",
-        value: "Frame 60mm / Sash center column 42mm / Opening sash 85mm, 110mm",
+        value: "Frame 60mm / Sash center column 40mm / Opening sash 80mm, 100mm",
       },
       {
         label: "Dimensions:",
         value:
-          "Panel width: 900mm-1200mm\nPanel height: 2100mm-2800mm\nMaximum fan weight: 180kg",
+          "Panel width: 1000mm-1500mm\nPanel height: 2500mm-4000mm\nMaximum fan weight: 200kg",
       },
       {
         label: "Glass specification:",
         value:
-          "10mm+27A+10mm triple-layer tempered insulated security glass",
+          "8mm+27A+8mm / 8mm+24A+8mm triple-layer tempered insulated glass",
       },
     ],
     basicParams: [
       {
         icon: "/images/icons/thermal.png",
         label: "Thermal insulation coefficient:",
-        value: "Uw1.4W/m2K",
+        value: "Uw1.5W/m2K",
       },
       {
         icon: "/images/icons/wind.png",
@@ -479,7 +445,7 @@ const processSteps = [
   {
     title: "Consultation & Assessment",
     description:
-      "We begin with a comprehensive consultation to understand your project requirements. Our experts assess your space, discuss your aesthetic preferences, security needs, and budget to recommend the perfect aluminum door solutions for your home.",
+      "We begin with a comprehensive consultation to understand your project requirements. Our experts assess your space, discuss your aesthetic preferences, energy efficiency needs, and budget to recommend the perfect aluminum door solutions for your home.",
   },
   {
     title: "Custom Design & Engineering",
@@ -489,19 +455,27 @@ const processSteps = [
   {
     title: "Precision Manufacturing",
     description:
-      "Your doors are manufactured in our state-of-the-art facility using premium aluminum profiles and components. Each unit undergoes rigorous quality control testing for thermal performance, security, and structural integrity.",
+      "Your doors are manufactured in our state-of-the-art facility using premium aluminum profiles and components. Each unit undergoes rigorous quality control testing for thermal performance, air tightness, and structural integrity.",
   },
   {
     title: "Professional Installation",
     description:
-      "Our certified installation team ensures flawless fitting with precision and care. We handle everything from removal of old doors to final sealing and hardware installation, leaving your space secure and your new doors performing perfectly.",
+      "Our certified installation team ensures flawless fitting with precision and care. We handle everything from removal of old doors to final sealing and finishing, leaving your space clean and your new doors performing perfectly.",
   },
 ];
 
 export default function AluminumDoorsPage() {
-  const [selectedTab, setSelectedTab] = useState(0); // Default to Folding
-  const [selectedOption, setSelectedOption] = useState(0); // Default to Materials
+  const [selectedTab, setSelectedTab] = useState(0); // Default to first door type (index 0)
+  const [selectedOption, setSelectedOption] = useState(0); // Default to first option
   const [selectedSeries, setSelectedSeries] = useState(0); // Default to Series 75
+
+  // Reset selectedOption when door type changes
+  useEffect(() => {
+    setSelectedOption(0);
+  }, [selectedTab]);
+
+  // Get current product options based on selected door type
+  const currentProductOptions = doorTypes[selectedTab].productOptions;
 
   // Our Process section state
   const [hoveredStep, setHoveredStep] = useState(0);
@@ -578,12 +552,12 @@ export default function AluminumDoorsPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8 md:mb-12"
+            className="text-center mb-12"
           >
-            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic mb-3 md:mb-4">
+            <h1 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-4">
               Aluminum Doors
             </h1>
-            <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+            <p className="text-[#b5b5b5] font-medium text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4 sm:px-0">
               Browse through a variety of door styles to find the best one for your home.
             </p>
           </motion.div>
@@ -593,18 +567,18 @@ export default function AluminumDoorsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-8 md:mb-12"
+            className="mb-12"
           >
             <div className="flex justify-center">
-              <div className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-full bg-[#0a0a0a] border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
                 {doorTypes.map((type, index) => (
                   <button
                     key={type.id}
                     onClick={() => setSelectedTab(index)}
-                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all duration-300 ${
+                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all duration-300 cursor-pointer ${
                       selectedTab === index
-                        ? "border border-[#C9A962] text-white"
-                        : "text-gray-400 hover:text-white"
+                        ? "border border-[#C9A962] bg-[#0a0a0a] text-[#C9A962]"
+                        : "text-[#b5b5b5] hover:text-white active:text-white"
                     }`}
                   >
                     {type.name}
@@ -622,7 +596,7 @@ export default function AluminumDoorsPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6"
             >
               {/* Left - Image */}
               <div className="relative aspect-[4/5] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
@@ -637,29 +611,20 @@ export default function AluminumDoorsPage() {
 
               {/* Right - Content Card */}
               <div className="relative p-[1px] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] bg-gradient-to-br from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
-                <div className="bg-[#0a0a0a] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] p-6 sm:p-8 md:p-10 lg:p-12 h-full flex flex-col justify-center">
-                  <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] italic mb-6">
+                <div className="bg-[#0a0a0a] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] p-5 sm:p-6 md:p-10 lg:p-12 h-full flex flex-col justify-center">
+                  <h2 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-4 sm:mb-6">
                     {doorTypes[selectedTab].title}
                   </h2>
 
                   {/* Description paragraphs */}
-                  <div className="space-y-4 mb-8">
+                  <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                     {doorTypes[selectedTab].description.map((para, index) => (
-                      <p key={index} className="text-gray-400 text-sm md:text-base leading-relaxed">
+                      <p key={index} className="text-[#b5b5b5] text-xs sm:text-sm md:text-base leading-relaxed font-medium">
                         {para}
                       </p>
                     ))}
                   </div>
 
-                  {/* Features list */}
-                  <ul className="space-y-3">
-                    {doorTypes[selectedTab].features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-3 text-gray-400 text-sm md:text-base">
-                        <span className="text-[#C9A962] mt-1.5">•</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </div>
             </motion.div>
@@ -668,31 +633,31 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Product Options Section */}
-      <section className="pb-24 md:pb-32">
-        <Container>
+      <section className="pb-16 md:pb-24 lg:pb-32">
+        <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-[#f5f5f0] rounded-[60px] p-8 md:p-12 lg:p-16"
+            className="bg-white rounded-[20px] sm:rounded-[30px] md:rounded-[45px] lg:rounded-[60px] p-5 sm:p-6 md:p-10 lg:p-16"
           >
             {/* Header */}
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic text-center mb-10">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] text-center mb-6 sm:mb-8 md:mb-10">
               Product Options
             </h2>
 
             {/* Tab Selector */}
-            <div className="flex justify-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#e8e5dc]">
-                {productOptions.map((option, index) => (
+            <div className="flex justify-center mb-8 sm:mb-10 md:mb-12">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-white border border-[#C9A962] overflow-x-auto max-w-full scrollbar-hide">
+                {currentProductOptions.map((option, index) => (
                   <button
                     key={option.id}
                     onClick={() => setSelectedOption(index)}
-                    className={`px-5 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-300 ${
+                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap cursor-pointer transition-all duration-300 ease-in-out ${
                       selectedOption === index
-                        ? "border border-[#C9A962] text-[#C9A962] bg-[#f5f5f0]"
-                        : "text-gray-500 hover:text-gray-700"
+                        ? "bg-[#e8e5dc] text-[#C9A962]"
+                        : "bg-transparent text-gray-500 hover:text-gray-700 active:text-gray-700"
                     }`}
                   >
                     {option.name}
@@ -704,32 +669,51 @@ export default function AluminumDoorsPage() {
             {/* Content Area */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={selectedOption}
+                key={`${selectedTab}-${selectedOption}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center"
+                className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center"
               >
-                {/* Left - Image */}
+                {/* Left - Image or Color Grid */}
                 <div className="flex justify-center">
-                  <div className="relative w-full max-w-[400px] aspect-square">
-                    <Image
-                      src={productOptions[selectedOption].image}
-                      alt={productOptions[selectedOption].title}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
+                  {currentProductOptions[selectedOption].images ? (
+                    // Color swatches grid - responsive columns
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 w-full max-w-[400px]">
+                      {currentProductOptions[selectedOption].images.map((img, idx) => (
+                        <div key={idx} className="relative aspect-square rounded-lg overflow-hidden">
+                          <Image
+                            src={img}
+                            alt={`Color option ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    // Single image
+                    <div className="relative w-full max-w-[300px] sm:max-w-[350px] md:max-w-[400px] aspect-square">
+                      <Image
+                        src={currentProductOptions[selectedOption].image || ""}
+                        alt={currentProductOptions[selectedOption].title}
+                        fill
+                        className="object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Right - Text Content */}
-                <div>
-                  <h3 className="font-serif text-2xl md:text-3xl text-[#C9A962] italic mb-4">
-                    {productOptions[selectedOption].title}
+                <div className="text-center md:text-left">
+                  <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 sm:mb-4">
+                    {currentProductOptions[selectedOption].title}
                   </h3>
-                  <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-                    {productOptions[selectedOption].description}
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                    {currentProductOptions[selectedOption].description}
                   </p>
                 </div>
               </motion.div>
@@ -739,21 +723,21 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Product Series Section */}
-      <section className="py-24 md:py-32">
-        <Container>
+      <section className="py-16 md:py-24 lg:py-32">
+        <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-8 sm:mb-10 md:mb-12"
           >
             {/* Pill Badge */}
-            <span className="inline-block px-4 py-1.5 rounded-full border border-gray-600 text-gray-400 text-xs uppercase tracking-wider mb-6">
-              Series
-            </span>
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-[#C9A962] italic leading-relaxed max-w-3xl mx-auto">
+            <div className="inline-block mb-4 sm:mb-6">
+              <AnimatedPill>Series</AnimatedPill>
+            </div>
+            <h2 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-3xl mx-auto px-2 sm:px-0">
               Browse Through our Aluminum Product Series To Find The Best One For Your home.
             </h2>
           </motion.div>
@@ -764,18 +748,18 @@ export default function AluminumDoorsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-12"
+            className="mb-8 sm:mb-10 md:mb-12"
           >
             <div className="flex justify-center">
-              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#0a0a0a] border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
                 {productSeries.map((series, index) => (
                   <button
                     key={series.id}
                     onClick={() => setSelectedSeries(index)}
-                    className={`px-5 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-300 ${
+                    className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all duration-300 cursor-pointer ${
                       selectedSeries === index
-                        ? "border border-[#C9A962] text-white"
-                        : "text-gray-400 hover:text-white"
+                        ? "border border-[#C9A962] bg-[#0a0a0a] text-white"
+                        : "text-[#b5b5b5] hover:text-white active:text-white"
                     }`}
                   >
                     {series.tabName}
@@ -795,43 +779,44 @@ export default function AluminumDoorsPage() {
               transition={{ duration: 0.3 }}
             >
               {/* Hero Image */}
-              <div className="relative aspect-[16/9] rounded-[40px] overflow-hidden mb-12">
+              <div className="relative aspect-[16/9] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden mb-8 sm:mb-10 md:mb-12">
                 <Image
                   src={productSeries[selectedSeries].image}
                   alt={productSeries[selectedSeries].productType}
                   fill
                   className="object-cover"
+                  loading="lazy"
                 />
               </div>
 
               {/* Product Title & Technical Parameters */}
-              <div className="mb-16">
+              <div className="mb-10 sm:mb-12 md:mb-16">
                 {/* Title Area */}
-                <div className="mb-8">
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-6xl md:text-7xl lg:text-8xl font-bold text-white">
+                <div className="mb-6 sm:mb-8">
+                  <div className="flex items-baseline gap-2 sm:gap-3 mb-2">
+                    <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white">
                       {productSeries[selectedSeries].seriesNumber}
                     </span>
-                    <span className="text-sm text-gray-400 uppercase tracking-wider">
+                    <span className="text-xs sm:text-sm text-[#b5b5b5] uppercase tracking-wider">
                       Series
                     </span>
                   </div>
-                  <p className="text-[#C9A962] uppercase tracking-wider text-sm">
+                  <p className="text-[#C9A962] uppercase tracking-wider text-xs sm:text-sm">
                     {productSeries[selectedSeries].productType}
                   </p>
                 </div>
 
                 {/* Technical Parameters Heading */}
-                <h3 className="text-white text-lg font-medium mb-6">
+                <h3 className="text-white text-base sm:text-lg font-medium mb-4 sm:mb-6">
                   Technical Parameters:
                 </h3>
 
                 {/* Technical Parameters Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 sm:gap-x-8 gap-y-4 sm:gap-y-6">
                   {productSeries[selectedSeries].technicalParams.map((param, index) => (
                     <div key={index}>
-                      <p className="text-[#C9A962] text-sm mb-1">{param.label}</p>
-                      <p className="text-gray-400 text-sm whitespace-pre-line">{param.value}</p>
+                      <p className="text-[#C9A962] text-xs sm:text-sm mb-1">{param.label}</p>
+                      <p className="text-[#b5b5b5] text-xs sm:text-sm whitespace-pre-line">{param.value}</p>
                     </div>
                   ))}
                 </div>
@@ -839,18 +824,18 @@ export default function AluminumDoorsPage() {
 
               {/* Basic Parameters Section */}
               <div>
-                <h3 className="font-serif text-xl md:text-2xl text-white italic mb-8">
+                <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-white mb-6 sm:mb-8">
                   Basic parameters:
                 </h3>
 
                 {/* Parameter Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
                   {productSeries[selectedSeries].basicParams.map((param, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-center text-center"
                     >
-                      <div className="relative w-12 h-12 mb-3">
+                      <div className="relative w-10 h-10 sm:w-12 sm:h-12 mb-2 sm:mb-3">
                         <Image
                           src={param.icon}
                           alt=""
@@ -858,10 +843,10 @@ export default function AluminumDoorsPage() {
                           className="object-contain"
                         />
                       </div>
-                      <p className="text-gray-500 text-xs mb-1 leading-tight">
+                      <p className="text-gray-500 text-[10px] sm:text-xs mb-1 leading-tight">
                         {param.label}
                       </p>
-                      <p className="text-[#C9A962] text-sm font-medium">
+                      <p className="text-[#C9A962] text-xs sm:text-sm font-medium">
                         {param.value}
                       </p>
                     </div>
@@ -886,14 +871,9 @@ export default function AluminumDoorsPage() {
           >
             {/* Pill Title */}
             <div className="inline-block mb-4 md:mb-6">
-              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                  <span className="block w-full h-full rounded-full bg-[#303030]" />
-                </span>
-                <span className="relative">Our Process</span>
-              </span>
+              <AnimatedPill>Our Process</AnimatedPill>
             </div>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] italic">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
               From Consultation to Installation
             </h2>
           </motion.div>
@@ -1034,7 +1014,7 @@ export default function AluminumDoorsPage() {
                         <h3 className="text-[#C9A962] text-lg sm:text-xl md:text-2xl uppercase tracking-wider font-medium mb-4 md:mb-6">
                           {processSteps[displayedStep].title}
                         </h3>
-                        <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-12">
+                        <p className="text-[#b5b5b5] text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-12 font-medium">
                           {processSteps[displayedStep].description}
                         </p>
                       </motion.div>

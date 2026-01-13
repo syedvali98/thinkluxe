@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import AnimatedPill from "@/components/ui/AnimatedPill";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -36,15 +37,10 @@ export default function ContactPage() {
           >
             {/* Pill Badge */}
             <div className="flex justify-center mb-6">
-              <span className="relative px-6 py-2 rounded-full text-white text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                  <span className="block w-full h-full rounded-full bg-[#303030]" />
-                </span>
-                <span className="relative">Contact Us</span>
-              </span>
+              <AnimatedPill>Contact Us</AnimatedPill>
             </div>
 
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#C9A962] mb-6">
+            <h1 className="font-serif font-medium text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-6">
               Let&apos;s Create Something Beautiful
             </h1>
             <p className="text-[#b5b5b5] font-medium text-lg max-w-2xl mx-auto">
@@ -171,7 +167,7 @@ export default function ContactPage() {
 
               {/* Contact Details */}
               <div className="space-y-6">
-                <h3 className="font-serif text-2xl text-[#C9A962]">Visit Our Showroom</h3>
+                <h3 className="font-serif font-medium text-2xl text-[#C9A962]">Visit Our Showroom</h3>
 
                 {/* Address */}
                 <div className="flex items-start gap-4">
@@ -197,7 +193,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Address</p>
-                    <p className="text-[#b5b5b5] text-sm">
+                    <p className="text-[#b5b5b5] text-sm font-medium">
                       Unit 15 - 80 Clementine Dr,<br />
                       Brampton, ON, L6Y 0L8, Canada
                     </p>
@@ -223,7 +219,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Hours</p>
-                    <p className="text-[#b5b5b5] text-sm">
+                    <p className="text-[#b5b5b5] text-sm font-medium">
                       Mon - Fri: 10am - 5pm (By Appointment)<br />
                       Weekends: By Appointment Only
                     </p>
@@ -249,7 +245,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Phone</p>
-                    <p className="text-[#b5b5b5] text-sm">416 555 1234</p>
+                    <p className="text-[#b5b5b5] text-sm font-medium">416 555 1234</p>
                   </div>
                 </div>
 
@@ -272,7 +268,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-white font-medium">Email</p>
-                    <p className="text-[#b5b5b5] text-sm">info@thinkluxe.com</p>
+                    <p className="text-[#b5b5b5] text-sm font-medium">info@thinkluxe.com</p>
                   </div>
                 </div>
               </div>

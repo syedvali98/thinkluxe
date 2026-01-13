@@ -150,7 +150,7 @@ export default function PDFModal({ isOpen, onClose, pdfUrl, title }: PDFModalPro
                     {/* Spinning ring */}
                     <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#C9A962] animate-spin" />
                   </div>
-                  <p className="mt-4 text-gray-400 text-sm">Loading catalog...</p>
+                  <p className="mt-4 text-[#b5b5b5] text-sm">Loading catalog...</p>
                 </div>
               )}
 

@@ -12,17 +12,18 @@ export default function AnimatedLogo() {
   const { scrollY } = useScroll();
   const { isMenuOpen } = useMenu();
 
+  const isMobile = windowSize.width > 0 && windowSize.width < 768;
+
   // Responsive logo sizing based on screen width
   const getLogoSize = (width: number) => {
-    if (width < 480) return 200; // Mobile
-    if (width < 768) return 280; // Small tablet
-    if (width < 1024) return 340; // Tablet
-    return 400; // Desktop
+    if (width < 480) return 150; // Mobile
+    if (width < 768) return 200; // Small tablet
+    if (width < 1024) return 250; // Tablet
+    return 250; // Desktop
   };
 
-  // Responsive animation thresholds
+  // Responsive animation thresholds (only used on desktop)
   const getScrollThreshold = (width: number) => {
-    if (width < 768) return 250; // Faster animation on mobile
     return 400; // Desktop
   };
 
@@ -40,8 +41,12 @@ export default function AnimatedLogo() {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  // Hide/show with header once logo is in navbar position (after scroll threshold)
+  // Hide/show with header once logo is in navbar position (desktop only)
   useEffect(() => {
+    // Mobile logo is rendered in HeroSection, not here
+    if (isMobile) return;
+
+    // Desktop behavior - animate to navbar
     const unsubscribe = scrollY.on("change", (latest) => {
       if (latest > scrollThreshold) {
         // Logo is in navbar - follow header hide/show behavior
@@ -58,33 +63,33 @@ export default function AnimatedLogo() {
     });
 
     return () => unsubscribe();
-  }, [scrollY, lastScrollY, scrollThreshold]);
+  }, [scrollY, lastScrollY, scrollThreshold, isMobile]);
 
-  // Calculate center position
+  // Desktop calculations
   const centerX = windowSize.width / 2;
   const centerY = windowSize.height / 2;
 
-  // Navbar logo position (center of navbar)
+  // Navbar logo position (center of navbar) - desktop only
   const navbarX = windowSize.width / 2;
-  const navbarY = windowSize.width < 768 ? 36 : 44; // Smaller navbar position on mobile
+  const navbarY = 44;
 
-  // Final navbar logo size (responsive)
-  const finalLogoSize = windowSize.width < 768 ? 150 : 200;
+  // Final navbar logo size (desktop)
+  const finalLogoSize = 200;
   const finalScale = finalLogoSize / logoSize;
   const midScale = (1 + finalScale) / 2;
   const midThreshold = scrollThreshold / 2;
 
-  // Scale: 1 -> finalScale (responsive logo to navbar logo)
+  // Scale: 1 -> finalScale (desktop only)
   const scale = useTransform(scrollY, [0, midThreshold, scrollThreshold], [1, midScale, finalScale]);
 
-  // X position: center -> navbar center
+  // X position: center -> navbar center (desktop only)
   const x = useTransform(
     scrollY,
     [0, midThreshold, scrollThreshold],
     [centerX, centerX, navbarX]
   );
 
-  // Y position: center -> navbar top
+  // Y position: center -> navbar top (desktop only)
   const y = useTransform(
     scrollY,
     [0, midThreshold, scrollThreshold],
@@ -96,6 +101,12 @@ export default function AnimatedLogo() {
   // Hide when menu is open
   if (isMenuOpen) return null;
 
+  // MOBILE: Don't render here - logo is rendered inside HeroSection for natural scrolling
+  if (isMobile) {
+    return null;
+  }
+
+  // DESKTOP: Animated logo that moves to navbar on scroll
   return (
     <motion.div
       className="fixed z-50 pointer-events-none"

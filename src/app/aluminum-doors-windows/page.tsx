@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui";
+import AnimatedPill from "@/components/ui/AnimatedPill";
 
 export default function AluminumDoorsWindowsPage() {
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -72,10 +73,10 @@ export default function AluminumDoorsWindowsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="mt-20 font-serif font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] leading-tight">
+            <h1 className="mt-20 font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] leading-tight">
               Aluminum Doors & Windows
             </h1>
-            <p className="mt-3 text-base sm:text-lg md:text-xl text-gray-300">
+            <p className="mt-3 text-base sm:text-lg md:text-xl text-[#c9c9c9] font-medium">
               Elegant European Style Windows and Doors Crafted for Beauty, Function, and Quality
             </p>
             <div className="mt-10 sm:mt-14 md:mt-16">
@@ -103,14 +104,9 @@ export default function AluminumDoorsWindowsPage() {
           >
             {/* Pill Title */}
             <div className="inline-block mb-4 md:mb-6">
-              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                  <span className="block w-full h-full rounded-full bg-[#303030]" />
-                </span>
-                <span className="relative">Our Products</span>
-              </span>
+              <AnimatedPill>Our Products</AnimatedPill>
             </div>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-4 md:mb-6">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-4 md:mb-6">
               Aluminum Windows and Doors
             </h2>
             <p className="text-[#b5b5b5] font-medium text-sm sm:text-base md:text-lg max-w-3xl mx-auto">
@@ -140,7 +136,7 @@ export default function AluminumDoorsWindowsPage() {
 
                 {/* Card Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-center">
-                  <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 md:mb-4">
+                  <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 md:mb-4">
                     Aluminum Windows
                   </h3>
                   <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] group-active:text-[#C9A962] transition-colors">
@@ -164,7 +160,7 @@ export default function AluminumDoorsWindowsPage() {
 
                 {/* Card Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-center">
-                  <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 md:mb-4">
+                  <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 md:mb-4">
                     Aluminum Doors
                   </h3>
                   <span className="inline-block text-white text-sm underline underline-offset-4 group-hover:text-[#C9A962] group-active:text-[#C9A962] transition-colors">
@@ -192,7 +188,7 @@ export default function AluminumDoorsWindowsPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-4xl mx-auto">
+            <h2 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-4xl mx-auto">
               Our certifications provide assurance to clients regarding the performance, safety, and environmental impact of the product.
             </h2>
           </motion.div>
@@ -227,7 +223,7 @@ export default function AluminumDoorsWindowsPage() {
           >
             {/* NFRC */}
             <div>
-              <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
                 NFRC (National Fenestration Rating Council)
               </h3>
               <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
@@ -237,7 +233,7 @@ export default function AluminumDoorsWindowsPage() {
 
             {/* ENERGY STAR */}
             <div>
-              <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
                 ENERGY STAR
               </h3>
               <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
@@ -247,7 +243,7 @@ export default function AluminumDoorsWindowsPage() {
 
             {/* CSA */}
             <div>
-              <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
                 CSA (Canadian Standards Association)
               </h3>
               <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
@@ -257,7 +253,7 @@ export default function AluminumDoorsWindowsPage() {
 
             {/* ISO */}
             <div>
-              <h3 className="text-[#C9A962] text-lg md:text-xl mb-4">
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
                 ISO (International Organization for Standardization)
               </h3>
               <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">

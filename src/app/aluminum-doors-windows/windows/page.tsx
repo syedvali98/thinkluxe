@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui";
+import AnimatedPill from "@/components/ui/AnimatedPill";
 
 // Color swatches for product options (# encoded as %23 for URLs)
 const colorSwatches = [
@@ -24,43 +25,6 @@ const colorSwatches = [
 
 // Window types data with nested product options
 const windowTypes = [
-  {
-    id: "single-hung",
-    name: "Single-Hung",
-    title: "Single-Hung Windows",
-    image: "/images/single-hung.png",
-    description: [
-      "Single-hung windows have a fixed upper sash and a lower sash that slides up and down to let in fresh air. They are a cost-effective solution with a classic look that complements vertical spaces and coordinates with homes of any architectural style.",
-      "Think Luxe's single-hung windows are energy efficient, easy to operate, and made of the highest quality materials. From design to delivery, our exceptional service ensures you are satisfied every step of the way. The design of each window can be modified and adapted to suit your creativity and project specifications.",
-      "Meets stringent Energy Star, CSA and other certifications. Uses high-quality vinyl or aluminum profiles that won't peel, crack or bend. Hidden drain hole design ensures water drains quickly. Space saving great option for patios and walkways. Glass options available for added privacy, security and noise reduction.",
-    ],
-    productOptions: [
-      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
-      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
-      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
-      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-1.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
-      { id: "grilles", name: "Grilles", title: "Custom Grille Styles", image: "/images/grille-product-1.png", description: "Grilles come in a variety of patterns and designs. The intentional use of grilles can further enhance your home's specific style or architectural design." },
-    ],
-  },
-  {
-    id: "tilt-turn",
-    name: "Tilt and Turn",
-    title: "Tilt And Turn Windows",
-    image: "/images/tilt-and-turn.png",
-    description: [
-      "Tilt-and-turn windows can be opened multiple ways with the turn of a handle. They open inward like casement windows and can also tilt inward to let in fresh air. They are ideal for homeowners, architects, and developers looking for a versatile, energy-saving solution.",
-      "Think Luxe's tilt-and-turn windows are equipped with high-quality hardware, which enables the dual functionality of the window as well as secure locking with a single handle. With our windows, you can enjoy the best features of casement, fixed and tilt designs with elegance and simplicity.",
-      "The compact design, refined bevels, and slopes give the profile a modern and elegant look. Extremely durable and modern gasket ensures windows are tight and reliable. High-quality insulated glass and top-notch craftsmanship ensure comfort. Can be used alone or with other window combinations.",
-    ],
-    productOptions: [
-      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
-      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
-      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
-      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
-      { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
-      { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
-    ],
-  },
   {
     id: "casement",
     name: "Casement",
@@ -93,7 +57,7 @@ const windowTypes = [
       { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
       { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
       { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
-      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-1.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
       { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
       { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
@@ -117,57 +81,43 @@ const windowTypes = [
     ],
   },
   {
-    id: "double-hung",
-    name: "Double-Hung",
-    title: "Double-Hung Windows",
-    image: "/images/double-hung.png",
+    id: "tilt-turn",
+    name: "Tilt and Turn",
+    title: "Tilt And Turn Windows",
+    image: "/images/tilt-and-turn.png",
     description: [
-      "Double-hung windows are the most popular type of window. Consisting of two sashes that can move up and down independently, they provide better ventilation. Think Luxe double-hung windows feature interlocking devices, sealing strips, and high-quality sash locks that combine beauty and performance.",
-      "Take advantage of the various customization options Think Luxe offers to create the perfect double-hung window that's unique to your space.",
-      "Provides the option to open from the top or bottom. Meets stringent Energy Star, CSA and other certifications. Maximize your home's ability to ventilate effectively. Uses high-quality vinyl or aluminum profiles that won't peel, crack or bend. Provide high-performance energy options to increase energy efficiency. High-quality components allow for simple, convenient operation.",
+      "Tilt-and-turn windows can be opened multiple ways with the turn of a handle. They open inward like casement windows and can also tilt inward to let in fresh air. They are ideal for homeowners, architects, and developers looking for a versatile, energy-saving solution.",
+      "Think Luxe's tilt-and-turn windows are equipped with high-quality hardware, which enables the dual functionality of the window as well as secure locking with a single handle. With our windows, you can enjoy the best features of casement, fixed and tilt designs with elegance and simplicity.",
+      "The compact design, refined bevels, and slopes give the profile a modern and elegant look. Extremely durable and modern gasket ensures windows are tight and reliable. High-quality insulated glass and top-notch craftsmanship ensure comfort. Can be used alone or with other window combinations.",
     ],
     productOptions: [
       { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
       { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
       { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
-      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-4.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
       { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
       { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
   },
   {
-    id: "bay",
-    name: "Bay",
-    title: "Bay Windows",
-    image: "/images/bay.png",
+    id: "awning",
+    name: "Awning",
+    title: "Awning Windows",
+    image: "/images/awning.png",
     description: [
-      "Bay windows are composed of a range of fixed or openable window styles, set at various angles to create a gentle arc. This innovative three-dimensional design expands the room and extends beyond the exterior wall, maximizing natural light and allowing more light into the room.",
-      "Think Luxe's bay windows are functional and beautiful, customized to your home. Our bay windows can be casement, double hung or picture style units, a combination of windows that extend outwards from the house, creating a beautiful exterior appearance and attractive interior spaces for your building.",
-      "Multiple windows are connected in select combinations to increase space and light in the room. Made from high-quality extruded profiles that won't chip or peel. Resistant to fading and mildew. Available in a variety of configurations, a range of colors, and unique grille designs.",
+      "Awning windows open outward from the top hinge, providing maximum ventilation while effectively preventing rain from entering the room. Each window can be fully customized to your specific requirements. They are often used alone or installed below large viewing windows to allow for ventilation.",
+      "Our durable awning windows allow for great ventilation, even on rainy days, and have a stylish look that will blend in with the look of almost any space. Whether you’re building new or replacing existing windows, we can make your one-of-a-kind awning window to fit your needs.",
+      "Profiles that provide exceptional strength and durability to withstand the elements. Precision miter, fusion fillet. Hidden drainage. Available as a single-unit or dual-unit combination. Variety of standard and custom colors",
     ],
     productOptions: [
       { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
       { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
       { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." },
-      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-5.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
+      { id: "hardware", name: "Hardware", title: "Hardware Options", image: "/images/hardware-product-2.png", description: "Engineered to be both durable and beautiful, our hardware is available in different style design options with finishes that complement our products' hardware for a consistent look." },
       { id: "screens", name: "Screens", title: "Screens Options", image: "/images/screens-product-1.png", description: "Think Luxe's screen options are made of durable, low-maintenance aluminum to provide better airflow and more natural light while keeping insects out." },
       { id: "blinds", name: "Blinds", title: "Blinds Options", image: "/images/blinds-product-1.png", description: "Our built-in blind options allow the blinds to be tilted and raised via a magnetic handle, wall switch, or remote control and are permanently sealed inside double-glazed windows. The louver design is hidden between insulated glass panels, allowing for minimal cleaning and no fear of damage, making it safer for your children and pets." },
     ],
-  },
-  {
-    id: "skylight",
-    name: "Skylight",
-    title: "Skylight Windows",
-    image: "/images/skylight.png",
-    description: [
-      "Wanjia skylights are designed to provide a perfect combination of natural lighting and natural ventilation for your space. We offer three operation modes: manual, electric, and chain drive. These modes allow you to bring the beauty of the outdoors into the interior in a unique way, providing unparalleled quality and excellent lighting effects to enhance the atmosphere of your home.",
-      "Trustworthy leader of windows and doors in Canada for 20 years. All products meet international specifications to ensure energy, safety and structural requirements compliance. We provide the most efficient and cost-effective solutions to design, build and deliver products on time and within budget. With clear instructions and pre-tested components, products can be installed seamlessly, saving you time and labor on site. Customer satisfaction is as high as 98%.",
-    ],
-    productOptions: [
-      { id: "materials", name: "Materials", title: "Aluminum", image: "/images/aluminum-product.png", description: "Aluminum doors strike a balance between strength and weight, making them stronger and more durable, as well as providing greater security and protection. Aluminum doors can last up to 30 years." },
-      { id: "color", name: "Color", title: "Custom Interior/Exterior Colors", images: colorSwatches, description: "Our products feature reliable, low-maintenance interior and exterior finishes that resist fading, peeling and chalking, even in a variety of extreme weather conditions. We also offer custom color options to meet your unique project requirements." },
-      { id: "glass", name: "Glass", title: "Glass Options", image: "/images/glass-product-1.png", description: "A variety of glass color and type options allow you to add unique details to your windows and doors while balancing the privacy and natural light you prefer and delivering superior quality and thermal performance." }],
-  },
+  }
 ];
 
 
@@ -604,7 +554,7 @@ export default function AluminumWindowsPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] font-semibold mb-4">
+            <h1 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-4">
               Aluminum Windows
             </h1>
             <p className="text-[#b5b5b5] font-medium text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4 sm:px-0">
@@ -662,14 +612,14 @@ export default function AluminumWindowsPage() {
               {/* Right - Content Card */}
               <div className="relative p-[1px] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] bg-gradient-to-br from-[#C9A962] via-[#C9A962]/50 to-[#333333]">
                 <div className="bg-[#0a0a0a] rounded-[20px] md:rounded-[30px] lg:rounded-[40px] p-5 sm:p-6 md:p-10 lg:p-12 h-full flex flex-col justify-center">
-                  <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-4 sm:mb-6">
+                  <h2 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] mb-4 sm:mb-6">
                     {windowTypes[selectedTab].title}
                   </h2>
 
                   {/* Description paragraphs */}
                   <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                     {windowTypes[selectedTab].description.map((para, index) => (
-                      <p key={index} className="text-[#b5b5b5] text-xs sm:text-sm md:text-base leading-relaxed">
+                      <p key={index} className="text-[#b5b5b5] text-xs sm:text-sm md:text-base leading-relaxed font-medium">
                         {para}
                       </p>
                     ))}
@@ -693,7 +643,7 @@ export default function AluminumWindowsPage() {
             className="bg-white rounded-[20px] sm:rounded-[30px] md:rounded-[45px] lg:rounded-[60px] p-5 sm:p-6 md:p-10 lg:p-16"
           >
             {/* Header */}
-            <h2 className="font-serif font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] text-center mb-6 sm:mb-8 md:mb-10">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] text-center mb-6 sm:mb-8 md:mb-10">
               Product Options
             </h2>
 
@@ -759,10 +709,10 @@ export default function AluminumWindowsPage() {
 
                 {/* Right - Text Content */}
                 <div className="text-center md:text-left">
-                  <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 sm:mb-4">
+                  <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-[#C9A962] mb-3 sm:mb-4">
                     {currentProductOptions[selectedOption].title}
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed">
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed font-medium">
                     {currentProductOptions[selectedOption].description}
                   </p>
                 </div>
@@ -785,14 +735,9 @@ export default function AluminumWindowsPage() {
           >
             {/* Pill Badge */}
             <div className="inline-block mb-4 sm:mb-6">
-              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                  <span className="block w-full h-full rounded-full bg-[#303030]" />
-                </span>
-                <span className="relative">Series</span>
-              </span>
+              <AnimatedPill>Series</AnimatedPill>
             </div>
-            <h2 className="font-serif font-semibold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-3xl mx-auto px-2 sm:px-0">
+            <h2 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-3xl mx-auto px-2 sm:px-0">
               Browse Through our Aluminum Product Series To Find The Best One For Your home.
             </h2>
           </motion.div>
@@ -926,14 +871,9 @@ export default function AluminumWindowsPage() {
           >
             {/* Pill Title */}
             <div className="inline-block mb-4 md:mb-6">
-              <span className="relative px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-white text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#715A23]">
-                  <span className="block w-full h-full rounded-full bg-[#303030]" />
-                </span>
-                <span className="relative">Our Process</span>
-              </span>
+              <AnimatedPill>Our Process</AnimatedPill>
             </div>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962]">
               From Consultation to Installation
             </h2>
           </motion.div>
@@ -1074,7 +1014,7 @@ export default function AluminumWindowsPage() {
                         <h3 className="text-[#C9A962] text-lg sm:text-xl md:text-2xl uppercase tracking-wider font-medium mb-4 md:mb-6">
                           {processSteps[displayedStep].title}
                         </h3>
-                        <p className="text-[#b5b5b5] text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-12">
+                        <p className="text-[#b5b5b5] text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-12 font-medium">
                           {processSteps[displayedStep].description}
                         </p>
                       </motion.div>

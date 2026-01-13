@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import { ShowroomSection } from "@/components/home";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import AnimatedPill from "@/components/ui/AnimatedPill";
 
 // Gallery videos data
 const galleryVideos = [
@@ -447,22 +448,17 @@ export default function GalleryPage() {
       </section>
 
       {/* Gallery Grid Section */}
-      <section className="bg-[#ffffff] py-12 sm:py-16 md:py-24 lg:py-32">
+      <section className="bg-[#ffffff] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-8 md:mb-12">
+          <div className="text-center mb-8">
             {/* Pill Badge - Gold gradient border style */}
             <div className="flex justify-center mb-4 md:mb-6">
-              <span className="relative px-6 py-2 rounded-full text-black text-xs tracking-wider">
-                <span className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#C9A962] to-[#eccd84]">
-                  <span className="block w-full h-full rounded-full bg-[#dcdcdc]" />
-                </span>
-                <span className="relative">Gallery</span>
-              </span>
+              <AnimatedPill lightMode>Gallery</AnimatedPill>
             </div>
 
             {/* Heading */}
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[#C9A962] mb-3 md:mb-4">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-medium text-[#C9A962] mb-3 md:mb-4">
               Experience Luxury in Every Detail
             </h2>
 
@@ -475,12 +471,12 @@ export default function GalleryPage() {
 
           {/* Tab Selector */}
           <div className="flex justify-center mb-8 md:mb-12 px-4 sm:px-0">
-            <div className="inline-flex items-center gap-1 sm:gap-2 p-1.5 sm:p-2 md:p-3 rounded-full border border-[#C9A962] bg-[#ffffff]">
+            <div className="inline-flex items-center gap-1 sm:gap-2 p-1.5 rounded-full border border-[#C9A962] bg-[#ffffff]">
               {galleryCategories.map((category, index) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(index)}
-                  className={`px-3 py-2 sm:px-5 sm:py-3 md:px-10 md:py-6 rounded-full font-medium transition-all duration-300 cursor-pointer text-[10px] sm:text-xs md:text-base whitespace-nowrap ${
+                  className={`px-3 md:px-6 py-2 md:py-2 rounded-full font-medium transition-all duration-300 cursor-pointer text-[11px] sm:text-xs md:text-base whitespace-nowrap ${
                     selectedCategory === index
                       ? "bg-[#efefef] text-[#C9A962]"
                       : "text-[#c5bca6] hover:text-[#ac945d]"
