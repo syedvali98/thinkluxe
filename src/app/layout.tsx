@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Header, Footer } from "@/components/layout";
 import Providers from "@/components/Providers";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 const gilroy = localFont({
   src: [
@@ -50,6 +51,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <WhatsAppButton />
         </Providers>
       </body>
     </html>

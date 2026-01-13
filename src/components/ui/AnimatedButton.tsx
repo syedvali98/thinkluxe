@@ -13,6 +13,8 @@ interface AnimatedButtonProps {
   isExternal?: boolean;
   lightMode?: boolean;
   fullWidthMobile?: boolean;
+  fullWidth?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export default function AnimatedButton({
@@ -24,6 +26,8 @@ export default function AnimatedButton({
   isExternal = false,
   lightMode = false,
   fullWidthMobile = false,
+  fullWidth = false,
+  type = "button",
 }: AnimatedButtonProps) {
   const angle = useMotionValue(0);
 
@@ -46,6 +50,7 @@ export default function AnimatedButton({
 
   const roundedClass = fullRounded ? "rounded-full" : "rounded-r-full rounded-l-none";
   const getWidthClass = () => {
+    if (fullWidth) return "w-full";
     if (fullWidthMobile) return "w-full md:inline-block";
     if (fullRounded) return "inline-block";
     return "w-2/5";
@@ -76,19 +81,21 @@ export default function AnimatedButton({
     </div>
   );
 
+  const wrapperClass = fullWidth ? "w-full block" : "";
+
   if (href) {
     if (isExternal) {
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer">
+        <a href={href} target="_blank" rel="noopener noreferrer" className={wrapperClass}>
           {buttonContent}
         </a>
       );
     }
-    return <Link href={href}>{buttonContent}</Link>;
+    return <Link href={href} className={wrapperClass}>{buttonContent}</Link>;
   }
 
   return (
-    <button type="button" onClick={onClick}>
+    <button type={type} onClick={onClick} className={wrapperClass}>
       {buttonContent}
     </button>
   );

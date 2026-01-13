@@ -1,27 +1,83 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import AnimatedPill from "@/components/ui/AnimatedPill";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    city: "",
+    timeline: "",
     service: "",
     message: "",
   });
+  const [file, setFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("city", formData.city);
+      formDataToSend.append("timeline", formData.timeline);
+      formDataToSend.append("service", formData.service);
+      formDataToSend.append("message", formData.message);
+      if (file) {
+        formDataToSend.append("file", file);
+      }
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        body: formDataToSend,
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setSubmitStatus("success");
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        city: "",
+        timeline: "",
+        service: "",
+        message: "",
+      });
+      setFile(null);
+    } catch (error) {
+      setSubmitStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -104,6 +160,43 @@ export default function ContactPage() {
                   </div>
                 </div>
 
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="city" className="block text-sm text-[#b5b5b5] mb-2">
+                      City/Area
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-transparent border border-[#3d3d3d] rounded-full text-white placeholder:text-[#3d3d3d] focus:border-[#C9A962] focus:outline-none transition-colors"
+                      placeholder="e.g. Brampton, Toronto"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="timeline" className="block text-sm text-[#b5b5b5] mb-2">
+                      When do you want to start?
+                    </label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      value={formData.timeline}
+                      onChange={handleChange}
+                      className="w-full pl-4 pr-8 py-3 bg-black border border-[#3d3d3d] rounded-full text-white focus:border-[#C9A962] focus:outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23C9A962%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[right_1rem_center] bg-[length:1.25rem]"
+                    >
+                      <option value="">Select timeline</option>
+                      <option value="asap">ASAP</option>
+                      <option value="1-3-months">1-3 Months</option>
+                      <option value="3-6-months">3-6 Months</option>
+                      <option value="6-plus-months">6+ Months</option>
+                      <option value="exploring">Just Exploring</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div>
                   <label htmlFor="service" className="block text-sm text-[#b5b5b5] mb-2">
                     Service Interested In
@@ -124,6 +217,45 @@ export default function ContactPage() {
                 </div>
 
                 <div>
+                  <label htmlFor="file" className="block text-sm text-[#b5b5b5] mb-2">
+                    Upload File (Optional)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      onChange={handleFileChange}
+                      accept="image/*,.pdf,.doc,.docx"
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="file"
+                      className="flex items-center justify-center gap-3 w-full px-4 py-3 bg-transparent border border-dashed border-[#3d3d3d] rounded-full text-[#b5b5b5] hover:border-[#C9A962] hover:text-[#C9A962] transition-colors cursor-pointer"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                      </svg>
+                      {file ? file.name : "Choose a file or drag it here"}
+                    </label>
+                  </div>
+                  {file && (
+                    <div className="mt-2 flex items-center gap-2">
+                      <span className="text-sm text-[#C9A962] truncate max-w-[250px]">{file.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => setFile(null)}
+                        className="text-[#b5b5b5] hover:text-white transition-colors flex-shrink-0"
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div>
                   <label htmlFor="message" className="block text-sm text-[#b5b5b5] mb-2">
                     Your Message
                   </label>
@@ -139,12 +271,42 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-5 rounded-full border border-white text-white backdrop-blur-md bg-white/10 hover:bg-white/20 hover:border-[#C9A962] hover:text-[#C9A962] transition-all uppercase tracking-wider text-lg cursor-pointer"
-                >
-                  Send Message
-                </button>
+                <AnimatedButton type="submit" fullRounded fullWidth>
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </AnimatedButton>
+
+                {/* Success/Error Messages */}
+                <AnimatePresence mode="wait">
+                  {submitStatus === "success" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-3 p-4 rounded-2xl bg-green-500/10 border border-green-500/30"
+                    >
+                      <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="text-green-500 text-sm">
+                        Thank you! Your message has been sent successfully. We&apos;ll get back to you soon.
+                      </p>
+                    </motion.div>
+                  )}
+
+                  {submitStatus === "error" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-3 p-4 rounded-2xl bg-red-500/10 border border-red-500/30"
+                    >
+                      <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                      </svg>
+                      <p className="text-red-500 text-sm">{errorMessage}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </form>
             </motion.div>
 

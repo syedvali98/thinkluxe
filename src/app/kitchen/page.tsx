@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Container, Section } from "@/components/ui";
+import { Container, Section, AnimatedButton } from "@/components/ui";
 import PDFModal from "@/components/ui/PDFModal";
 import AnimatedPill from "@/components/ui/AnimatedPill";
 
@@ -23,7 +23,7 @@ const serviceCards = [
     pdf: "/pdfs/kitchen-2.pdf",
   },
   {
-    title: "Media Unit, Dinning,\nEntrance & Office",
+    title: "Media Unit, Dining,\nEntrance & Office Sections",
     description: "Elegant solutions for every room in your home, designed with precision and style.",
     image: "/images/kitchen-3.jpg",
     pdf: "/pdfs/kitchen-3.pdf",
@@ -47,6 +47,177 @@ const serviceCards = [
     pdf: "/pdfs/kitchen-6.pdf",
   },
 ];
+
+// Gallery images for kitchen
+const galleryRow1 = [
+  "/images/kitchen-gallery-1.jpeg",
+  "/images/kitchen-gallery-2.jpeg",
+  "/images/kitchen-gallery-3.jpeg",
+  "/images/kitchen-gallery-4.jpeg",
+  "/images/kitchen-gallery-5.jpeg",
+  "/images/kitchen-gallery-6.jpeg",
+];
+
+const galleryRow2 = [
+  "/images/kitchen-gallery-7.jpeg",
+  "/images/kitchen-gallery-8.jpeg",
+  "/images/kitchen-gallery-9.jpeg",
+  "/images/kitchen-gallery-10.jpeg",
+  "/images/kitchen-gallery-11.jpeg",
+  "/images/kitchen-gallery-12.jpeg",
+];
+
+const allGalleryImages = [...galleryRow1, ...galleryRow2];
+
+// Image Viewer Component
+function ImageViewer({
+  src,
+  onClose,
+  onNext,
+  onPrev,
+}: {
+  src: string;
+  onClose: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+}) {
+  const [zoom, setZoom] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Reset zoom and position when image changes
+  useEffect(() => {
+    setZoom(1);
+    setPosition({ x: 0, y: 0 });
+  }, [src]);
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") onNext();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "+" || e.key === "=") setZoom((z) => Math.min(z + 0.25, 3));
+      if (e.key === "-") setZoom((z) => Math.max(z - 0.25, 1));
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose, onNext, onPrev]);
+
+  // Handle wheel zoom
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    setZoom((z) => Math.min(Math.max(z + delta, 1), 3));
+  };
+
+  // Handle drag for panning when zoomed
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoom > 1) {
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && zoom > 1) {
+      setPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+      onClick={onClose}
+    >
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+      >
+        <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {/* Navigation arrows */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+      >
+        <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        onClick={(e) => { e.stopPropagation(); onNext(); }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+      >
+        <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      {/* Zoom controls */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 bg-white/10 rounded-full px-4 py-2">
+        <button
+          onClick={(e) => { e.stopPropagation(); setZoom((z) => Math.max(z - 0.25, 1)); }}
+          className="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors"
+        >
+          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+          </svg>
+        </button>
+        <span className="text-white text-sm min-w-[3rem] text-center">{Math.round(zoom * 100)}%</span>
+        <button
+          onClick={(e) => { e.stopPropagation(); setZoom((z) => Math.min(z + 0.25, 3)); }}
+          className="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors"
+        >
+          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Image container */}
+      <div
+        ref={containerRef}
+        className="relative max-w-[90vw] max-h-[85vh] overflow-hidden cursor-move"
+        onClick={(e) => e.stopPropagation()}
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
+        <img
+          src={src}
+          alt="Gallery image"
+          className="transition-transform duration-200 ease-out"
+          style={{
+            transform: `scale(${zoom}) translate(${position.x / zoom}px, ${position.y / zoom}px)`,
+            maxWidth: "90vw",
+            maxHeight: "85vh",
+            objectFit: "contain",
+          }}
+          draggable={false}
+        />
+      </div>
+    </motion.div>
+  );
+}
 
 // Helper function for card border radius - responsive
 // Mobile (1 col): 0=top, 5=bottom
@@ -159,6 +330,48 @@ export default function KitchenPage() {
   const closePdfModal = () => {
     setPdfModal({ isOpen: false, pdf: "", title: "" });
   };
+
+  // Gallery state
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+  const gallerySectionRef = useRef<HTMLDivElement>(null);
+
+  // Gallery navigation
+  const handleNext = () => {
+    if (selectedImage) {
+      const currentIndex = allGalleryImages.indexOf(selectedImage);
+      const nextIndex = (currentIndex + 1) % allGalleryImages.length;
+      setSelectedImage(allGalleryImages[nextIndex]);
+    }
+  };
+
+  const handlePrev = () => {
+    if (selectedImage) {
+      const currentIndex = allGalleryImages.indexOf(selectedImage);
+      const prevIndex = (currentIndex - 1 + allGalleryImages.length) % allGalleryImages.length;
+      setSelectedImage(allGalleryImages[prevIndex]);
+    }
+  };
+
+  // Gallery visibility observer
+  useEffect(() => {
+    const galleryObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsGalleryVisible(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (gallerySectionRef.current) {
+      galleryObserver.observe(gallerySectionRef.current);
+    }
+
+    return () => {
+      galleryObserver.disconnect();
+    };
+  }, []);
 
   // Get angle for a step (center of each quadrant)
   const getStepAngle = (step: number) => {
@@ -569,6 +782,150 @@ export default function KitchenPage() {
           </motion.div>
         </Container>
       </section>
+
+      {/* Gallery Section - Horizontal filmstrip */}
+      <Section className="bg-black overflow-hidden pt-8 md:pt-16">
+        <Container className="px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 md:mb-12"
+          >
+            <div className="mb-4">
+              <AnimatedPill>Our Gallery</AnimatedPill>
+            </div>
+            <h2 className="font-serif font-medium text-2xl sm:text-2xl md:text-3xl text-[#C9A962]">
+              Craftsmanship in Every Detail
+            </h2>
+          </motion.div>
+        </Container>
+
+        {/* Infinite scrolling gallery strips - full width, pauses when not visible */}
+        <div
+          ref={gallerySectionRef}
+          className="relative w-screen left-1/2 -translate-x-1/2 overflow-hidden space-y-4 sm:space-y-6"
+        >
+          {/* First row - scrolling left */}
+          <motion.div
+            className="flex gap-4 sm:gap-6"
+            animate={isGalleryVisible ? { x: [0, -2020] } : {}}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 70,
+                ease: "linear",
+              },
+            }}
+          >
+            {galleryRow1.map((src, i) => (
+              <div
+                key={i}
+                className="relative w-[280px] sm:w-[320px] md:w-[380px] aspect-[4/3] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+                onClick={() => setSelectedImage(src)}
+              >
+                <Image
+                  src={src}
+                  alt={`Kitchen gallery ${i + 1}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+            {galleryRow1.map((src, i) => (
+              <div
+                key={`dup-${i}`}
+                className="relative w-[280px] sm:w-[320px] md:w-[380px] aspect-[4/3] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+                onClick={() => setSelectedImage(src)}
+              >
+                <Image
+                  src={src}
+                  alt={`Kitchen gallery ${i + 1}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Second row - scrolling right */}
+          <motion.div
+            className="flex gap-4 sm:gap-6"
+            initial={{ x: -2020 }}
+            animate={isGalleryVisible ? { x: [-2020, 0] } : {}}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 70,
+                ease: "linear",
+              },
+            }}
+          >
+            {galleryRow2.map((src, i) => (
+              <div
+                key={i}
+                className="relative w-[280px] sm:w-[320px] md:w-[380px] aspect-[4/3] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+                onClick={() => setSelectedImage(src)}
+              >
+                <Image
+                  src={src}
+                  alt={`Kitchen gallery ${i + 6}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+            {galleryRow2.map((src, i) => (
+              <div
+                key={`dup-${i}`}
+                className="relative w-[280px] sm:w-[320px] md:w-[380px] aspect-[4/3] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+                onClick={() => setSelectedImage(src)}
+              >
+                <Image
+                  src={src}
+                  alt={`Kitchen gallery ${i + 6}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* View More Button */}
+        <Container className="px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center mt-8"
+          >
+            <AnimatedButton href="/gallery" fullRounded>
+              View More
+            </AnimatedButton>
+          </motion.div>
+        </Container>
+      </Section>
+
+      {/* Image Viewer Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <ImageViewer
+            src={selectedImage}
+            onClose={() => setSelectedImage(null)}
+            onNext={handleNext}
+            onPrev={handlePrev}
+          />
+        )}
+      </AnimatePresence>
 
       {/* PDF Modal */}
       <PDFModal
