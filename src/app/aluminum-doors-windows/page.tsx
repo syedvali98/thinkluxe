@@ -34,7 +34,10 @@ export default function AluminumDoorsWindowsPage() {
   return (
     <main className="bg-black">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section
+        ref={heroRef}
+        className="relative h-screen flex items-center justify-center overflow-hidden"
+      >
         {/* Background with video and image fallback */}
         <div className="absolute inset-0">
           {/* Video background - lazy loaded */}
@@ -73,11 +76,12 @@ export default function AluminumDoorsWindowsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="mt-20 font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] leading-tight">
+            <h1 className="mt-20 font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962] leading-tight">
               Aluminum Doors & Windows
             </h1>
             <p className="mt-3 text-base sm:text-lg md:text-xl text-[#c9c9c9] font-medium">
-              Elegant European Style Windows and Doors Crafted for Beauty, Function, and Quality
+              Elegant European Style Windows and Doors Crafted for Beauty,
+              Function, and Quality
             </p>
             <div className="mt-10 sm:mt-14 md:mt-16">
               <Link
@@ -92,7 +96,7 @@ export default function AluminumDoorsWindowsPage() {
       </section>
 
       {/* Our Products Section */}
-      <section className="bg-black py-16 md:py-24 lg:py-32">
+      <section className="bg-black py-16">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -106,11 +110,11 @@ export default function AluminumDoorsWindowsPage() {
             <div className="inline-block mb-4 md:mb-6">
               <AnimatedPill>Our Products</AnimatedPill>
             </div>
-            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-4 md:mb-6">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962] mb-4 md:mb-6">
               Aluminum Windows and Doors
             </h2>
             <p className="text-[#b5b5b5] font-medium text-sm sm:text-base md:text-lg max-w-3xl mx-auto">
-              Our Product offerings include all types and operating styles of windows and doors, transforming your spaces with endless customization options and best-in-class energy efficiency performance.
+              Our aluminum windows and doors span every architectural style and configuration, offering refined customization and exceptional energy performance.
             </p>
           </motion.div>
 
@@ -179,7 +183,7 @@ export default function AluminumDoorsWindowsPage() {
       </Container>
 
       {/* Certifications Section */}
-      <section className="bg-black py-16 md:py-24 lg:py-32">
+      <section className="bg-black py-16">
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -188,9 +192,76 @@ export default function AluminumDoorsWindowsPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
+            <div className="inline-block mb-4 md:mb-6">
+              <AnimatedPill>Certifications</AnimatedPill>
+            </div>
             <h2 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-4xl mx-auto">
-              Our certifications provide assurance to clients regarding the performance, safety, and environmental impact of the product.
+              Our certifications provide assurance to clients regarding the
+              performance, safety, and environmental impact of the product.
             </h2>
+          </motion.div>
+
+          {/* Certification Details Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16"
+          >
+            {/* NFRC */}
+            <div>
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
+                NFRC (National Fenestration Rating Council)
+              </h3>
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
+                NFRC is North American certification that provides standardized
+                ratings for the energy performance of windows, doors, and
+                skylights, helping consumers make informed decisions about
+                energy efficiency and performance.
+              </p>
+            </div>
+
+            {/* ENERGY STAR */}
+            <div>
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
+                ENERGY STAR
+              </h3>
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
+                ENERGY STAR identifies and promotes energy-efficient products,
+                including windows, which meet strict energy efficiency criteria
+                set by the U.S. Environmental Protection Agency (EPA) and the
+                U.S. Department of Energy (DOE).
+              </p>
+            </div>
+
+            {/* CSA */}
+            <div>
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
+                CSA (Canadian Standards Association)
+              </h3>
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
+                CSA Certification validates windows' compliance with Canadian
+                safety and performance standards set by the Canadian Standards
+                Association. It guarantees structural integrity, thermal
+                performance, and durability, instilling confidence in consumers
+                regarding the windows' safety and reliability in Canadian
+                settings.
+              </p>
+            </div>
+
+            {/* ISO */}
+            <div>
+              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
+                ISO (International Organization for Standardization)
+              </h3>
+              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
+                ISO certification indicates adherence to internationally
+                recognized standards for product quality, performance, and
+                environmental management, ensuring consistency and reliability
+                in windows production.
+              </p>
+            </div>
           </motion.div>
 
           {/* Certifications Image */}
@@ -198,7 +269,7 @@ export default function AluminumDoorsWindowsPage() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-8 md:mt-16"
           >
             <div className="relative w-full rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
@@ -210,55 +281,6 @@ export default function AluminumDoorsWindowsPage() {
                 className="w-full h-auto object-contain"
                 loading="lazy"
               />
-            </div>
-          </motion.div>
-
-          {/* Certification Details Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16"
-          >
-            {/* NFRC */}
-            <div>
-              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
-                NFRC (National Fenestration Rating Council)
-              </h3>
-              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
-                NFRC is North American certification that provides standardized ratings for the energy performance of windows, doors, and skylights, helping consumers make informed decisions about energy efficiency and performance.
-              </p>
-            </div>
-
-            {/* ENERGY STAR */}
-            <div>
-              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
-                ENERGY STAR
-              </h3>
-              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
-                ENERGY STAR identifies and promotes energy-efficient products, including windows, which meet strict energy efficiency criteria set by the U.S. Environmental Protection Agency (EPA) and the U.S. Department of Energy (DOE).
-              </p>
-            </div>
-
-            {/* CSA */}
-            <div>
-              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
-                CSA (Canadian Standards Association)
-              </h3>
-              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
-                CSA Certification validates windows' compliance with Canadian safety and performance standards set by the Canadian Standards Association. It guarantees structural integrity, thermal performance, and durability, instilling confidence in consumers regarding the windows' safety and reliability in Canadian settings.
-              </p>
-            </div>
-
-            {/* ISO */}
-            <div>
-              <h3 className="font-medium text-[#C9A962] text-lg md:text-xl mb-4">
-                ISO (International Organization for Standardization)
-              </h3>
-              <p className="text-[#b5b5b5] font-medium text-sm md:text-base leading-relaxed">
-                ISO certification indicates adherence to internationally recognized standards for product quality, performance, and environmental management, ensuring consistency and reliability in windows production.
-              </p>
             </div>
           </motion.div>
         </Container>
