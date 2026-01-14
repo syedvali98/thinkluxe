@@ -1,28 +1,35 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import { Header, Footer } from "@/components/layout";
 import Providers from "@/components/Providers";
-import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
+// Dynamic import for non-critical UI component
+const WhatsAppButton = dynamic(
+  () => import("@/components/ui/WhatsAppButton"),
+  { ssr: false }
+);
+
+// Optimized font loading - only essential weights
 const gilroy = localFont({
   src: [
     { path: "../../public/fonts/gilroy/Gilroy-Regular.ttf", weight: "400", style: "normal" },
-    { path: "../../public/fonts/gilroy/Gilroy-RegularItalic.ttf", weight: "400", style: "italic" },
     { path: "../../public/fonts/gilroy/Gilroy-Medium.ttf", weight: "500", style: "normal" },
-    { path: "../../public/fonts/gilroy/Gilroy-MediumItalic.ttf", weight: "500", style: "italic" },
     { path: "../../public/fonts/gilroy/Gilroy-SemiBold.ttf", weight: "600", style: "normal" },
-    { path: "../../public/fonts/gilroy/Gilroy-SemiBoldItalic.ttf", weight: "600", style: "italic" },
     { path: "../../public/fonts/gilroy/Gilroy-Bold.ttf", weight: "700", style: "normal" },
-    { path: "../../public/fonts/gilroy/Gilroy-BoldItalic.ttf", weight: "700", style: "italic" },
   ],
   variable: "--font-gilroy",
+  display: "swap",
+  preload: true,
 });
 
 const cormorant = localFont({
   src: "../../public/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf",
   variable: "--font-cormorant",
   weight: "300 700",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef, memo } from "react";
 import { motion, useMotionValue, animate, useMotionTemplate } from "framer-motion";
 import Link from "next/link";
 
@@ -17,7 +17,7 @@ interface AnimatedButtonProps {
   type?: "button" | "submit" | "reset";
 }
 
-export default function AnimatedButton({
+function AnimatedButton({
   children,
   href,
   onClick,
@@ -30,16 +30,30 @@ export default function AnimatedButton({
   type = "button",
 }: AnimatedButtonProps) {
   const angle = useMotionValue(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-  // Always animate rotation
+  // Only animate when visible in viewport
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Animate rotation only when visible
+  useEffect(() => {
+    if (!isVisible) return;
+
     const controls = animate(angle, angle.get() + 360, {
       duration: 3,
       repeat: Infinity,
       ease: "linear",
     });
     return () => controls.stop();
-  }, [angle]);
+  }, [angle, isVisible]);
 
   // Colors based on mode
   const baseColor = lightMode ? "#d7cda9" : "#1a1a1a";
@@ -59,9 +73,10 @@ export default function AnimatedButton({
 
   const buttonContent = (
     <div
+      ref={ref}
       className={`relative ${widthClass} p-[1.5px] ${roundedClass} overflow-hidden cursor-pointer ${className}`}
     >
-      {/* Rotating gradient border - always visible */}
+      {/* Rotating gradient border - only animates when visible */}
       <motion.div
         className={`absolute inset-0 ${roundedClass}`}
         style={{
@@ -100,3 +115,5 @@ export default function AnimatedButton({
     </button>
   );
 }
+
+export default memo(AnimatedButton);

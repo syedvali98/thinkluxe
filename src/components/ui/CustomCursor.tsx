@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 interface CustomCursorProps {
   isVisible: boolean;
 }
 
-export default function CustomCursor({ isVisible }: CustomCursorProps) {
+function CustomCursor({ isVisible }: CustomCursorProps) {
   const [mounted, setMounted] = useState(false);
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -19,14 +19,24 @@ export default function CustomCursor({ isVisible }: CustomCursorProps) {
   useEffect(() => {
     setMounted(true);
 
+    let rafId: number;
+
     const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      // Use RAF to batch updates for better performance
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        cursorX.set(e.clientX);
+        cursorY.set(e.clientY);
+      });
     };
 
-    window.addEventListener("mousemove", moveCursor);
-    return () => window.removeEventListener("mousemove", moveCursor);
-  }, [cursorX, cursorY]);
+    // Passive listener for better scroll performance
+    window.addEventListener("mousemove", moveCursor, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", moveCursor);
+      cancelAnimationFrame(rafId);
+    };
+  }, []); // Empty deps - stable listener
 
   if (!mounted || !isVisible) return null;
 
@@ -57,3 +67,5 @@ export default function CustomCursor({ isVisible }: CustomCursorProps) {
     </motion.div>
   );
 }
+
+export default memo(CustomCursor);
