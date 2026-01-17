@@ -75,7 +75,7 @@ export default function PDFModal({ isOpen, onClose, pdfUrl, title }: PDFModalPro
                 {/* Download Button */}
                 <a
                   href={pdfUrl}
-                  download={`${title}.pdf`}
+                  download={`${title.replace(/\n/g, ' ')}.pdf`}
                   className="flex items-center justify-center gap-2 w-9 h-9 sm:w-auto sm:h-auto sm:px-4 sm:py-2 rounded-full border border-[#C9A962]/40 text-[#C9A962] text-sm hover:bg-[#C9A962]/10 transition-colors"
                   title="Download"
                 >

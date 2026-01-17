@@ -106,7 +106,7 @@ export default function HeroSection() {
       <section className="relative min-h-screen w-full overflow-hidden">
         {/* Mobile Logo - positioned at boundary between sections, scrolls naturally */}
         {!isMenuOpen && (
-          <div className="md:hidden absolute left-1/2 top-[calc(50vh+8px)] -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
+          <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
             <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden">
               <Image
                 src="/images/logo.png"

@@ -444,11 +444,11 @@ export default function AluminumDoorsPage() {
   useEffect(() => {
     const updateScale = () => {
       if (window.innerWidth < 640) {
-        setCircleScale(0.56); // 180px / 320px
+        setCircleScale(0.44); // Ball at 62px, inside 70px radius circle
       } else if (window.innerWidth < 768) {
-        setCircleScale(0.69); // 220px / 320px
+        setCircleScale(0.69); // Ball at 97px, inside 110px radius circle
       } else {
-        setCircleScale(1);
+        setCircleScale(1); // Ball at 140px, inside 160px radius circle
       }
     };
 
@@ -516,7 +516,7 @@ export default function AluminumDoorsPage() {
   return (
     <main className="bg-black font-medium">
       {/* Door Types Section */}
-      <section className="py-16 md:py-24 lg:py-32">
+      <section className="pt-24 pb-12 md:pt-28 md:pb-16">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -621,7 +621,7 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Product Options Section */}
-      <section className="pb-16 md:pb-24 lg:pb-32">
+      <section className="py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -716,7 +716,7 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Product Series Section */}
-      <section className="py-16 md:py-24 lg:py-32">
+      <section className="py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -832,7 +832,7 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black pt-16 pb-6 md:pb-16">
+      <section className="bg-black py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div

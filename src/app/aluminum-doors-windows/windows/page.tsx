@@ -642,11 +642,11 @@ export default function AluminumWindowsPage() {
   useEffect(() => {
     const updateScale = () => {
       if (window.innerWidth < 640) {
-        setCircleScale(0.56); // 180px / 320px
+        setCircleScale(0.44); // Ball at 62px, inside 70px radius circle
       } else if (window.innerWidth < 768) {
-        setCircleScale(0.69); // 220px / 320px
+        setCircleScale(0.69); // Ball at 97px, inside 110px radius circle
       } else {
-        setCircleScale(1);
+        setCircleScale(1); // Ball at 140px, inside 160px radius circle
       }
     };
 
@@ -714,7 +714,7 @@ export default function AluminumWindowsPage() {
   return (
     <main className="bg-black font-medium">
       {/* Window Types Section */}
-      <section className="py-16 md:py-24 lg:py-32">
+      <section className="py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -914,7 +914,7 @@ export default function AluminumWindowsPage() {
       </section>
 
       {/* Product Series Section */}
-      <section className="pt-20 pb-4">
+      <section className="py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -1031,7 +1031,7 @@ export default function AluminumWindowsPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black pt-16 pb-6 md:pb-16">
+      <section className="bg-black py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div

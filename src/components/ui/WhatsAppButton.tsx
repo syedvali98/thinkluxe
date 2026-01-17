@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function WhatsAppButton() {
   const phoneNumber = "16479686284";
-  const message = "Hello! I'm interested in learning more about ThinkLuxe services.";
+  const message = "Hello! I'm interested in learning more about Think Luxe services.";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (

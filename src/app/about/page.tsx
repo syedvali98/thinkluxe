@@ -726,143 +726,8 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* Testimonials Section */}
-      <Section className="bg-[#f5f5f0]">
-        <Container className="px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-8 md:mb-12"
-          >
-            <h2 className="font-serif font-medium text-2xl sm:text-2xl md:text-3xl text-[#C9A962]">
-              Testimonials:{" "}
-              <span className="block sm:inline">
-                Hear from those we&apos;ve served
-              </span>
-            </h2>
-          </motion.div>
-
-          {/* Featured Testimonial - Text LEFT, Image RIGHT */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12"
-          >
-            {/* Text card on LEFT */}
-            <div className="bg-transparent rounded-lg p-4 sm:p-6 md:p-8 flex flex-col justify-between">
-              <div>
-                <p className="text-black font-medium leading-relaxed text-base sm:text-lg md:text-xl">
-                  &ldquo;{testimonials[0].quote}&rdquo;
-                </p>
-                {/* Golden divider line */}
-                <div className="w-full h-0.5 bg-[#C9A962] my-4 md:my-6" />
-              </div>
-              <div>
-                <div className="flex items-center gap-3 md:gap-4">
-                  <Avatar name={testimonials[0].name} />
-                  <div>
-                    <p className="text-black font-medium text-sm md:text-base">
-                      {testimonials[0].name}
-                    </p>
-                    <p className="text-gray-500 text-xs md:text-sm font-medium">
-                      {testimonials[0].project}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Image on RIGHT - centered on mobile */}
-            <div className="flex items-center justify-center">
-              <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] rounded-lg overflow-hidden">
-                <Image
-                  src="/images/testimonials.jpg"
-                  alt="Kitchen transformation"
-                  fill
-                  className="object-cover"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Other Testimonials - Infinite Carousel */}
-          <div className="relative overflow-hidden">
-            {/* Mobile: 1 card visible, Desktop: 3 cards visible */}
-            <motion.div
-              className="flex"
-              animate={{
-                x: isMobile
-                  ? `-${testimonialIndex * 100}%` // Mobile: 100% per card
-                  : `-${testimonialIndex * (100 / 3)}%`, // Desktop: 33.33% per card
-              }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              {infiniteTestimonials.map((testimonial, index) => (
-                <div
-                  key={`${testimonial.name}-${index}`}
-                  className="bg-transparent rounded-lg py-4 md:py-6 px-4 sm:px-6 md:px-10 flex-shrink-0 w-full md:w-1/3"
-                >
-                  <StarRating className="mb-3 md:mb-4" />
-                  <p className="text-black font-medium text-sm md:text-base leading-relaxed mb-3 md:mb-4">
-                    {testimonial.quote}
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <Avatar name={testimonial.name} size="sm" />
-                    <div>
-                      <p className="text-black text-sm font-medium">
-                        {testimonial.name}
-                      </p>
-                      <p className="text-gray-500 text-xs font-medium">
-                        {testimonial.project}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Navigation Buttons - Centered at bottom */}
-          <div className="flex justify-center gap-4 mt-8">
-            <button
-              onClick={handleTestimonialPrev}
-              className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <path
-                  stroke="#caa550"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={handleTestimonialNext}
-              className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <path
-                  stroke="#caa550"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </div>
-        </Container>
-      </Section>
-
       {/* Values Section - with card borders */}
-      <Section className="bg-black md:pt-16">
+      <Section className="bg-black pt-0 md:pt-0">
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1026,6 +891,141 @@ export default function AboutPage() {
               </div>
             </div>
           </motion.div>
+        </Container>
+      </Section>
+
+      {/* Testimonials Section */}
+      <Section className="bg-[#f5f5f0]">
+        <Container className="px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 md:mb-12"
+          >
+            <h2 className="font-serif font-medium text-2xl sm:text-2xl md:text-3xl text-[#C9A962]">
+              Testimonials:{" "}
+              <span className="block sm:inline">
+                Hear from those we&apos;ve served
+              </span>
+            </h2>
+          </motion.div>
+
+          {/* Featured Testimonial - Text LEFT, Image RIGHT */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12"
+          >
+            {/* Text card on LEFT */}
+            <div className="bg-transparent rounded-lg p-4 sm:p-6 md:p-8 flex flex-col justify-between">
+              <div>
+                <p className="text-black font-medium leading-relaxed text-base sm:text-lg md:text-xl">
+                  &ldquo;{testimonials[0].quote}&rdquo;
+                </p>
+                {/* Golden divider line */}
+                <div className="w-full h-0.5 bg-[#C9A962] my-4 md:my-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-3 md:gap-4">
+                  <Avatar name={testimonials[0].name} />
+                  <div>
+                    <p className="text-black font-medium text-sm md:text-base">
+                      {testimonials[0].name}
+                    </p>
+                    <p className="text-gray-500 text-xs md:text-sm font-medium">
+                      {testimonials[0].project}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Image on RIGHT - centered on mobile */}
+            <div className="flex items-center justify-center">
+              <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] rounded-lg overflow-hidden">
+                <Image
+                  src="/images/testimonials.jpg"
+                  alt="Kitchen transformation"
+                  fill
+                  className="object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Other Testimonials - Infinite Carousel */}
+          <div className="relative overflow-hidden">
+            {/* Mobile: 1 card visible, Desktop: 3 cards visible */}
+            <motion.div
+              className="flex"
+              animate={{
+                x: isMobile
+                  ? `-${testimonialIndex * 100}%` // Mobile: 100% per card
+                  : `-${testimonialIndex * (100 / 3)}%`, // Desktop: 33.33% per card
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              {infiniteTestimonials.map((testimonial, index) => (
+                <div
+                  key={`${testimonial.name}-${index}`}
+                  className="bg-transparent rounded-lg py-4 md:py-6 px-4 sm:px-6 md:px-10 flex-shrink-0 w-full md:w-1/3"
+                >
+                  <StarRating className="mb-3 md:mb-4" />
+                  <p className="text-black font-medium text-sm md:text-base leading-relaxed mb-3 md:mb-4">
+                    {testimonial.quote}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <Avatar name={testimonial.name} size="sm" />
+                    <div>
+                      <p className="text-black text-sm font-medium">
+                        {testimonial.name}
+                      </p>
+                      <p className="text-gray-500 text-xs font-medium">
+                        {testimonial.project}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Navigation Buttons - Centered at bottom */}
+          <div className="flex justify-center gap-4 mt-8">
+            <button
+              onClick={handleTestimonialPrev}
+              className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                <path
+                  stroke="#caa550"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={handleTestimonialNext}
+              className="p-3 bg-[#e9e9e9] rounded-full hover:bg-[#d9d9d9] transition-colors shadow-lg border border-[#e2e2e2]"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                <path
+                  stroke="#caa550"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
         </Container>
       </Section>
 

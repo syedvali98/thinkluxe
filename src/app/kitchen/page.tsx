@@ -46,6 +46,18 @@ const serviceCards = [
     image: "/images/kitchen-6.jpeg",
     pdf: "/pdfs/kitchen-6.pdf",
   },
+  {
+    title: "Wardrobe Accessories",
+    description: "Maximize storage with smart wardrobe systems, lighting and accessories tailored to your space.",
+    image: "/images/kitchen-7.png",
+    pdf: "/pdfs/kitchen-7.pdf",
+  },
+  {
+    title: "Kitchen Accessories",
+    description: "Maximize functionality with smart kitchen systems, storage and accessories tailored to your space.",
+    image: "/images/kitchen-8.png",
+    pdf: "/pdfs/kitchen-8.pdf",
+  },
 ];
 
 // Gallery images for kitchen
@@ -219,10 +231,10 @@ function ImageViewer({
   );
 }
 
-// Helper function for card border radius - responsive
-// Mobile (1 col): 0=top, 5=bottom
-// Small (2 cols): 0=tl, 1=tr, 4=bl, 5=br
-// Desktop (3 cols): 0=tl, 2=tr, 3=bl, 5=br
+// Helper function for main grid card border radius (first 6 cards) - only top corners
+// Mobile (1 col): 0=top only
+// Small (2 cols): 0=tl, 1=tr
+// Desktop (3 cols): 0=tl, 2=tr
 const getCardRadius = (index: number) => {
   switch (index) {
     case 0:
@@ -231,11 +243,19 @@ const getCardRadius = (index: number) => {
       return "sm:rounded-tr-[20px] md:rounded-tr-none";
     case 2:
       return "md:rounded-tr-[30px] lg:rounded-tr-[40px]";
-    case 3:
-      return "md:rounded-bl-[30px] lg:rounded-bl-[40px]";
-    case 4:
-      return "sm:rounded-bl-[20px] md:rounded-bl-none";
-    case 5:
+    default:
+      return "";
+  }
+};
+
+// Helper function for bottom row card border radius (last 2 cards at 50% width)
+// Mobile (1 col): 0=none, 1=bottom
+// SM+ (2 cols): 0=bl, 1=br
+const getBottomCardRadius = (index: number) => {
+  switch (index) {
+    case 0:
+      return "sm:rounded-bl-[20px] md:rounded-bl-[30px] lg:rounded-bl-[40px]";
+    case 1:
       return "rounded-b-[20px] sm:rounded-b-none sm:rounded-br-[20px] md:rounded-br-[30px] lg:rounded-br-[40px]";
     default:
       return "";
@@ -281,11 +301,11 @@ export default function KitchenPage() {
   useEffect(() => {
     const updateScale = () => {
       if (window.innerWidth < 640) {
-        setCircleScale(0.44); // 140px / 320px
+        setCircleScale(0.44); // Ball at 62px, inside 70px radius circle
       } else if (window.innerWidth < 768) {
-        setCircleScale(0.69); // 220px / 320px
+        setCircleScale(0.69); // Ball at 97px, inside 110px radius circle
       } else {
-        setCircleScale(1);
+        setCircleScale(1); // Ball at 140px, inside 160px radius circle
       }
     };
 
@@ -500,7 +520,7 @@ export default function KitchenPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black pt-16 pb-6 md:pb-16">
+      <section className="bg-black py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -716,7 +736,7 @@ export default function KitchenPage() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="bg-black py-16 md:pt-6">
+      <section className="bg-black py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -735,7 +755,7 @@ export default function KitchenPage() {
             </h2>
           </motion.div>
 
-          {/* 3x2 Grid */}
+          {/* Main 3x2 Grid - first 6 cards */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -743,7 +763,7 @@ export default function KitchenPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
           >
-            {serviceCards.map((card, index) => (
+            {serviceCards.slice(0, 6).map((card, index) => (
               <div
                 key={index}
                 className={`group relative aspect-[4/3] md:aspect-[4/3] overflow-hidden ${getCardRadius(index)}`}
@@ -775,6 +795,55 @@ export default function KitchenPage() {
                     >
                       View catalog
                     </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Bottom Row - 2 cards at 50% each */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3"
+          >
+            {serviceCards.slice(6).map((card, index) => (
+              <div
+                key={index}
+                className={`relative aspect-[4/3] md:aspect-[4/3] ${getBottomCardRadius(index)}`}
+              >
+                {/* Wrapper to handle overflow clipping properly */}
+                <div className={`group absolute inset-0 overflow-hidden ${getBottomCardRadius(index)}`}>
+                  {/* Background Image */}
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+
+                  {/* Glassy Overlay - always expanded on mobile, hover on desktop */}
+                  <div className="absolute bottom-0 left-0 right-0 h-full md:h-[80px] md:group-hover:h-[45%] transition-all duration-500 ease-out bg-gradient-to-t from-black/80 via-black/50 to-transparent md:bg-black/30 md:backdrop-blur-md p-4 sm:p-5 flex flex-col justify-end md:justify-center md:group-hover:justify-start md:group-hover:pt-6 text-left md:text-center md:group-hover:text-left">
+                    {/* Title - always visible */}
+                    <h3 className="!font-sans text-white font-medium text-lg sm:text-xl md:text-xl leading-tight transition-all duration-300 whitespace-pre-line md:min-h-[56px] md:flex md:items-center md:justify-center md:group-hover:items-start md:group-hover:justify-start">
+                      {card.title}
+                    </h3>
+
+                    {/* Description & Link - always visible on mobile, hover on desktop */}
+                    <div className="flex flex-col md:hidden md:group-hover:flex md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <p className="text-[#c9c9c9] text-sm md:text-base leading-relaxed mb-3 md:mb-4 line-clamp-3 md:line-clamp-2">
+                        {card.description}
+                      </p>
+                      <button
+                        onClick={() => openPdfModal(card.pdf, card.title)}
+                        className="text-sm underline underline-offset-4 hover:text-[#C9A962] text-white transition-colors text-left"
+                      >
+                        View catalog
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import AnimatedPill from "@/components/ui/AnimatedPill";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import ImageViewer from "@/components/ui/ImageViewer";
+import { showroomImages } from "@/data/showroomImages";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -21,6 +23,47 @@ export default function ContactPage() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Showroom carousel state
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % showroomImages.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + showroomImages.length) % showroomImages.length);
+  }, []);
+
+  // Detect when carousel comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
+
+    if (carouselRef.current) {
+      observer.observe(carouselRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-scroll effect - only when in view
+  useEffect(() => {
+    if (!isInView) return;
+
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isInView, nextSlide]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -33,6 +76,10 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Prevent double submission
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     setSubmitStatus("idle");
     setErrorMessage("");
@@ -55,8 +102,16 @@ export default function ContactPage() {
         body: formDataToSend,
       });
 
+      // Try to parse response as JSON
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        // If JSON parsing fails, throw a generic error
+        throw new Error("Server error. Please try again later.");
+      }
+
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.error || "Failed to send message");
       }
 
@@ -73,8 +128,13 @@ export default function ContactPage() {
       });
       setFile(null);
     } catch (error) {
+      console.error("Form submission error:", error);
       setSubmitStatus("error");
-      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        setErrorMessage("Network error. Please check your connection and try again.");
+      } else {
+        setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -271,7 +331,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <AnimatedButton type="submit" fullRounded fullWidth>
+                <AnimatedButton type="submit" fullRounded fullWidth disabled={isSubmitting}>
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </AnimatedButton>
 
@@ -317,14 +377,56 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="space-y-8"
             >
-              {/* Showroom Image */}
-              <div className="relative aspect-[4/3] rounded-[30px] overflow-hidden">
-                <Image
-                  src="/images/showroom-1.jpg"
-                  alt="ThinkLuxe Showroom"
-                  fill
-                  className="object-cover"
-                />
+              {/* Showroom Images Carousel */}
+              <div
+                ref={carouselRef}
+                className="relative aspect-[4/3] rounded-[30px] overflow-hidden"
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentSlide}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0 cursor-pointer"
+                    onClick={() => setIsViewerOpen(true)}
+                  >
+                    <Image
+                      src={showroomImages[currentSlide]}
+                      alt={`ThinkLuxe Showroom ${currentSlide + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Navigation Arrows */}
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center text-white/70 hover:border-white hover:text-white hover:bg-black/40 transition-all z-10"
+                  aria-label="Previous image"
+                >
+                  <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                  </svg>
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center text-white/70 hover:border-white hover:text-white hover:bg-black/40 transition-all z-10"
+                  aria-label="Next image"
+                >
+                  <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </button>
+
+                {/* Slide Counter */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full">
+                  <span className="text-white/90 text-xs sm:text-sm font-medium">
+                    {currentSlide + 1} / {showroomImages.length}
+                  </span>
+                </div>
               </div>
 
               {/* Contact Details */}
@@ -438,6 +540,20 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* Image Viewer Modal */}
+      <AnimatePresence>
+        {isViewerOpen && (
+          <ImageViewer
+            src={showroomImages[currentSlide]}
+            onClose={() => setIsViewerOpen(false)}
+            onNext={nextSlide}
+            onPrev={prevSlide}
+            currentIndex={currentSlide}
+            totalImages={showroomImages.length}
+          />
+        )}
+      </AnimatePresence>
     </main>
   );
 }

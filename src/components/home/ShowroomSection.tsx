@@ -5,33 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Container } from "@/components/ui";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-
-const showroomImages = [
-  "/images/showroom-1.jpg",
-  "/images/showroom-2.jpeg",
-  "/images/showroom-3.jpeg",
-  "/images/showroom-4.jpeg",
-  "/images/showroom-5.jpg",
-  "/images/showroom-6.jpg",
-  "/images/showroom-7.jpg",
-  "/images/showroom-8.jpg",
-  "/images/showroom-9.jpg",
-  "/images/showroom-10.jpg",
-  "/images/showroom-11.jpg",
-  "/images/showroom-12.jpg",
-  "/images/showroom-13.jpg",
-  "/images/showroom-14.jpg",
-  "/images/showroom-15.jpg",
-  "/images/showroom-16.jpg",
-  "/images/showroom-17.jpg",
-  "/images/showroom-18.jpg",
-  "/images/showroom-19.jpg",
-];
+import ImageViewer from "@/components/ui/ImageViewer";
+import { showroomImages } from "@/data/showroomImages";
 
 export default function ShowroomSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   const nextSlide = useCallback(() => {
@@ -162,7 +143,8 @@ export default function ShowroomSection() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="absolute inset-0"
+                  className="absolute inset-0 cursor-pointer"
+                  onClick={() => setIsViewerOpen(true)}
                 >
                   <Image
                     src={showroomImages[currentSlide]}
@@ -203,6 +185,20 @@ export default function ShowroomSection() {
           </div>
         </motion.div>
       </Container>
+
+      {/* Image Viewer Modal */}
+      <AnimatePresence>
+        {isViewerOpen && (
+          <ImageViewer
+            src={showroomImages[currentSlide]}
+            onClose={() => setIsViewerOpen(false)}
+            onNext={nextSlide}
+            onPrev={prevSlide}
+            currentIndex={currentSlide}
+            totalImages={showroomImages.length}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

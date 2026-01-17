@@ -96,7 +96,7 @@ export default function AluminumDoorsWindowsPage() {
       </section>
 
       {/* Our Products Section */}
-      <section className="bg-black py-16">
+      <section className="bg-black py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -183,7 +183,7 @@ export default function AluminumDoorsWindowsPage() {
       </Container>
 
       {/* Certifications Section */}
-      <section className="bg-black py-16">
+      <section className="bg-black py-12 md:py-16">
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}

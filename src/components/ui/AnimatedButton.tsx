@@ -15,6 +15,7 @@ interface AnimatedButtonProps {
   fullWidthMobile?: boolean;
   fullWidth?: boolean;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
 function AnimatedButton({
@@ -28,6 +29,7 @@ function AnimatedButton({
   fullWidthMobile = false,
   fullWidth = false,
   type = "button",
+  disabled = false,
 }: AnimatedButtonProps) {
   const angle = useMotionValue(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -74,7 +76,7 @@ function AnimatedButton({
   const buttonContent = (
     <div
       ref={ref}
-      className={`relative ${widthClass} p-[1.5px] ${roundedClass} overflow-hidden cursor-pointer ${className}`}
+      className={`relative ${widthClass} p-[1.5px] ${roundedClass} overflow-hidden ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"} ${className}`}
     >
       {/* Rotating gradient border - only animates when visible */}
       <motion.div
@@ -110,7 +112,7 @@ function AnimatedButton({
   }
 
   return (
-    <button type={type} onClick={onClick} className={wrapperClass}>
+    <button type={type} onClick={onClick} disabled={disabled} className={wrapperClass}>
       {buttonContent}
     </button>
   );
