@@ -29,7 +29,7 @@ const doorTypes = [
     id: "sliding",
     name: "Sliding",
     title: "Sliding Doors",
-    image: "/images/sliding-door.png",
+    image: "/images/sliding-door.jpeg",
     description: [
       "Think Luxe provides a sliding door system that combines style and excellent performance. The heat-insulating profiles and Low-E glass isolate hot and cold air, maintaining an ideal temperature. This system is ideal for high-end residential and commercial applications.We also offer a variety of supporting options, such as electric opening and closing mechanisms, as well as insect-proof screens.",
       "Earned stringent performance certifications such as Energy Star and NFRC. With the option of three or more expansion panels, they can be easily stacked on top of each other or hidden in a wall. Pet and insect screens available to meet the individual needs of specific projects. Multi-insulation design improves durability and energy efficiency. Upgraded to thicker seals to prevent noise and wind infiltration. Multi-point locking, high-security performance. Precision bearing rollers allow door to glide smoothly. Wide range of glass options for maximum comfort. Suitable for any size and design",
@@ -253,7 +253,7 @@ const productSeries = [
     tabName: "SERIES 75",
     seriesNumber: "75",
     productType: "ALUMINUM FOLDING DOOR",
-    image: "/images/series-1.png",
+    image: "/images/series-1.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -289,7 +289,7 @@ const productSeries = [
     tabName: "SERIES 88",
     seriesNumber: "88",
     productType: "THERMAL BREAK ALUMINUM FOLDING DOOR",
-    image: "/images/series-2.png",
+    image: "/images/series-2.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -315,7 +315,7 @@ const productSeries = [
     tabName: "SERIES 91",
     seriesNumber: "91",
     productType: "THERMAL BREAK ALUMINUM CASEMENT WINDOW",
-    image: "/images/series-3.png",
+    image: "/images/series-3.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -369,7 +369,7 @@ const productSeries = [
     tabName: "SERIES 170",
     seriesNumber: "170",
     productType: "ALUMINUM LIFTING SLIDING DOOR",
-    image: "/images/series-5.png",
+    image: "/images/series-5.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",

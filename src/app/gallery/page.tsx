@@ -168,20 +168,20 @@ const galleryCategories = [
     tabName: "Custom Kitchen & Millwork",
     rows: [
       [
-        { src: "/images/gallery-kitchen-1.png", alt: "Custom kitchen design" },
-        { src: "/images/gallery-kitchen-2.png", alt: "Luxury kitchen" },
+        { src: "/images/gallery-kitchen-1.jpeg", alt: "Custom kitchen design" },
+        { src: "/images/gallery-kitchen-2.jpeg", alt: "Luxury kitchen" },
       ],
       [
-        { src: "/images/gallery-kitchen-3.png", alt: "Modern kitchen" },
-        { src: "/images/gallery-kitchen-4.png", alt: "Kitchen millwork" },
+        { src: "/images/gallery-kitchen-3.jpeg", alt: "Modern kitchen" },
+        { src: "/images/gallery-kitchen-4.jpeg", alt: "Kitchen millwork" },
       ],
       [
-        { src: "/images/gallery-kitchen-5.png", alt: "Kitchen island" },
-        { src: "/images/gallery-kitchen-6.png", alt: "Cabinet details" },
+        { src: "/images/gallery-kitchen-5.jpeg", alt: "Kitchen island" },
+        { src: "/images/gallery-kitchen-6.jpeg", alt: "Cabinet details" },
       ],
       [
-        { src: "/images/gallery-kitchen-7.png", alt: "Pantry design" },
-        { src: "/images/gallery-kitchen-8.png", alt: "Custom shelving" },
+        { src: "/images/gallery-kitchen-7.jpeg", alt: "Pantry design" },
+        { src: "/images/gallery-kitchen-8.jpeg", alt: "Custom shelving" },
       ],
     ],
   },
@@ -199,7 +199,7 @@ const galleryCategories = [
       ],
       [
         { src: "/images/gallery-aluminum-5.jpg", alt: "Folding doors" },
-        { src: "/images/gallery-aluminum-6.png", alt: "Bay windows" },
+        { src: "/images/gallery-aluminum-6.jpeg", alt: "Bay windows" },
       ],
       [
         { src: "/images/gallery-aluminum-7.jpg", alt: "Entry doors" },

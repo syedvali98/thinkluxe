@@ -31,19 +31,19 @@ const serviceCards = [
   {
     title: "Bathroom Vanities & Laundry",
     description: "Luxurious bathroom designs with premium finishes that elevate your daily routine.",
-    image: "/images/kitchen-4.png",
+    image: "/images/kitchen-4.jpeg",
     pdf: "/pdfs/kitchen-4.pdf",
   },
   {
     title: "Feature Walls & Interior Doors",
     description: "Add depth and character with custom wall and door designs, crafted with textures and finishes.",
-    image: "/images/kitchen-5.png",
+    image: "/images/kitchen-5.jpeg",
     pdf: "/pdfs/kitchen-5.pdf",
   },
   {
     title: "Whole House Customization",
     description: "Complete home transformation with cohesive design language throughout every space.",
-    image: "/images/kitchen-6.png",
+    image: "/images/kitchen-6.jpeg",
     pdf: "/pdfs/kitchen-6.pdf",
   },
 ];

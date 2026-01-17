@@ -274,7 +274,7 @@ export default function AluminumDoorsWindowsPage() {
           >
             <div className="relative w-full rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden">
               <Image
-                src="/images/certifications.png"
+                src="/images/certifications.jpeg"
                 alt="Our Certifications"
                 width={1920}
                 height={600}

@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import dynamic from "next/dynamic";
 import "./globals.css";
 import { Header, Footer } from "@/components/layout";
 import Providers from "@/components/Providers";
-
-// Dynamic import for non-critical UI component
-const WhatsAppButton = dynamic(
-  () => import("@/components/ui/WhatsAppButton"),
-  { ssr: false }
-);
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 // Optimized font loading - only essential weights
 const gilroy = localFont({

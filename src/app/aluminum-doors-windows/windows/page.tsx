@@ -203,7 +203,7 @@ const windowTypes = [
     id: "folding",
     name: "Folding",
     title: "Folding Windows",
-    image: "/images/folding.png",
+    image: "/images/folding.jpeg",
     description: [
       "Designed for easy folding, Think Luxe's windows can be folded sideways or up and down to create a spacious opening. Our folding windows have passed various strict industry performance certifications, providing advanced weather protection and energy efficiency to ensure year-round comfort in any climate.",
       "Each of our window sashes can be completely customized to your needs, opening inwards or outwards and folding to the left or right. The configuration can be split down the middle or folded in one direction to suit you and your space.",
@@ -264,7 +264,7 @@ const windowTypes = [
     id: "sliding",
     name: "Sliding",
     title: "Sliding Windows",
-    image: "/images/sliding.png",
+    image: "/images/sliding.jpeg",
     description: [
       "Sliding windows are ideal for installation in kitchen sinks or in any room where ventilation is essential. Our sliding windows feature durable, stylish, modern frames while providing optimal views and plenty of daylight. These windows are also energy-efficient and are available in a variety of colors, glass, and mesh options to suit different preferences and requirements.",
       "Available in two-, three-, or multi-panel sliding combinations. Energy-efficient design for excellent energy performance in any climate. Hidden drain hole design ensures water drains quickly. High-quality ball bearings ensure very quiet movement. Unique multi-chamber structure with excellent thermal and sound insulation performance. Selectable screen options let air in while keeping pests out. Customized according to your size, needs, lifestyle and budget. Almost limitless options to fit perfectly into any aesthetic style.",
@@ -324,7 +324,7 @@ const windowTypes = [
     id: "tilt-turn",
     name: "Tilt and Turn",
     title: "Tilt And Turn Windows",
-    image: "/images/tilt-and-turn.png",
+    image: "/images/tilt-and-turn.jpeg",
     description: [
       "Tilt-and-turn windows can be opened multiple ways with the turn of a handle. They open inward like casement windows and can also tilt inward to let in fresh air. They are ideal for homeowners, architects, and developers looking for a versatile, energy-saving solution.",
       "Think Luxe's tilt-and-turn windows are equipped with high-quality hardware, which enables the dual functionality of the window as well as secure locking with a single handle. With our windows, you can enjoy the best features of casement, fixed and tilt designs with elegance and simplicity.",
@@ -451,7 +451,7 @@ const productSeries = [
     tabName: "SERIES 75",
     seriesNumber: "75",
     productType: "ALUMINUM FOLDING DOOR",
-    image: "/images/series-1.png",
+    image: "/images/series-1.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -487,7 +487,7 @@ const productSeries = [
     tabName: "SERIES 88",
     seriesNumber: "88",
     productType: "THERMAL BREAK ALUMINUM FOLDING DOOR",
-    image: "/images/series-2.png",
+    image: "/images/series-2.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -513,7 +513,7 @@ const productSeries = [
     tabName: "SERIES 91",
     seriesNumber: "91",
     productType: "THERMAL BREAK ALUMINUM CASEMENT WINDOW",
-    image: "/images/series-3.png",
+    image: "/images/series-3.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",
@@ -566,7 +566,7 @@ const productSeries = [
     tabName: "SERIES 170",
     seriesNumber: "170",
     productType: "ALUMINUM LIFTING SLIDING DOOR",
-    image: "/images/series-5.png",
+    image: "/images/series-5.jpeg",
     technicalParams: [
       {
         label: "Profile Thickness:",

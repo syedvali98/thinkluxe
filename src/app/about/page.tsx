@@ -9,19 +9,19 @@ import AnimatedPill from "@/components/ui/AnimatedPill";
 
 // Gallery images
 const galleryRow1 = [
-  "/images/about-us-gallery-1.png",
+  "/images/about-us-gallery-1.jpeg",
   "/images/about-us-gallery-2.jpg",
-  "/images/about-us-gallery-3.png",
+  "/images/about-us-gallery-3.jpeg",
   "/images/about-us-gallery-4.jpg",
   "/images/about-us-gallery-5.jpg",
 ];
 
 const galleryRow2 = [
-  "/images/about-us-gallery-6.png",
-  "/images/about-us-gallery-7.png",
-  "/images/about-us-gallery-8.png",
-  "/images/about-us-gallery-9.png",
-  "/images/about-us-gallery-10.png",
+  "/images/about-us-gallery-6.jpeg",
+  "/images/about-us-gallery-7.jpeg",
+  "/images/about-us-gallery-8.jpeg",
+  "/images/about-us-gallery-9.jpeg",
+  "/images/about-us-gallery-10.jpeg",
 ];
 
 const allGalleryImages = [...galleryRow1, ...galleryRow2];
@@ -538,7 +538,7 @@ export default function AboutPage() {
               {/* Top Left - Image (no borders) - Order 1 on mobile */}
               <div className="order-1 overflow-hidden relative aspect-square md:aspect-auto md:min-h-[300px] rounded-t-[1.5rem] sm:rounded-t-[2rem] md:rounded-tl-[2rem] lg:rounded-tl-[3rem] md:rounded-tr-none">
                 <Image
-                  src="/images/phil-2.png"
+                  src="/images/phil-2.jpeg"
                   alt="Luxury interior"
                   fill
                   className="object-cover"
@@ -985,7 +985,7 @@ export default function AboutPage() {
                 <div className="grid grid-rows-[40%_60%] gap-2">
                   <div className="relative overflow-hidden rounded-tl-[60px]">
                     <Image
-                      src="/images/cta-1.png"
+                      src="/images/cta-1.jpeg"
                       alt="Interior design"
                       fill
                       className="object-cover"
@@ -994,7 +994,7 @@ export default function AboutPage() {
                   </div>
                   <div className="relative overflow-hidden rounded-bl-[60px]">
                     <Image
-                      src="/images/cta-3.png"
+                      src="/images/cta-3.jpeg"
                       alt="Modern kitchen"
                       fill
                       className="object-cover"
@@ -1015,7 +1015,7 @@ export default function AboutPage() {
                   </div>
                   <div className="relative overflow-hidden rounded-br-[60px]">
                     <Image
-                      src="/images/cta-4.png"
+                      src="/images/cta-4.jpeg"
                       alt="Bathroom design"
                       fill
                       className="object-cover"

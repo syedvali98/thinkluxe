@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nperf: major performance optimizations\n\nPhase 1 - Instant Wins:\n- Delete 9.8MB of duplicate files \\(aluminum-bg.png, kitchen-bg.png, aluminum-video.mp4, about-us-hero-bg.jpeg\\)\n- Update next.config.ts with image optimization \\(AVIF/WebP\\), compression, framer-motion tree-shaking\n- Add vercel.json with aggressive cache headers for static assets\n- Install bundle analyzer for monitoring\n\nPhase 2 - Animation Optimization:\n- AnimatedPill: Only animate when visible \\(IntersectionObserver\\), add React.memo\n- AnimatedButton: Only animate when visible, add React.memo\n- CustomCursor: Use requestAnimationFrame + passive event listener\n\nPhase 4 - Code Splitting:\n- Dynamic import WhatsAppButton \\(non-critical UI\\)\n\nPhase 6 - Font Optimization:\n- Reduce Gilroy from 8 variants to 4 \\(remove italic variants\\)\n- Add font-display: swap for faster FCP\n- Add preload for critical fonts\n\nExpected improvements:\n- -9.8MB from duplicate removal\n- -80% CPU from animation fixes\n- Faster LCP with AVIF/WebP\n- Better cache hit rates\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(node convert-images.mjs:*)",
+      "Bash(npm run build:*)",
+      "Bash(du:*)"
+    ]
+  }
+}
