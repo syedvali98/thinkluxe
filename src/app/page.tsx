@@ -15,7 +15,6 @@ export default function Home() {
       <ShowroomSection />
 
       {/* Spacer for footer visibility */}
-      <div className="h-24" />
     </main>
   );
 }

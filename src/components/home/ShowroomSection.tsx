@@ -51,7 +51,7 @@ export default function ShowroomSection() {
   }, [isPaused, isInView, nextSlide]);
 
   return (
-    <section ref={sectionRef} className="bg-black py-16 md:pt-24 pb-8">
+    <section ref={sectionRef} className="bg-black py-16">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
