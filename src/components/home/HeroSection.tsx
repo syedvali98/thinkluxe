@@ -106,7 +106,7 @@ export default function HeroSection() {
       <section className="relative min-h-screen w-full overflow-hidden">
         {/* Mobile Logo - positioned at boundary between sections, scrolls naturally */}
         {!isMenuOpen && (
-          <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
+          <div className="md:hidden absolute left-1/2 top-[calc(50%-5.5px)] -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
             <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden">
               <Image
                 src="/images/logo.png"
@@ -175,7 +175,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
+                className="font-serif text-2xl sm:text-2xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
               >
                 Aluminum Doors & Windows
               </motion.h2>
@@ -285,7 +285,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
+                className="font-serif text-2xl sm:text-2xl md:text-2xl lg:text-3xl text-white leading-tight text-center"
               >
                 Custom Kitchen & Millwork
               </motion.h2>
