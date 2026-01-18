@@ -143,7 +143,7 @@ export default function HeroSection() {
                   leftVideoLoaded ? "opacity-0" : "opacity-100"
                 }`}
                 style={{
-                  backgroundImage: "url('/images/aluminum-bg.jpg')",
+                  backgroundImage: "url('/images/aluminium-hero-poster.jpg')",
                 }}
               />
             </div>
@@ -253,7 +253,7 @@ export default function HeroSection() {
                   rightVideoLoaded ? "opacity-0" : "opacity-100"
                 }`}
                 style={{
-                  backgroundImage: "url('/images/kitchen-bg.jpg')",
+                  backgroundImage: "url('/images/kitchen-video-poster.jpg')",
                 }}
               />
             </div>

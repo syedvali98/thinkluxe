@@ -483,7 +483,7 @@ export default function KitchenPage() {
 
           {/* Image fallback - shown until video loads */}
           <Image
-            src="/images/kitchen-hero.jpg"
+            src="/images/kitchen-video-poster.jpg"
             alt="Custom Kitchen"
             fill
             className={`object-cover transition-opacity duration-1000 ${

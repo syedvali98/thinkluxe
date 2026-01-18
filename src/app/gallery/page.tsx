@@ -18,16 +18,19 @@ const galleryVideos = [
   {
     id: 1,
     src: "/videos/gallery-hero-1.mp4",
+    poster: "/images/gallery-hero-1-poster.jpg",
     title: "Luxury Kitchen",
   },
   {
     id: 2,
     src: "/videos/gallery-hero-2.mp4",
+    poster: "/images/gallery-hero-2-poster.jpg",
     title: "Custom Millwork",
   },
   {
     id: 3,
     src: "/videos/gallery-hero-3.mp4",
+    poster: "/images/gallery-hero-3-poster.jpg",
     title: "Aluminum Windows",
   },
 ];
@@ -233,6 +236,7 @@ export default function GalleryPage() {
                     videoRefs.current[currentVideo] = el;
                   }}
                   className="absolute inset-0 w-full h-full object-cover"
+                  poster={galleryVideos[currentVideo].poster}
                   muted
                   playsInline
                   onEnded={handleVideoEnd}

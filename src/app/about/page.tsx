@@ -438,7 +438,7 @@ export default function AboutPage() {
 
           {/* Image fallback - shown until video loads */}
           <Image
-            src="/images/about-us-hero-bg.jpeg"
+            src="/images/about-us-hero-poster.jpg"
             alt="Luxury interior"
             fill
             className={`object-cover transition-opacity duration-1000 ${

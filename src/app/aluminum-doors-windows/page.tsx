@@ -58,7 +58,7 @@ export default function AluminumDoorsWindowsPage() {
 
           {/* Image fallback - shown until video loads */}
           <Image
-            src="/images/aluminum-hero-bg.jpg"
+            src="/images/aluminium-hero-poster.jpg"
             alt="Aluminum Doors & Windows"
             fill
             className={`object-cover transition-opacity duration-1000 ${
