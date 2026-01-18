@@ -777,15 +777,8 @@ export default function AboutPage() {
                   } mt-[-8px] md:mt-0 bg-gradient-to-b from-[#C9A962] to-[#29210e] ${getOuterRounding()}`}
                 >
                   <div
-                    className={`p-6 md:p-8 bg-black h-full ${getInnerRounding()}`}
+                    className={`p-6 md:p-8 py-16 md:py-20 bg-black h-full ${getInnerRounding()}`}
                   >
-                    {/* Number badge */}
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mb-12 md:mb-18">
-                      <span className="text-[#C9A962] text-sm md:text-base">
-                        {value.number}
-                      </span>
-                    </div>
-
                     <h3 className="font-serif font-medium text-xl md:text-2xl text-[#C9A962] mb-3 md:mb-4">
                       {value.title}
                     </h3>

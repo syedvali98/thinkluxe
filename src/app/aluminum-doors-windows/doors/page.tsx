@@ -373,7 +373,7 @@ const productSeries = [
     technicalParams: [
       {
         label: "Profile Thickness:",
-        value: "frame 2.2mm , sash 2.2mm , high track / low track 2.2mm Door sash width : 600mm-2000mm Door sash height: 1500mm-2600mm",
+        value: "frame 2.2mm , sash 2.2mm , high track / low track 2.2mmDoor sash width : 600mm-2000mm Door sash height: 1500mm-2600mm",
       },
       {
         label: "Profile width:",
@@ -516,7 +516,7 @@ export default function AluminumDoorsPage() {
   return (
     <main className="bg-black font-medium">
       {/* Door Types Section */}
-      <section className="pt-24 pb-12 md:pt-28 md:pb-16">
+      <section className="pt-24 pb-4 md:pt-32 md:pb-6">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -525,7 +525,7 @@ export default function AluminumDoorsPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] mb-4">
+            <h1 className="font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962] mb-4">
               Aluminum Doors
             </h1>
             <p className="text-[#b5b5b5] font-medium text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4 sm:px-0">
@@ -621,7 +621,7 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Product Options Section */}
-      <section className="py-12 md:py-16">
+      <section>
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -631,7 +631,7 @@ export default function AluminumDoorsPage() {
             className="bg-white rounded-[20px] sm:rounded-[30px] md:rounded-[45px] lg:rounded-[60px] p-5 sm:p-6 md:p-10 lg:p-16"
           >
             {/* Header */}
-            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#C9A962] text-center mb-6 sm:mb-8 md:mb-10">
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962] text-center mb-6 sm:mb-8 md:mb-10">
               Product Options
             </h2>
 
@@ -716,7 +716,7 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Product Series Section */}
-      <section className="py-12 md:py-16">
+      <section className="py-8">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -724,7 +724,7 @@ export default function AluminumDoorsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8 sm:mb-10 md:mb-12"
+            className="text-center mb-4"
           >
             {/* Pill Badge */}
             <div className="inline-block mb-4 sm:mb-6">
@@ -742,7 +742,7 @@ export default function AluminumDoorsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-8 sm:mb-10 md:mb-12"
+            className="mb-8"
           >
             <div className="flex justify-center">
               <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-[#C9A962]/20 overflow-x-auto max-w-full scrollbar-hide">
@@ -832,7 +832,7 @@ export default function AluminumDoorsPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black py-12 md:py-16">
+      <section className="bg-black py-12">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div

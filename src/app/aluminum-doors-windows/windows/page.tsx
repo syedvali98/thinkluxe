@@ -714,7 +714,7 @@ export default function AluminumWindowsPage() {
   return (
     <main className="bg-black font-medium">
       {/* Window Types Section */}
-      <section className="py-12 md:py-16">
+      <section className="pt-24 pb-4 md:pt-32 md:pb-6">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -914,7 +914,7 @@ export default function AluminumWindowsPage() {
       </section>
 
       {/* Product Series Section */}
-      <section className="py-12 md:py-16">
+      <section className="py-8">
         <Container className="px-4 sm:px-6">
           {/* Header */}
           <motion.div
@@ -1031,7 +1031,7 @@ export default function AluminumWindowsPage() {
       </section>
 
       {/* Our Process Section */}
-      <section className="bg-black py-12 md:py-16">
+      <section className="bg-black py-12">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
