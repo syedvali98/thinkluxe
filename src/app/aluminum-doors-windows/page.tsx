@@ -195,9 +195,8 @@ export default function AluminumDoorsWindowsPage() {
             <div className="inline-block mb-4 md:mb-6">
               <AnimatedPill>Certifications</AnimatedPill>
             </div>
-            <h2 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-4xl mx-auto">
-              Our certifications provide assurance to clients regarding the
-              performance, safety, and environmental impact of the product.
+            <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#C9A962] leading-relaxed max-w-5xl mx-auto">
+              Our certifications ensure safety, performance, and sustainability.
             </h2>
           </motion.div>
 
@@ -207,7 +206,7 @@ export default function AluminumDoorsWindowsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16"
+            className="mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 "
           >
             {/* NFRC */}
             <div>
