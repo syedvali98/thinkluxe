@@ -269,10 +269,14 @@ export default function ContactPage() {
                     className="w-full pl-4 pr-8 py-3 bg-black border border-[#3d3d3d] rounded-full text-white focus:border-[#C9A962] focus:outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23C9A962%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[right_1rem_center] bg-[length:1.25rem]"
                   >
                     <option value="">Select a service</option>
-                    <option value="kitchen">Custom Kitchen & Millwork</option>
-                    <option value="aluminum">Aluminum Doors & Windows</option>
-                    <option value="both">Both Services</option>
-                    <option value="other">Other</option>
+                    <option value="kitchen">Kitchen</option>
+                    <option value="closets">Closets</option>
+                    <option value="built-ins">Built-ins</option>
+                    <option value="bathroom">Bathroom</option>
+                    <option value="whole-home-cabinetry">Whole Home Cabinetry</option>
+                    <option value="custom-other">Custom/Other</option>
+                    <option value="multi-unit-commercial">Multi-Unit/Commercial</option>
+                    <option value="aluminum_windows_and_doors">Aluminum Windows & Doors</option>
                   </select>
                 </div>
 
