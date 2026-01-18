@@ -513,7 +513,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Philosophy Section - Black background with 2x2 grid */}
-      <section className="bg-black py-12 md:pt-16 md:pb-0">
+      <section className="bg-black py-12 md:pt-16 pb-0">
         <Container className="px-4 sm:px-6">
           {/* Centered tag with gold border */}
           <motion.div
