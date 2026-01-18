@@ -140,6 +140,30 @@ export default function Header() {
         </motion.div>
       )}
 
+      {/* Floating logo for landing page on mobile when scrolled (hidden when menu open) */}
+      {isLandingPage && !mobileMenuOpen && isScrolled && (
+        <motion.div
+          initial={{ y: -200, opacity: 0 }}
+          animate={{ y: isVisible ? 0 : -200, opacity: isVisible ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden"
+        >
+          <Link
+            href="/"
+            className="fixed z-50 top-[36px] left-1/2 -translate-x-1/2 -translate-y-1/2"
+          >
+            <div className="relative w-[140px] h-[140px] rounded-full overflow-hidden">
+              <Image
+                src="/images/logo.png"
+                alt="ThinkLuxe"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </Link>
+        </motion.div>
+      )}
+
       {/* Full-screen mobile menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
