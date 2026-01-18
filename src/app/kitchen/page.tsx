@@ -736,7 +736,7 @@ export default function KitchenPage() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="bg-black py-12 md:py-16">
+      <section className="bg-black pt-4 pb-12 md:py-8">
         <Container className="px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -812,7 +812,7 @@ export default function KitchenPage() {
             {serviceCards.slice(6).map((card, index) => (
               <div
                 key={index}
-                className={`relative aspect-[4/3] md:aspect-[4/3] ${getBottomCardRadius(index)}`}
+                className={`relative aspect-[4/3] md:aspect-[2/1] ${getBottomCardRadius(index)}`}
               >
                 {/* Wrapper to handle overflow clipping properly */}
                 <div className={`group absolute inset-0 overflow-hidden ${getBottomCardRadius(index)}`}>
@@ -826,7 +826,7 @@ export default function KitchenPage() {
                   />
 
                   {/* Glassy Overlay - always expanded on mobile, hover on desktop */}
-                  <div className="absolute bottom-0 left-0 right-0 h-full md:h-[80px] md:group-hover:h-[45%] transition-all duration-500 ease-out bg-gradient-to-t from-black/80 via-black/50 to-transparent md:bg-black/30 md:backdrop-blur-md p-4 sm:p-5 flex flex-col justify-end md:justify-center md:group-hover:justify-start md:group-hover:pt-6 text-left md:text-center md:group-hover:text-left">
+                  <div className="absolute bottom-0 left-0 right-0 h-full md:h-[80px] md:group-hover:h-[70%] transition-all duration-500 ease-out bg-gradient-to-t from-black/80 via-black/50 to-transparent md:bg-black/30 md:backdrop-blur-md p-4 sm:p-5 flex flex-col justify-end md:justify-center md:group-hover:justify-start md:group-hover:pt-8 text-left md:text-center md:group-hover:text-left">
                     {/* Title - always visible */}
                     <h3 className="!font-sans text-white font-medium text-lg sm:text-xl md:text-xl leading-tight transition-all duration-300 whitespace-pre-line md:min-h-[56px] md:flex md:items-center md:justify-center md:group-hover:items-start md:group-hover:justify-start">
                       {card.title}
@@ -853,7 +853,7 @@ export default function KitchenPage() {
       </section>
 
       {/* Gallery Section - Horizontal filmstrip */}
-      <Section className="bg-black overflow-hidden pt-8 md:pt-16">
+      <Section className="bg-black overflow-hidden pt-8 md:pt-12 pb-8 md:pb-8">
         <Container className="px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
