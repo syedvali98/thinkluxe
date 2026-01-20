@@ -12,6 +12,31 @@ interface PDFModalProps {
 
 export default function PDFModal({ isOpen, onClose, pdfUrl, title }: PDFModalProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  // Download PDF with custom filename (works across origins)
+  const handleDownload = async () => {
+    if (isDownloading) return;
+    setIsDownloading(true);
+
+    try {
+      const response = await fetch(pdfUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${title.replace(/\n/g, ' ')}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      // Fallback: open in new tab if fetch fails
+      window.open(pdfUrl, '_blank');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   // Reset loading state when modal opens with new PDF
   useEffect(() => {
@@ -73,27 +98,34 @@ export default function PDFModal({ isOpen, onClose, pdfUrl, title }: PDFModalPro
               </h3>
               <div className="flex items-center gap-2 sm:gap-3">
                 {/* Download Button */}
-                <a
-                  href={pdfUrl}
-                  download={`${title.replace(/\n/g, ' ')}.pdf`}
-                  className="flex items-center justify-center gap-2 w-9 h-9 sm:w-auto sm:h-auto sm:px-4 sm:py-2 rounded-full border border-[#C9A962]/40 text-[#C9A962] text-sm hover:bg-[#C9A962]/10 transition-colors"
+                <button
+                  onClick={handleDownload}
+                  disabled={isDownloading}
+                  className="flex items-center justify-center gap-2 w-9 h-9 sm:w-auto sm:h-auto sm:px-4 sm:py-2 rounded-full border border-[#C9A962]/40 text-[#C9A962] text-sm hover:bg-[#C9A962]/10 transition-colors disabled:opacity-50"
                   title="Download"
                 >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                    />
-                  </svg>
-                  <span className="hidden sm:inline">Download</span>
-                </a>
+                  {isDownloading ? (
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                      />
+                    </svg>
+                  )}
+                  <span className="hidden sm:inline">{isDownloading ? 'Downloading...' : 'Download'}</span>
+                </button>
 
                 {/* Open in New Tab */}
                 <a

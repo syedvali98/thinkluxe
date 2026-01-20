@@ -23,7 +23,7 @@ const serviceCards = [
     pdf: "/pdfs/kitchen-2.pdf",
   },
   {
-    title: "Media Unit, Dining,\nEntrance & Office Sections",
+    title: "Media Unit, Dining,\nEntrance & Office Areas",
     description: "Elegant solutions for every room in your home, designed with precision and style.",
     image: "/images/kitchen-3.jpg",
     pdf: "/pdfs/kitchen-3.pdf",
@@ -49,13 +49,13 @@ const serviceCards = [
   {
     title: "Wardrobe Accessories",
     description: "Maximize storage with smart wardrobe systems, lighting and accessories tailored to your space.",
-    image: "/images/kitchen-7.png",
+    image: "/images/kitchen-8.png",
     pdf: "/pdfs/kitchen-7.pdf",
   },
   {
     title: "Kitchen Accessories",
     description: "Maximize functionality with smart kitchen systems, storage and accessories tailored to your space.",
-    image: "/images/kitchen-8.png",
+    image: "/images/kitchen-7.png",
     pdf: "/pdfs/kitchen-8.pdf",
   },
 ];
