@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Header, Footer } from "@/components/layout";
 import Providers from "@/components/Providers";
@@ -54,6 +55,7 @@ export default function RootLayout({
           <Footer />
           <WhatsAppButton />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
